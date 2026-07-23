@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.2] - 2026-07-24
+
+### Fixed
+- The hero high/low temperature now covers a rolling last-24h window
+  instead of "since local midnight", which used to collapse to
+  essentially the current reading right after 00:00.
+
 ## [1.0.1] - 2026-07-24
 
 ### Fixed

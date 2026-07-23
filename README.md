@@ -17,7 +17,7 @@ history dialog.
 
 ## Features
 
-- 🌡️ Current temperature, feels-like, and **today's high/low with the time each occurred**
+- 🌡️ Current temperature, feels-like, and **last 24h high/low with the time each occurred**
 - 📈 Temperature trend chart for the last few hours
 - 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown
 - 🧭 Wind compass with speed, gust, and direction
@@ -105,7 +105,7 @@ moisture: binary_sensor.my_station_rain_status
 
 ## Technical notes
 
-- The trend chart and daily high/low require `temperature` to have recorder
+- The trend chart and 24h high/low require `temperature` to have recorder
   history in Home Assistant.
 - The sun bar uses Home Assistant's `sun.sun` entity; no extra configuration
   needed.

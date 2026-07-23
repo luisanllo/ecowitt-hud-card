@@ -693,8 +693,7 @@ class EcowittHudCard extends HTMLElement {
   async _fetchMinMax() {
     const c = this._config;
     if (!c.temperature || !this._hass || !this._els || !this._els.heroMinMax) return;
-    const now = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0).toISOString();
+    const start = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
     try {
       const result = await this._hass.callApi(
         "GET",
