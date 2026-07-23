@@ -1,73 +1,174 @@
 /* Ecowitt HUD Card — custom Lovelace card for Home Assistant
- * Panel de instrumentos para estaciones meteorológicas Ecowitt.
+ * Instrument-panel style card for Ecowitt weather stations.
  *
- * Instalación vía HACS (recomendada):
- *   HACS -> menú de tres puntos -> Repositorios personalizados ->
- *   añade la URL de este repositorio con categoría "Dashboard", instala,
- *   y añade una tarjeta con type: custom:ecowitt-hud-card
+ * Install via HACS (recommended):
+ *   HACS -> three-dot menu -> Custom repositories -> add this repository
+ *   with category "Dashboard", install, then add a card with
+ *   type: custom:ecowitt-hud-card
  *
- * Instalación manual (alternativa):
- *   copia este archivo a config/www/, añade como recurso Lovelace:
+ * Manual install (alternative):
+ *   copy this file to config/www/, add as a Lovelace resource:
  *     url: /local/ecowitt-hud-card.js
  *     type: module
+ *
+ * UI language follows Home Assistant's configured language automatically
+ * (English by default, Spanish if hass.language / hass.locale.language
+ * starts with "es"). No other languages are supported yet.
  */
 
-const FIELD_GROUPS = [
-  {
-    title: "General",
-    schema: [
-      { name: "name", selector: { text: {} }, label: "Nombre (opcional)" },
-      { name: "temperature", selector: { entity: { domain: "sensor" } }, label: "Temperatura" },
-      { name: "apparent_temperature", selector: { entity: { domain: "sensor" } }, label: "Sensación térmica" },
-      { name: "weather_condition", selector: { entity: {} }, label: "Condición general (weather o sensor texto)" },
-      { name: "battery", selector: { entity: { domain: "sensor" } }, label: "Batería estación (opcional)" },
-    ],
+const STRINGS = {
+  en: {
+    editor: {
+      general: "General",
+      thermalAir: "Thermal / air",
+      wind: "Wind",
+      rain: "Rain",
+      trend: "Trend",
+      name: "Name (optional)",
+      temperature: "Temperature",
+      apparentTemperature: "Feels-like temperature",
+      weatherCondition: "General condition (weather entity or text sensor)",
+      battery: "Station battery (optional)",
+      dewPoint: "Dew point",
+      windChill: "Wind chill",
+      humidex: "Humidex",
+      heatIndex: "Heat stress index",
+      humidity: "Relative humidity",
+      pressure: "Atmospheric pressure",
+      pressureTrend: "Pressure trend (optional)",
+      uvIndex: "UV index",
+      illuminance: "Illuminance (lux)",
+      windSpeed: "Wind speed",
+      windGust: "Gust speed",
+      windDirection: "Wind direction (degrees)",
+      rainRate: "Rain rate (mm/h)",
+      rainToday: "Today's rainfall (mm)",
+      moisture: "Rain / moisture sensor (optional)",
+      showTrend: "Show temperature trend chart",
+      trendHours: "Hours of history to display",
+    },
+    conditions: {
+      "clear-night": "Clear (night)",
+      cloudy: "Cloudy",
+      fog: "Fog",
+      hail: "Hail",
+      lightning: "Thunderstorm",
+      "lightning-rainy": "Thunderstorm with rain",
+      partlycloudy: "Partly cloudy",
+      pouring: "Heavy rain",
+      rainy: "Rainy",
+      snowy: "Snowy",
+      "snowy-rainy": "Sleet",
+      sunny: "Sunny",
+      windy: "Windy",
+      "windy-variant": "Windy and cloudy",
+      exceptional: "Exceptional conditions",
+    },
+    risk: { low: "Low", moderate: "Moderate", high: "High", veryHigh: "Very high", dangerous: "Dangerous", extreme: "Extreme" },
+    labels: {
+      battery: "Station battery",
+      trend: "Temperature trend",
+      humidity: "Humidity",
+      dewPoint: "Dew point",
+      windChill: "Wind chill",
+      humidex: "Humidex",
+      uvIndex: "UV index",
+      heatRisk: "Heat risk",
+      pressure: "Pressure hPa",
+      illuminance: "Illuminance lux",
+      rainToday: "Today's total",
+      rainSensor: "Rain sensor",
+      noRain: "No rain",
+      raining: "Raining",
+      feelsLike: "Feels like",
+      windFrom: "Wind from",
+      gust: "Gust",
+      nightfallIn: "Nightfall in",
+      sunriseIn: "Sunrise in",
+      lessThanMin: "less than 1 min",
+      min: "min",
+      dash: "—",
+    },
   },
-  {
-    title: "Térmico / aire",
-    schema: [
-      { name: "dew_point", selector: { entity: { domain: "sensor" } }, label: "Punto de rocío" },
-      { name: "wind_chill", selector: { entity: { domain: "sensor" } }, label: "Sensación de viento" },
-      { name: "humidex", selector: { entity: { domain: "sensor" } }, label: "Humidex" },
-      { name: "heat_index", selector: { entity: { domain: "sensor" } }, label: "Índice de estrés por calor" },
-      { name: "humidity", selector: { entity: { domain: "sensor" } }, label: "Humedad relativa" },
-      { name: "pressure", selector: { entity: { domain: "sensor" } }, label: "Presión atmosférica" },
-      { name: "pressure_trend", selector: { entity: {} }, label: "Tendencia de presión (opcional)" },
-      { name: "uv_index", selector: { entity: { domain: "sensor" } }, label: "Índice UV" },
-      { name: "illuminance", selector: { entity: { domain: "sensor" } }, label: "Iluminancia (lux)" },
-    ],
+  es: {
+    editor: {
+      general: "General",
+      thermalAir: "Térmico / aire",
+      wind: "Viento",
+      rain: "Lluvia",
+      trend: "Tendencia",
+      name: "Nombre (opcional)",
+      temperature: "Temperatura",
+      apparentTemperature: "Sensación térmica",
+      weatherCondition: "Condición general (weather o sensor texto)",
+      battery: "Batería estación (opcional)",
+      dewPoint: "Punto de rocío",
+      windChill: "Sensación de viento",
+      humidex: "Humidex",
+      heatIndex: "Índice de estrés por calor",
+      humidity: "Humedad relativa",
+      pressure: "Presión atmosférica",
+      pressureTrend: "Tendencia de presión (opcional)",
+      uvIndex: "Índice UV",
+      illuminance: "Iluminancia (lux)",
+      windSpeed: "Velocidad del viento",
+      windGust: "Velocidad de racha",
+      windDirection: "Dirección del viento (grados)",
+      rainRate: "Intensidad de lluvia (mm/h)",
+      rainToday: "Lluvia acumulada hoy (mm)",
+      moisture: "Estado de lluvia / humedad sensor (opcional)",
+      showTrend: "Mostrar gráfico de tendencia de temperatura",
+      trendHours: "Horas de histórico a mostrar",
+    },
+    conditions: {
+      "clear-night": "Despejado (noche)",
+      cloudy: "Nublado",
+      fog: "Niebla",
+      hail: "Granizo",
+      lightning: "Tormenta eléctrica",
+      "lightning-rainy": "Tormenta con lluvia",
+      partlycloudy: "Parcialmente nublado",
+      pouring: "Lluvia intensa",
+      rainy: "Lluvia",
+      snowy: "Nieve",
+      "snowy-rainy": "Aguanieve",
+      sunny: "Soleado",
+      windy: "Viento",
+      "windy-variant": "Viento y nubes",
+      exceptional: "Fenómeno excepcional",
+    },
+    risk: { low: "Bajo", moderate: "Moderado", high: "Alto", veryHigh: "Muy alto", dangerous: "Peligroso", extreme: "Extremo" },
+    labels: {
+      battery: "Batería estación",
+      trend: "Tendencia temperatura",
+      humidity: "Humedad",
+      dewPoint: "Punto de rocío",
+      windChill: "Sens. viento",
+      humidex: "Humidex",
+      uvIndex: "Índice UV",
+      heatRisk: "Riesgo calor",
+      pressure: "Presión hPa",
+      illuminance: "Iluminancia lux",
+      rainToday: "Acumulada hoy",
+      rainSensor: "Sensor lluvia",
+      noRain: "Sin lluvia",
+      raining: "Lloviendo",
+      feelsLike: "Sensación",
+      windFrom: "Viento del",
+      gust: "Racha",
+      nightfallIn: "Anochece en",
+      sunriseIn: "Amanece en",
+      lessThanMin: "menos de 1 min",
+      min: "min",
+      dash: "—",
+    },
   },
-  {
-    title: "Viento",
-    schema: [
-      { name: "wind_speed", selector: { entity: { domain: "sensor" } }, label: "Velocidad del viento" },
-      { name: "wind_gust", selector: { entity: { domain: "sensor" } }, label: "Velocidad de racha" },
-      { name: "wind_direction", selector: { entity: { domain: "sensor" } }, label: "Dirección del viento (grados)" },
-    ],
-  },
-  {
-    title: "Lluvia",
-    schema: [
-      { name: "rain_rate", selector: { entity: { domain: "sensor" } }, label: "Intensidad de lluvia (mm/h)" },
-      { name: "rain_today", selector: { entity: { domain: "sensor" } }, label: "Lluvia acumulada hoy (mm)" },
-      { name: "moisture", selector: { entity: {} }, label: "Estado de lluvia / humedad sensor (opcional)" },
-    ],
-  },
-  {
-    title: "Tendencia",
-    schema: [
-      { name: "show_trend", selector: { boolean: {} }, label: "Mostrar gráfico de tendencia de temperatura" },
-      { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: "Horas de histórico a mostrar" },
-    ],
-  },
-];
+};
 
-const FLAT_SCHEMA = FIELD_GROUPS.map((g) => ({
-  name: g.title,
-  type: "expandable",
-  title: g.title,
-  schema: g.schema,
-}));
+function detectLang(hass) {
+  const raw = (hass && (hass.language || (hass.locale && hass.locale.language))) || "en";
+  return String(raw).toLowerCase().startsWith("es") ? "es" : "en";
+}
 
 const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
@@ -77,28 +178,11 @@ function compassLabel(deg) {
   return COMPASS[(idx + 16) % 16];
 }
 
-const CONDITION_LABEL = {
-  "clear-night": "Despejado (noche)",
-  cloudy: "Nublado",
-  fog: "Niebla",
-  hail: "Granizo",
-  lightning: "Tormenta eléctrica",
-  "lightning-rainy": "Tormenta con lluvia",
-  partlycloudy: "Parcialmente nublado",
-  pouring: "Lluvia intensa",
-  rainy: "Lluvia",
-  snowy: "Nieve",
-  "snowy-rainy": "Aguanieve",
-  sunny: "Soleado",
-  windy: "Viento",
-  "windy-variant": "Viento y nubes",
-  exceptional: "Fenómeno excepcional",
-};
-
-function conditionLabel(condition) {
-  if (!condition) return "—";
+function conditionLabel(condition, lang) {
+  const S = STRINGS[lang];
+  if (!condition) return S.labels.dash;
   const key = condition.toLowerCase().replace(/_/g, "-");
-  return CONDITION_LABEL[key] || condition;
+  return S.conditions[key] || condition;
 }
 
 function weatherIcon(condition) {
@@ -124,33 +208,35 @@ function batteryIcon(pct) {
 }
 
 // Risk scales, tuned for metric units. Returns { label, color }.
-function uvRisk(v) {
-  if (v === null || isNaN(v)) return { label: "—", color: "var(--primary-text-color, #1c2128)" };
-  if (v >= 11) return { label: "Extremo", color: "#8a3ffc" };
-  if (v >= 8) return { label: "Muy alto", color: "#d1481c" };
-  if (v >= 6) return { label: "Alto", color: "#e0722c" };
-  if (v >= 3) return { label: "Moderado", color: "#c78a00" };
-  return { label: "Bajo", color: "#2ba86a" };
+function uvRisk(v, lang) {
+  const R = STRINGS[lang].risk;
+  if (v === null || isNaN(v)) return { label: STRINGS[lang].labels.dash, color: "var(--primary-text-color, #1c2128)" };
+  if (v >= 11) return { label: R.extreme, color: "#8a3ffc" };
+  if (v >= 8) return { label: R.veryHigh, color: "#d1481c" };
+  if (v >= 6) return { label: R.high, color: "#e0722c" };
+  if (v >= 3) return { label: R.moderate, color: "#c78a00" };
+  return { label: R.low, color: "#2ba86a" };
 }
 
 // heat stress risk: Ecowitt reports this as a 0-100% risk score, not a
 // temperature-equivalent index, so the scale is calibrated in percent.
-function heatRisk(v, unit) {
-  if (v === null || isNaN(v)) return { label: "—", color: "var(--primary-text-color, #1c2128)" };
+function heatRisk(v, unit, lang) {
+  const R = STRINGS[lang].risk;
+  if (v === null || isNaN(v)) return { label: STRINGS[lang].labels.dash, color: "var(--primary-text-color, #1c2128)" };
   const isPercent = unit === "%" || (v >= 0 && v <= 100 && unit !== "°C" && unit !== "°F");
   if (isPercent) {
-    if (v >= 80) return { label: "Extremo", color: "#8a3ffc" };
-    if (v >= 60) return { label: "Peligroso", color: "#d1481c" };
-    if (v >= 40) return { label: "Alto", color: "#e0722c" };
-    if (v >= 20) return { label: "Moderado", color: "#c78a00" };
-    return { label: "Bajo", color: "#2ba86a" };
+    if (v >= 80) return { label: R.extreme, color: "#8a3ffc" };
+    if (v >= 60) return { label: R.dangerous, color: "#d1481c" };
+    if (v >= 40) return { label: R.high, color: "#e0722c" };
+    if (v >= 20) return { label: R.moderate, color: "#c78a00" };
+    return { label: R.low, color: "#2ba86a" };
   }
   // fallback: temperature-equivalent heat index scale (°C)
-  if (v >= 51) return { label: "Extremo", color: "#8a3ffc" };
-  if (v >= 39) return { label: "Peligroso", color: "#d1481c" };
-  if (v >= 32) return { label: "Alto", color: "#e0722c" };
-  if (v >= 27) return { label: "Moderado", color: "#c78a00" };
-  return { label: "Bajo", color: "#2ba86a" };
+  if (v >= 51) return { label: R.extreme, color: "#8a3ffc" };
+  if (v >= 39) return { label: R.dangerous, color: "#d1481c" };
+  if (v >= 32) return { label: R.high, color: "#e0722c" };
+  if (v >= 27) return { label: R.moderate, color: "#c78a00" };
+  return { label: R.low, color: "#2ba86a" };
 }
 
 function trendInfo(entityOrNull, hass) {
@@ -183,6 +269,59 @@ function fmt(hass, entityId, decimals) {
   return { text: num.toFixed(decimals === undefined ? 1 : decimals), unit, value: num, exists: true };
 }
 
+function getFieldGroups(lang) {
+  const E = STRINGS[lang].editor;
+  return [
+    {
+      title: E.general,
+      schema: [
+        { name: "name", selector: { text: {} }, label: E.name },
+        { name: "temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.temperature },
+        { name: "apparent_temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.apparentTemperature },
+        { name: "weather_condition", selector: { entity: {} }, label: E.weatherCondition },
+        { name: "battery", selector: { entity: { domain: "sensor", device_class: "battery" } }, label: E.battery },
+      ],
+    },
+    {
+      title: E.thermalAir,
+      schema: [
+        { name: "dew_point", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.dewPoint },
+        { name: "wind_chill", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.windChill },
+        { name: "humidex", selector: { entity: { domain: "sensor" } }, label: E.humidex },
+        { name: "heat_index", selector: { entity: { domain: "sensor" } }, label: E.heatIndex },
+        { name: "humidity", selector: { entity: { domain: "sensor", device_class: "humidity" } }, label: E.humidity },
+        { name: "pressure", selector: { entity: { domain: "sensor" } }, label: E.pressure },
+        { name: "pressure_trend", selector: { entity: {} }, label: E.pressureTrend },
+        { name: "uv_index", selector: { entity: { domain: "sensor" } }, label: E.uvIndex },
+        { name: "illuminance", selector: { entity: { domain: "sensor", device_class: "illuminance" } }, label: E.illuminance },
+      ],
+    },
+    {
+      title: E.wind,
+      schema: [
+        { name: "wind_speed", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windSpeed },
+        { name: "wind_gust", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windGust },
+        { name: "wind_direction", selector: { entity: { domain: "sensor" } }, label: E.windDirection },
+      ],
+    },
+    {
+      title: E.rain,
+      schema: [
+        { name: "rain_rate", selector: { entity: { domain: "sensor", device_class: "precipitation_intensity" } }, label: E.rainRate },
+        { name: "rain_today", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainToday },
+        { name: "moisture", selector: { entity: {} }, label: E.moisture },
+      ],
+    },
+    {
+      title: E.trend,
+      schema: [
+        { name: "show_trend", selector: { boolean: {} }, label: E.showTrend },
+        { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: E.trendHours },
+      ],
+    },
+  ];
+}
+
 class EcowittHudCardEditor extends HTMLElement {
   setConfig(config) {
     this._config = config || {};
@@ -190,18 +329,33 @@ class EcowittHudCardEditor extends HTMLElement {
   }
   set hass(hass) {
     this._hass = hass;
-    if (this._form) this._form.hass = hass;
+    const lang = detectLang(hass);
+    if (this._form && this._builtLang === lang) {
+      // cheap update: keeps the existing DOM (open sections, focus, scroll)
+      // intact instead of rebuilding the whole form on every state change.
+      this._form.hass = hass;
+      return;
+    }
+    this._render();
   }
   connectedCallback() {
     this._render();
   }
   _render() {
     if (!this._hass || !this._config) return;
+    this._builtLang = detectLang(this._hass);
+    const groups = getFieldGroups(this._builtLang).map((g) => ({
+      name: g.title,
+      type: "expandable",
+      title: g.title,
+      flatten: true,
+      schema: g.schema,
+    }));
     this.innerHTML = "";
     const form = document.createElement("ha-form");
     form.hass = this._hass;
     form.data = this._config;
-    form.schema = FLAT_SCHEMA;
+    form.schema = groups;
     form.computeLabel = (s) => s.label || s.title || s.name;
     form.addEventListener("value-changed", (ev) => {
       this._config = ev.detail.value;
@@ -226,11 +380,28 @@ class EcowittHudCard extends HTMLElement {
     this._buildStatic();
   }
   set hass(hass) {
+    const hadHass = !!this._hass;
     this._hass = hass;
+    // Language can only be known once hass is available. setConfig() runs
+    // before the first hass push, so _buildStatic() had to guess (English)
+    // the first time around. If the real language differs, rebuild once
+    // now that we actually know it.
+    if (!hadHass && this._builtLang !== detectLang(hass)) {
+      this._buildStatic();
+      return;
+    }
     this._update();
+    if (!hadHass) {
+      // same lifecycle issue affects the history-based fetches below
+      this._fetchTrend();
+      this._fetchMinMax();
+    }
   }
   getCardSize() {
     return 6;
+  }
+  _lang() {
+    return this._builtLang || detectLang(this._hass);
   }
   _openMoreInfo(entityId) {
     if (!entityId) return;
@@ -240,6 +411,9 @@ class EcowittHudCard extends HTMLElement {
     this.dispatchEvent(ev);
   }
   _buildStatic() {
+    const lang = detectLang(this._hass);
+    this._builtLang = lang;
+    const S = STRINGS[lang];
     const root = this.shadowRoot;
     root.innerHTML = `
       <style>
@@ -308,11 +482,11 @@ class EcowittHudCard extends HTMLElement {
               <ha-icon class="battery-icon" style="--mdc-icon-size:16px;"></ha-icon>
               <span class="battery-pct">—</span>
             </div>
-            <div class="battery-label">Batería estación</div>
+            <div class="battery-label">${S.labels.battery}</div>
           </div>
         </div>
         <div class="trend divider" id="trend-block" style="display:none;">
-          <div class="trend-label">Tendencia temperatura <span class="trend-hours-lbl"></span></div>
+          <div class="trend-label">${S.labels.trend} <span class="trend-hours-lbl"></span></div>
           <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
           <div class="trend-range"><span class="trend-min"></span><span class="trend-max"></span></div>
         </div>
@@ -338,14 +512,14 @@ class EcowittHudCard extends HTMLElement {
           </div>
         </div>
         <div class="grid divider">
-          <div class="stat clickable" data-k="humidity"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">Humedad</div></div>
-          <div class="stat clickable" data-k="dew_point"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">Punto de rocío</div></div>
-          <div class="stat clickable" data-k="wind_chill"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">Sens. viento</div></div>
-          <div class="stat clickable" data-k="humidex"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">Humidex</div></div>
-          <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">Índice UV</div></div>
-          <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">Riesgo calor</div></div>
-          <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">Presión hPa</div></div>
-          <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span></div><div class="stat-label">Iluminancia lux</div></div>
+          <div class="stat clickable" data-k="humidity"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidity}</div></div>
+          <div class="stat clickable" data-k="dew_point"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.dewPoint}</div></div>
+          <div class="stat clickable" data-k="wind_chill"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.windChill}</div></div>
+          <div class="stat clickable" data-k="humidex"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidex}</div></div>
+          <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.uvIndex}</div></div>
+          <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
+          <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
+          <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
         </div>
         <div class="row rain">
           <div class="stat clickable" data-k="rain_rate">
@@ -354,11 +528,11 @@ class EcowittHudCard extends HTMLElement {
           </div>
           <div class="stat clickable" data-k="rain_today">
             <div class="rain-val"><span class="v"></span> <span class="stat-unit">mm</span></div>
-            <div class="rain-sub">Acumulada hoy</div>
+            <div class="rain-sub">${S.labels.rainToday}</div>
           </div>
           <div class="stat clickable" data-k="moisture">
             <div class="rain-val"><span class="v"></span></div>
-            <div class="rain-sub">Sensor lluvia</div>
+            <div class="rain-sub">${S.labels.rainSensor}</div>
           </div>
         </div>
       </ha-card>
@@ -388,6 +562,7 @@ class EcowittHudCard extends HTMLElement {
       batteryIcon: root.querySelector(".battery-icon"),
       batteryPct: root.querySelector(".battery-pct"),
       batteryBlock: root.querySelector(".battery"),
+      windBlock: root.querySelector(".row.wind"),
       windArrow: root.querySelector(".wind-arrow"),
       windDirLabel: root.querySelector(".wind-dir-label"),
       windSpeedVal: root.querySelector(".wind-speed-val"),
@@ -409,6 +584,8 @@ class EcowittHudCard extends HTMLElement {
       trendMin: root.querySelector(".trend-min"),
       trendMax: root.querySelector(".trend-max"),
       trendHoursLbl: root.querySelector(".trend-hours-lbl"),
+      gridBlock: root.querySelector(".grid"),
+      rainBlock: root.querySelector(".row.rain"),
       stats: {},
     };
     root.querySelectorAll(".stat[data-k]").forEach((el) => {
@@ -446,13 +623,14 @@ class EcowittHudCard extends HTMLElement {
     return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
   _durationStr(ms) {
-    if (ms === null || isNaN(ms)) return "—";
-    if (ms <= 0) return "menos de 1 min";
+    const L = STRINGS[this._lang()].labels;
+    if (ms === null || isNaN(ms)) return L.dash;
+    if (ms <= 0) return L.lessThanMin;
     const totalMin = Math.round(ms / 60000);
     const h = Math.floor(totalMin / 60);
     const m = totalMin % 60;
-    if (h <= 0) return `${m} min`;
-    return `${h}h ${m}min`;
+    if (h <= 0) return `${m} ${L.min}`;
+    return `${h}h ${m}${L.min}`;
   }
   async _fetchTrend() {
     const c = this._config;
@@ -464,7 +642,6 @@ class EcowittHudCard extends HTMLElement {
         "GET",
         `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
       );
-      console.debug("[ecowitt-hud-card] trend result:", result);
       if (result && result[0] && result[0].length > 1) {
         const points = result[0]
           .map((p) => {
@@ -478,14 +655,10 @@ class EcowittHudCard extends HTMLElement {
           this._els.trendHoursLbl.textContent = `(${hours}h)`;
           this._els.trendBlock.style.display = "";
           this._renderTrend();
-        } else {
-          console.debug("[ecowitt-hud-card] trend: points filtered down to", points.length);
         }
-      } else {
-        console.debug("[ecowitt-hud-card] trend: no usable history array in response");
       }
     } catch (e) {
-      console.error("[ecowitt-hud-card] trend fetch failed:", e);
+      // history API not available or entity has no recorder history; leave hidden
     }
   }
   async _fetchMinMax() {
@@ -498,7 +671,6 @@ class EcowittHudCard extends HTMLElement {
         "GET",
         `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
       );
-      console.debug("[ecowitt-hud-card] minmax result:", result);
       if (result && result[0] && result[0].length > 0) {
         const points = result[0]
           .map((p) => {
@@ -525,11 +697,9 @@ class EcowittHudCard extends HTMLElement {
             `<span><span class="arrow-up">↑</span> ${maxP.v.toFixed(1)}°<span class="mm-time">${maxTime}</span></span>` +
             `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
         }
-      } else {
-        console.debug("[ecowitt-hud-card] minmax: no usable history array in response");
       }
     } catch (e) {
-      console.error("[ecowitt-hud-card] minmax fetch failed:", e);
+      // history API not available; leave the line empty
     }
   }
   _renderTrend() {
@@ -567,16 +737,27 @@ class EcowittHudCard extends HTMLElement {
     const hass = this._hass;
     const c = this._config;
     const els = this._els;
+    const lang = this._lang();
+    const S = STRINGS[lang];
 
     const temp = fmt(hass, c.temperature, 1);
     const apparent = fmt(hass, c.apparent_temperature, 1);
     const condState = c.weather_condition && hass.states[c.weather_condition];
     const condition = condState ? condState.state : "";
-    const wIcon = weatherIcon(condition);
-    els.heroIcon.setAttribute("icon", wIcon.icon);
-    els.heroIcon.style.color = wIcon.color;
+    if (c.weather_condition) {
+      const wIcon = weatherIcon(condition);
+      els.heroIcon.style.display = "";
+      els.heroIcon.setAttribute("icon", wIcon.icon);
+      els.heroIcon.style.color = wIcon.color;
+    } else {
+      els.heroIcon.style.display = "none";
+    }
     els.heroTempVal.textContent = temp.text;
-    els.heroSub.textContent = `Sensación ${apparent.text}° · ${conditionLabel(condition)}`;
+    const subParts = [];
+    if (c.apparent_temperature) subParts.push(`${S.labels.feelsLike} ${apparent.text}°`);
+    if (c.weather_condition) subParts.push(conditionLabel(condition, lang));
+    els.heroSub.textContent = subParts.join(" · ");
+    els.heroSub.style.display = subParts.length ? "" : "none";
 
     const batt = fmt(hass, c.battery, 0);
     if (c.battery) {
@@ -584,7 +765,7 @@ class EcowittHudCard extends HTMLElement {
       const bIcon = batteryIcon(batt.value);
       els.batteryIcon.setAttribute("icon", bIcon.icon);
       els.batteryIcon.style.color = bIcon.color;
-      els.batteryPct.textContent = batt.value !== null ? `${batt.text}%` : "—";
+      els.batteryPct.textContent = batt.value !== null ? `${batt.text}%` : S.labels.dash;
     } else {
       els.batteryBlock.style.display = "none";
     }
@@ -592,16 +773,20 @@ class EcowittHudCard extends HTMLElement {
     const windSpeed = fmt(hass, c.wind_speed, 1);
     const windGust = fmt(hass, c.wind_gust, 1);
     const windDirVal = fmt(hass, c.wind_direction, 0);
+    els.windBlock.style.display = c.wind_speed ? "" : "none";
     els.windSpeedVal.textContent = windSpeed.text;
     els.windSpeedUnit.textContent = windSpeed.unit || "km/h";
-    els.windDir.textContent = windDirVal.value !== null ? `Viento del ${compassLabel(windDirVal.value)} (${windDirVal.text}°)` : "—";
-    els.windGust.textContent = windGust.value !== null ? `Racha ${windGust.text} ${windGust.unit || "km/h"}` : "";
+    els.windDir.textContent = windDirVal.value !== null ? `${S.labels.windFrom} ${compassLabel(windDirVal.value)} (${windDirVal.text}°)` : S.labels.dash;
+    els.windGust.textContent = windGust.value !== null ? `${S.labels.gust} ${windGust.text} ${windGust.unit || "km/h"}` : "";
     els.windArrow.style.transform = windDirVal.value !== null ? `rotate(${windDirVal.value}deg)` : "none";
     els.windDirLabel.textContent = windDirVal.value !== null ? compassLabel(windDirVal.value) : "";
 
     const setStat = (key, val, unit, color) => {
       const s = els.stats[key];
       if (!s) return;
+      const configured = !!c[key];
+      s.root.style.display = configured ? "" : "none";
+      if (!configured) return;
       s.val.textContent = val;
       if (s.unit) s.unit.textContent = unit || "";
       const valEl = s.root.querySelector(".stat-val") || s.root.querySelector(".rain-val");
@@ -618,12 +803,12 @@ class EcowittHudCard extends HTMLElement {
     setStat("humidex", humidex.text, "°");
 
     const uv = fmt(hass, c.uv_index, 0);
-    const uvR = uvRisk(uv.value);
+    const uvR = uvRisk(uv.value, lang);
     setStat("uv_index", uv.text, "", uvR.color);
 
     const heat = fmt(hass, c.heat_index, 0);
-    const heatR = heatRisk(heat.value, heat.unit);
-    setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : "—", "", heatR.color);
+    const heatR = heatRisk(heat.value, heat.unit, lang);
+    setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
 
     const pressure = fmt(hass, c.pressure, 0);
     setStat("pressure", pressure.text, "");
@@ -644,27 +829,33 @@ class EcowittHudCard extends HTMLElement {
     setStat("rain_rate", rainRate.text);
     els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
     els.rainIcon.style.color = raining ? "#3b82c4" : "#8a92a3";
-    els.moistureSub.textContent = raining ? "Lloviendo" : "Sin lluvia";
+    els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
 
     const rainToday = fmt(hass, c.rain_today, 1);
     setStat("rain_today", rainToday.text);
 
     const moistState = c.moisture && hass.states[c.moisture];
-    let moistTxt = "—";
+    let moistTxt = S.labels.dash;
     if (moistState && moistState.state !== undefined && moistState.state !== null) {
       const raw = String(moistState.state).trim();
       const s = raw.toLowerCase();
       if (s === "wet" || s === "on" || s === "true" || s === "yes" || s === "leak" || s === "moist" || s === "humedo" || s === "húmedo") {
-        moistTxt = "Lloviendo";
+        moistTxt = S.labels.raining;
       } else if (s === "dry" || s === "off" || s === "false" || s === "no" || s === "seco") {
-        moistTxt = "Sin lluvia";
+        moistTxt = S.labels.noRain;
       } else if (s === "unknown" || s === "unavailable" || s === "") {
-        moistTxt = "—";
+        moistTxt = S.labels.dash;
       } else {
         moistTxt = raw.charAt(0).toUpperCase() + raw.slice(1);
       }
     }
     setStat("moisture", moistTxt);
+
+    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "pressure", "illuminance"];
+    els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
+
+    const rainKeys = ["rain_rate", "rain_today", "moisture"];
+    els.rainBlock.style.display = rainKeys.some((k) => !!c[k]) ? "" : "none";
 
     this._updateSunBar();
   }
@@ -673,6 +864,7 @@ class EcowittHudCard extends HTMLElement {
     if (!this._els || !this._hass) return;
     const els = this._els;
     const hass = this._hass;
+    const S = STRINGS[this._lang()];
     const sunEnt = hass.states["sun.sun"];
     if (sunEnt && sunEnt.attributes.next_rising && sunEnt.attributes.next_setting) {
       const nextRising = new Date(sunEnt.attributes.next_rising);
@@ -718,8 +910,8 @@ class EcowittHudCard extends HTMLElement {
 
       const remainMs = segEnd.getTime() - now.getTime();
       els.dayCaption.textContent = isDay
-        ? `Anochece en ${this._durationStr(remainMs)}`
-        : `Amanece en ${this._durationStr(remainMs)}`;
+        ? `${S.labels.nightfallIn} ${this._durationStr(remainMs)}`
+        : `${S.labels.sunriseIn} ${this._durationStr(remainMs)}`;
     } else {
       els.dayMarker.style.display = "none";
       els.dayCaption.textContent = "";
@@ -732,5 +924,5 @@ window.customCards = window.customCards || [];
 window.customCards.push({
   type: "ecowitt-hud-card",
   name: "Ecowitt HUD Card",
-  description: "Tarjeta de instrumentos para tu estación meteorológica Ecowitt",
+  description: "Instrument-panel card for Ecowitt weather stations",
 });
