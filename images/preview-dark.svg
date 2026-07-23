@@ -1,0 +1,125 @@
+<svg width="400" height="600" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, 'Segoe UI', Roboto, Arial, sans-serif">
+  <rect x="0" y="0" width="400" height="600" rx="14" fill="#1c1c1e"/>
+  <rect x="1" y="1" width="398" height="598" rx="13" fill="none" stroke="#35363b" stroke-width="1.5"/>
+
+  <!-- title -->
+  <text x="24" y="38" font-size="13" font-weight="600" fill="#9aa0a6" letter-spacing="0.3">Weather Station</text>
+
+  <!-- hero: weather icon (clear night) -->
+  <g transform="translate(24,50)">
+    <path d="M32,4 A17,17 0 1 1 20,-11 A13,13 0 1 0 32,4 Z" fill="#7f9fd6"/>
+    <path d="M40,10 l1.6,3.4 L45,15 l-3.4,1.6 L40,20 l-1.6,-3.4 L35,15 l3.4,-1.6 Z" fill="#7f9fd6"/>
+  </g>
+
+  <!-- temp block -->
+  <text x="88" y="90" font-size="40" font-weight="600" fill="#e8eaed">17.8<tspan font-size="18" fill="#e8a03e">°C</tspan></text>
+  <text x="88" y="109" font-size="12" fill="#9aa0a6">Feels like 17.2° · Clear (night)</text>
+  <text x="88" y="127" font-size="11" fill="#9aa0a6">
+    <tspan fill="#e0604a" font-weight="700">↑</tspan> 24.1°<tspan fill="#8a9199"> 14:20</tspan>
+    <tspan dx="14" fill="#5b9be0" font-weight="700">↓</tspan> 11.5°<tspan fill="#8a9199"> 06:50</tspan>
+  </text>
+
+  <!-- battery -->
+  <g transform="translate(340,54)">
+    <rect x="0" y="0" width="18" height="10" rx="2" fill="none" stroke="#3fc17e" stroke-width="1.4"/>
+    <rect x="18" y="3" width="2.5" height="4" fill="#3fc17e"/>
+    <rect x="1.5" y="1.5" width="13" height="7" rx="1" fill="#3fc17e"/>
+    <text x="24" y="9" font-size="15" font-weight="600" fill="#e8eaed">79%</text>
+  </g>
+  <text x="378" y="80" font-size="9" fill="#9aa0a6" text-anchor="end">Station battery</text>
+
+  <line x1="22" y1="148" x2="378" y2="148" stroke="#35363b" stroke-width="1"/>
+
+  <!-- trend -->
+  <text x="22" y="168" font-size="9" font-weight="600" fill="#8a9199" letter-spacing="0.5">TEMPERATURE TREND (6H)</text>
+  <polygon points="22,196 22,180 60,182 100,186 140,190 180,193 220,195 260,196 300,197 340,198 378,198 378,198"
+           fill="#5b9be0" opacity="0.16"/>
+  <polyline points="22,180 60,182 100,186 140,190 180,193 220,195 260,196 300,197 340,198 378,198"
+            fill="none" stroke="#5b9be0" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="22" y="210" font-size="9" fill="#8a9199">17.6°</text>
+  <text x="378" y="210" font-size="9" fill="#8a9199" text-anchor="end">24.1°</text>
+
+  <line x1="22" y1="222" x2="378" y2="222" stroke="#35363b" stroke-width="1"/>
+
+  <!-- sun bar (night) -->
+  <g transform="translate(0,240)">
+    <g transform="translate(30,0)">
+      <path d="M9,4 A11,11 0 1 1 -3,-9 A8.5,8.5 0 1 0 9,4 Z" fill="#5b7ab8"/>
+    </g>
+    <text x="46" y="4" font-size="11" fill="#9aa0a6">22:03</text>
+    <line x1="90" y1="0" x2="310" y2="0" stroke="#35363b" stroke-width="3" stroke-linecap="round"/>
+    <line x1="90" y1="0" x2="145" y2="0" stroke="url(#sunGradDark)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="145" cy="0" r="6.5" fill="#5b7ab8"/>
+    <text x="330" y="4" font-size="11" fill="#9aa0a6" text-anchor="end">07:15</text>
+    <g transform="translate(354,0)">
+      <circle cx="0" cy="0" r="7" fill="#f0b93e"/>
+      <path d="M0,-11 L0,-13 M0,11 L0,13 M-11,0 L-13,0 M11,0 L13,0 M-7.8,-7.8 L-9.2,-9.2 M7.8,7.8 L9.2,9.2 M-7.8,7.8 L-9.2,9.2 M7.8,-7.8 L9.2,-9.2"
+            stroke="#f0b93e" stroke-width="1.4" stroke-linecap="round"/>
+    </g>
+  </g>
+  <defs>
+    <linearGradient id="sunGradDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2c3e63"/>
+      <stop offset="100%" stop-color="#5a7ab8"/>
+    </linearGradient>
+  </defs>
+  <text x="200" y="264" font-size="9.5" fill="#8a9199" text-anchor="middle">Sunrise in 5h 40min</text>
+
+  <line x1="22" y1="278" x2="378" y2="278" stroke="#35363b" stroke-width="1"/>
+
+  <!-- wind -->
+  <g transform="translate(56,320)">
+    <circle cx="0" cy="0" r="32" fill="none" stroke="#35363b" stroke-width="1.4"/>
+    <g transform="rotate(60)">
+      <path d="M0,-18 L7,6 L0,1 L-7,6 Z" fill="#5b9be0"/>
+    </g>
+  </g>
+  <text x="100" y="312" font-size="20" font-weight="600" fill="#e8eaed">1.2<tspan font-size="11" fill="#9aa0a6" font-weight="400"> km/h</tspan></text>
+  <text x="100" y="328" font-size="11" fill="#9aa0a6">Wind from ENE (60°)</text>
+  <text x="100" y="345" font-size="11.5" fill="#8a9199">Gust 2.8 km/h</text>
+
+  <line x1="22" y1="362" x2="378" y2="362" stroke="#35363b" stroke-width="1"/>
+
+  <!-- stat grid row 1 -->
+  <g font-size="16" font-weight="600" fill="#e8eaed">
+    <text x="22" y="392">81<tspan font-size="12" fill="#9aa0a6" font-weight="400">%</tspan></text>
+    <text x="112" y="392">14.5<tspan font-size="12" fill="#9aa0a6" font-weight="400">°</tspan></text>
+    <text x="202" y="392">17.2<tspan font-size="12" fill="#9aa0a6" font-weight="400">°</tspan></text>
+    <text x="292" y="392" fill="#3fc17e">19<tspan font-size="12" fill="#9aa0a6" font-weight="400">°</tspan></text>
+  </g>
+  <g font-size="9.5" fill="#9aa0a6">
+    <text x="22" y="406">Humidity</text>
+    <text x="112" y="406">Dew point</text>
+    <text x="202" y="406">Wind chill</text>
+    <text x="292" y="406">Humidex</text>
+  </g>
+
+  <!-- stat grid row 2 -->
+  <g font-size="16" font-weight="600">
+    <text x="22" y="440" fill="#3fc17e">0</text>
+    <text x="112" y="440" fill="#3fc17e">Low (12%)</text>
+    <text x="292" y="440" fill="#e8eaed">1016</text>
+  </g>
+  <text x="368" y="440" font-size="12" fill="#8a9199">→</text>
+  <text x="22" y="454" font-size="9.5" fill="#9aa0a6">UV index</text>
+  <text x="112" y="454" font-size="9.5" fill="#9aa0a6">Heat risk</text>
+  <text x="292" y="454" font-size="9.5" fill="#9aa0a6">Pressure hPa</text>
+
+  <text x="22" y="484" font-size="16" font-weight="600" fill="#e8eaed">1</text>
+  <text x="22" y="498" font-size="9.5" fill="#9aa0a6">Illuminance lux</text>
+
+  <line x1="22" y1="514" x2="378" y2="514" stroke="#35363b" stroke-width="1"/>
+
+  <!-- rain row -->
+  <g transform="translate(22,540)">
+    <path d="M0,-10 C4,-4 6,0 6,4 C6,8 3,10.5 0,10.5 C-3,10.5 -6,8 -6,4 C-6,0 -4,-4 0,-10 Z" fill="#8a9199"/>
+  </g>
+  <text x="36" y="546" font-size="20" font-weight="600" fill="#e8eaed">0.0<tspan font-size="12" fill="#9aa0a6" font-weight="400"> mm/h</tspan></text>
+  <text x="22" y="562" font-size="9.5" fill="#8a9199">No rain</text>
+
+  <text x="150" y="546" font-size="20" font-weight="600" fill="#e8eaed">0.0<tspan font-size="12" fill="#9aa0a6" font-weight="400"> mm</tspan></text>
+  <text x="150" y="562" font-size="9.5" fill="#8a9199">Today's total</text>
+
+  <text x="264" y="546" font-size="20" font-weight="600" fill="#e8eaed">No rain</text>
+  <text x="264" y="562" font-size="9.5" fill="#8a9199">Rain sensor</text>
+</svg>
