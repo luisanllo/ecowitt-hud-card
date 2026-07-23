@@ -464,6 +464,7 @@ class EcowittHudCard extends HTMLElement {
         "GET",
         `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
       );
+      console.debug("[ecowitt-hud-card] trend result:", result);
       if (result && result[0] && result[0].length > 1) {
         const points = result[0]
           .map((p) => {
@@ -477,10 +478,14 @@ class EcowittHudCard extends HTMLElement {
           this._els.trendHoursLbl.textContent = `(${hours}h)`;
           this._els.trendBlock.style.display = "";
           this._renderTrend();
+        } else {
+          console.debug("[ecowitt-hud-card] trend: points filtered down to", points.length);
         }
+      } else {
+        console.debug("[ecowitt-hud-card] trend: no usable history array in response");
       }
     } catch (e) {
-      // history API not available or entity has no recorder history; leave hidden
+      console.error("[ecowitt-hud-card] trend fetch failed:", e);
     }
   }
   async _fetchMinMax() {
@@ -493,6 +498,7 @@ class EcowittHudCard extends HTMLElement {
         "GET",
         `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
       );
+      console.debug("[ecowitt-hud-card] minmax result:", result);
       if (result && result[0] && result[0].length > 0) {
         const points = result[0]
           .map((p) => {
@@ -519,9 +525,11 @@ class EcowittHudCard extends HTMLElement {
             `<span><span class="arrow-up">↑</span> ${maxP.v.toFixed(1)}°<span class="mm-time">${maxTime}</span></span>` +
             `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
         }
+      } else {
+        console.debug("[ecowitt-hud-card] minmax: no usable history array in response");
       }
     } catch (e) {
-      // history API not available; leave the line empty
+      console.error("[ecowitt-hud-card] minmax fetch failed:", e);
     }
   }
   _renderTrend() {
