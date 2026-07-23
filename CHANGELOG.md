@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented here.
 
+## [1.0.1] - 2026-07-24
+
+### Fixed
+- Main temperature now shows the bound entity's actual unit (°C or °F)
+  instead of a hardcoded °C, which previously mislabeled readings for
+  anyone using a Fahrenheit sensor or a Fahrenheit-configured Home
+  Assistant instance.
+- The card no longer tears down and rebuilds its entire DOM (and
+  re-fetches temperature history) on every single config change. This
+  caused visible flicker and unnecessary history API calls while typing
+  in the visual editor's live preview; now only the bound values are
+  refreshed unless a trend-relevant field (temperature entity, trend
+  hours, show trend) actually changed.
+- The card's optional `name` is now rendered via `textContent` instead
+  of being interpolated into the card's HTML, closing a potential
+  HTML/script injection path if a card configuration from an untrusted
+  source were ever imported.
+
 ## [1.0.0] - 2026-07-23
 
 Initial stable release.

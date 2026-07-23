@@ -383,9 +383,28 @@ class EcowittHudCard extends HTMLElement {
     return {};
   }
   setConfig(config) {
-    this._config = config || {};
+    const newConfig = config || {};
     if (!this.shadowRoot) this.attachShadow({ mode: "open" });
-    this._buildStatic();
+    const prev = this._config;
+    this._config = newConfig;
+    // The dashboard editor's live preview calls setConfig() on every
+    // keystroke. Once the DOM exists, just refresh the bound values
+    // instead of tearing down and rebuilding the whole card each time
+    // (which flickered and re-hit the history API needlessly).
+    if (!this._els) {
+      this._buildStatic();
+      return;
+    }
+    this._update();
+    const trendRelevant =
+      !prev ||
+      prev.temperature !== newConfig.temperature ||
+      prev.trend_hours !== newConfig.trend_hours ||
+      prev.show_trend !== newConfig.show_trend;
+    if (trendRelevant) {
+      this._fetchTrend();
+      this._fetchMinMax();
+    }
   }
   set hass(hass) {
     const hadHass = !!this._hass;
@@ -475,12 +494,12 @@ class EcowittHudCard extends HTMLElement {
         .rain-sub { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
       </style>
       <ha-card>
-        ${this._config.name ? `<div class="title">${this._config.name}</div>` : ""}
+        <div class="title" style="display:none;"></div>
         <div class="row hero divider">
           <ha-icon class="hero-icon clickable" style="--mdc-icon-size:48px;flex:none;"></ha-icon>
           <div style="flex:1">
             <div class="row" style="align-items:baseline;gap:10px;">
-              <div class="hero-temp clickable"><span class="hero-temp-val">—</span><span class="hero-unit">°C</span></div>
+              <div class="hero-temp clickable"><span class="hero-temp-val">—</span><span class="hero-unit"></span></div>
               <div class="hero-sub clickable"></div>
             </div>
             <div class="hero-minmax"></div>
@@ -563,8 +582,10 @@ class EcowittHudCard extends HTMLElement {
     });
 
     this._els = {
+      title: root.querySelector(".title"),
       heroIcon: root.querySelector(".hero-icon"),
       heroTempVal: root.querySelector(".hero-temp-val"),
+      heroUnit: root.querySelector(".hero-unit"),
       heroSub: root.querySelector(".hero-sub"),
       heroMinMax: root.querySelector(".hero-minmax"),
       batteryIcon: root.querySelector(".battery-icon"),
@@ -748,6 +769,9 @@ class EcowittHudCard extends HTMLElement {
     const lang = this._lang();
     const S = STRINGS[lang];
 
+    els.title.textContent = c.name || "";
+    els.title.style.display = c.name ? "" : "none";
+
     const temp = fmt(hass, c.temperature, 1);
     const apparent = fmt(hass, c.apparent_temperature, 1);
     const condState = c.weather_condition && hass.states[c.weather_condition];
@@ -761,6 +785,7 @@ class EcowittHudCard extends HTMLElement {
       els.heroIcon.style.display = "none";
     }
     els.heroTempVal.textContent = temp.text;
+    els.heroUnit.textContent = temp.unit || "°C";
     const subParts = [];
     if (c.apparent_temperature) subParts.push(`${S.labels.feelsLike} ${apparent.text}°`);
     if (c.weather_condition) subParts.push(conditionLabel(condition, lang));
