@@ -325,6 +325,14 @@ function getFieldGroups(lang) {
 class EcowittHudCardEditor extends HTMLElement {
   setConfig(config) {
     this._config = config || {};
+    if (this._form) {
+      // Typing in the form fires value-changed -> config-changed, and HA
+      // round-trips that straight back into setConfig(). Just refresh the
+      // data on the existing form instead of tearing it down each time,
+      // or every keystroke would collapse open sections and lose focus.
+      this._form.data = this._config;
+      return;
+    }
     this._render();
   }
   set hass(hass) {
@@ -339,7 +347,7 @@ class EcowittHudCardEditor extends HTMLElement {
     this._render();
   }
   connectedCallback() {
-    this._render();
+    if (!this._form) this._render();
   }
   _render() {
     if (!this._hass || !this._config) return;
