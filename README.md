@@ -10,7 +10,7 @@ Cada dato es pulsable y abre el diálogo de histórico nativo de Home Assistant.
 ## Instalación vía HACS
 
 1. HACS → menú de tres puntos (arriba a la derecha) → **Repositorios personalizados**
-2. URL: `https://github.com/TU_USUARIO/ecowitt-hud-card`
+2. URL: `https://github.com/luisanllo/ecowitt-hud-card`
 3. Categoría: **Dashboard**
 4. Buscar "Ecowitt HUD Card" en HACS → Descargar
 5. Añadir el recurso si HACS no lo hace automáticamente:
@@ -50,7 +50,7 @@ moisture: binary_sensor.mi_estacion_rain_status
 
 También tiene editor visual: puedes rellenar los campos desde la UI en vez de YAML.
 
-## Notas
+
 
 - `heat_index` se interpreta automáticamente como % de riesgo o como índice
   en grados, según la unidad que reporte tu sensor.
