@@ -43,9 +43,12 @@ const STRINGS = {
       windDirection: "Wind direction (degrees)",
       rainRate: "Rain rate (mm/h)",
       rainToday: "Today's rainfall (mm)",
+      rainCumulative: "Rain sensor is a cumulative counter (never resets)",
+      rainWindowHours: "Rain window (hours)",
       moisture: "Rain / moisture sensor (optional)",
       showTrend: "Show temperature trend chart",
       trendHours: "Hours of history to display",
+      showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
     },
     conditions: {
       "clear-night": "Clear (night)",
@@ -116,9 +119,12 @@ const STRINGS = {
       windDirection: "Dirección del viento (grados)",
       rainRate: "Intensidad de lluvia (mm/h)",
       rainToday: "Lluvia acumulada hoy (mm)",
+      rainCumulative: "El sensor de lluvia es un contador acumulado (no se resetea)",
+      rainWindowHours: "Ventana de lluvia (horas)",
       moisture: "Estado de lluvia / humedad sensor (opcional)",
       showTrend: "Mostrar gráfico de tendencia de temperatura",
       trendHours: "Horas de histórico a mostrar",
+      showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
     },
     conditions: {
       "clear-night": "Despejado (noche)",
@@ -269,6 +275,19 @@ function fmt(hass, entityId, decimals) {
   return { text: num.toFixed(decimals === undefined ? 1 : decimals), unit, value: num, exists: true };
 }
 
+// Shared parser for HA's history/period response: turns the raw
+// minimal_response payload into a clean, time-sorted { t, v } list.
+function historyPoints(result) {
+  if (!result || !result[0]) return [];
+  return result[0]
+    .map((p) => {
+      const rawState = p.state !== undefined && p.state !== null ? p.state : p.s;
+      const rawTime = p.last_changed ? p.last_changed : p.lu * 1000;
+      return { t: new Date(rawTime).getTime(), v: parseFloat(rawState) };
+    })
+    .filter((p) => !isNaN(p.v) && !isNaN(p.t));
+}
+
 function getFieldGroups(lang) {
   const E = STRINGS[lang].editor;
   return [
@@ -309,6 +328,8 @@ function getFieldGroups(lang) {
       schema: [
         { name: "rain_rate", selector: { entity: { domain: "sensor", device_class: "precipitation_intensity" } }, label: E.rainRate },
         { name: "rain_today", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainToday },
+        { name: "rain_cumulative", selector: { boolean: {} }, label: E.rainCumulative },
+        { name: "rain_window_hours", selector: { number: { min: 1, max: 168, mode: "box" } }, label: E.rainWindowHours },
         { name: "moisture", selector: { entity: {} }, label: E.moisture },
       ],
     },
@@ -317,6 +338,7 @@ function getFieldGroups(lang) {
       schema: [
         { name: "show_trend", selector: { boolean: {} }, label: E.showTrend },
         { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: E.trendHours },
+        { name: "show_humidity_trend", selector: { boolean: {} }, label: E.showHumidityTrend },
       ],
     },
   ];
@@ -400,10 +422,20 @@ class EcowittHudCard extends HTMLElement {
       !prev ||
       prev.temperature !== newConfig.temperature ||
       prev.trend_hours !== newConfig.trend_hours ||
-      prev.show_trend !== newConfig.show_trend;
+      prev.show_trend !== newConfig.show_trend ||
+      prev.show_humidity_trend !== newConfig.show_humidity_trend ||
+      prev.humidity !== newConfig.humidity;
     if (trendRelevant) {
       this._fetchTrend();
       this._fetchMinMax();
+    }
+    const rainWindowRelevant =
+      !prev ||
+      prev.rain_today !== newConfig.rain_today ||
+      prev.rain_cumulative !== newConfig.rain_cumulative ||
+      prev.rain_window_hours !== newConfig.rain_window_hours;
+    if (rainWindowRelevant) {
+      this._fetchRainWindow();
     }
   }
   set hass(hass) {
@@ -468,6 +500,9 @@ class EcowittHudCard extends HTMLElement {
         .trend-label { font-size: 9px; letter-spacing: .08em; color: var(--secondary-text-color, #8a92a3); margin-bottom: 5px; text-transform: uppercase; }
         .trend-svg { width: 100%; height: 32px; display: block; }
         .trend-range { display: flex; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
+        .trend-axis { display: flex; align-items: center; gap: 4px; }
+        .trend-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+        .trend-axis.right { color: #3b82c4; }
         .day { padding: 14px 0 16px; }
         .day-top { display: flex; align-items: center; gap: 8px; }
         .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
@@ -515,7 +550,10 @@ class EcowittHudCard extends HTMLElement {
         <div class="trend divider" id="trend-block" style="display:none;">
           <div class="trend-label">${S.labels.trend} <span class="trend-hours-lbl"></span></div>
           <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
-          <div class="trend-range"><span class="trend-min"></span><span class="trend-max"></span></div>
+          <div class="trend-range">
+            <span class="trend-axis left"><span class="trend-dot trend-dot-temp"></span><span class="trend-min"></span>–<span class="trend-max"></span></span>
+            <span class="trend-axis right" style="display:none;"><span class="trend-dot trend-dot-humidity" style="background:#3b82c4;"></span><span class="trend-min-h"></span>–<span class="trend-max-h"></span></span>
+          </div>
         </div>
         <div class="day divider">
           <div class="day-top">
@@ -555,7 +593,7 @@ class EcowittHudCard extends HTMLElement {
           </div>
           <div class="stat clickable" data-k="rain_today">
             <div class="rain-val"><span class="v"></span> <span class="stat-unit">mm</span></div>
-            <div class="rain-sub">${S.labels.rainToday}</div>
+            <div class="rain-sub rain-today-sub">${S.labels.rainToday}</div>
           </div>
           <div class="stat clickable" data-k="moisture">
             <div class="rain-val"><span class="v"></span></div>
@@ -601,6 +639,7 @@ class EcowittHudCard extends HTMLElement {
       trendIcon: root.querySelector(".trend-icon"),
       rainIcon: root.querySelector(".rain-icon"),
       moistureSub: root.querySelector(".moisture-sub"),
+      rainTodaySub: root.querySelector(".rain-today-sub"),
       dayFill: root.querySelector(".day-fill"),
       dayMarker: root.querySelector(".day-marker"),
       dayCaption: root.querySelector(".day-caption"),
@@ -612,6 +651,10 @@ class EcowittHudCard extends HTMLElement {
       trendSvg: root.querySelector(".trend-svg"),
       trendMin: root.querySelector(".trend-min"),
       trendMax: root.querySelector(".trend-max"),
+      trendDotTemp: root.querySelector(".trend-dot-temp"),
+      trendAxisRight: root.querySelector(".trend-axis.right"),
+      trendMinH: root.querySelector(".trend-min-h"),
+      trendMaxH: root.querySelector(".trend-max-h"),
       trendHoursLbl: root.querySelector(".trend-hours-lbl"),
       gridBlock: root.querySelector(".grid"),
       rainBlock: root.querySelector(".row.rain"),
@@ -623,6 +666,7 @@ class EcowittHudCard extends HTMLElement {
     this._update();
     this._fetchTrend();
     this._fetchMinMax();
+    this._fetchRainWindow();
     if (!this._trendInterval) {
       this._trendInterval = setInterval(() => this._fetchTrend(), 10 * 60 * 1000);
     }
@@ -631,6 +675,9 @@ class EcowittHudCard extends HTMLElement {
     }
     if (!this._minMaxInterval) {
       this._minMaxInterval = setInterval(() => this._fetchMinMax(), 10 * 60 * 1000);
+    }
+    if (!this._rainWindowInterval) {
+      this._rainWindowInterval = setInterval(() => this._fetchRainWindow(), 10 * 60 * 1000);
     }
   }
   disconnectedCallback() {
@@ -645,6 +692,10 @@ class EcowittHudCard extends HTMLElement {
     if (this._minMaxInterval) {
       clearInterval(this._minMaxInterval);
       this._minMaxInterval = null;
+    }
+    if (this._rainWindowInterval) {
+      clearInterval(this._rainWindowInterval);
+      this._rainWindowInterval = null;
     }
   }
   _timeStr(d) {
@@ -665,26 +716,35 @@ class EcowittHudCard extends HTMLElement {
     const c = this._config;
     if (c.show_trend === false || !c.temperature || !this._hass || !this._els || !this._els.trendBlock) return;
     const hours = c.trend_hours || 6;
-    const start = new Date(Date.now() - hours * 3600 * 1000).toISOString();
+    const startMs = Date.now() - hours * 3600 * 1000;
+    const start = new Date(startMs).toISOString();
     try {
       const result = await this._hass.callApi(
         "GET",
         `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
       );
-      if (result && result[0] && result[0].length > 1) {
-        const points = result[0]
-          .map((p) => {
-            const rawState = p.state !== undefined && p.state !== null ? p.state : p.s;
-            const rawTime = p.last_changed ? p.last_changed : p.lu * 1000;
-            return { t: new Date(rawTime).getTime(), v: parseFloat(rawState) };
-          })
-          .filter((p) => !isNaN(p.v) && !isNaN(p.t));
-        if (points.length > 1) {
-          this._trendData = points;
-          this._els.trendHoursLbl.textContent = `(${hours}h)`;
-          this._els.trendBlock.style.display = "";
-          this._renderTrend();
+      const points = historyPoints(result);
+      if (points.length > 1) {
+        this._trendData = points;
+        this._trendWindowStart = startMs;
+
+        this._humidityTrendData = null;
+        if (c.show_humidity_trend && c.humidity) {
+          try {
+            const humResult = await this._hass.callApi(
+              "GET",
+              `history/period/${start}?filter_entity_id=${c.humidity}&minimal_response&no_attributes`
+            );
+            const humPoints = historyPoints(humResult);
+            if (humPoints.length > 1) this._humidityTrendData = humPoints;
+          } catch (e) {
+            // humidity history unavailable; temperature trend still renders alone
+          }
         }
+
+        this._els.trendHoursLbl.textContent = `(${hours}h)`;
+        this._els.trendBlock.style.display = "";
+        this._renderTrend();
       }
     } catch (e) {
       // history API not available or entity has no recorder history; leave hidden
@@ -699,36 +759,58 @@ class EcowittHudCard extends HTMLElement {
         "GET",
         `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
       );
-      if (result && result[0] && result[0].length > 0) {
-        const points = result[0]
-          .map((p) => {
-            const rawState = p.state !== undefined && p.state !== null ? p.state : p.s;
-            const rawTime = p.last_changed ? p.last_changed : p.lu * 1000;
-            return { t: new Date(rawTime).getTime(), v: parseFloat(rawState) };
-          })
-          .filter((p) => !isNaN(p.v) && !isNaN(p.t));
+      const points = historyPoints(result);
 
-        // include the live current reading too, in case it hasn't landed
-        // in the recorder yet as a distinct history point
-        const current = fmt(this._hass, c.temperature, 1);
-        if (current.value !== null) points.push({ t: Date.now(), v: current.value });
+      // include the live current reading too, in case it hasn't landed
+      // in the recorder yet as a distinct history point
+      const current = fmt(this._hass, c.temperature, 1);
+      if (current.value !== null) points.push({ t: Date.now(), v: current.value });
 
-        if (points.length > 0) {
-          let maxP = points[0], minP = points[0];
-          for (const p of points) {
-            if (p.v > maxP.v) maxP = p;
-            if (p.v < minP.v) minP = p;
-          }
-          const maxTime = this._timeStr(new Date(maxP.t));
-          const minTime = this._timeStr(new Date(minP.t));
-          this._els.heroMinMax.innerHTML =
-            `<span><span class="arrow-up">↑</span> ${maxP.v.toFixed(1)}°<span class="mm-time">${maxTime}</span></span>` +
-            `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
+      if (points.length > 0) {
+        let maxP = points[0], minP = points[0];
+        for (const p of points) {
+          if (p.v > maxP.v) maxP = p;
+          if (p.v < minP.v) minP = p;
         }
+        const maxTime = this._timeStr(new Date(maxP.t));
+        const minTime = this._timeStr(new Date(minP.t));
+        this._els.heroMinMax.innerHTML =
+          `<span><span class="arrow-up">↑</span> ${maxP.v.toFixed(1)}°<span class="mm-time">${maxTime}</span></span>` +
+          `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
       }
     } catch (e) {
       // history API not available; leave the line empty
     }
+  }
+  // For counters that never reset (e.g. a Zigbee2MQTT lifetime precipitation
+  // total), the raw state is meaningless on its own — this sums only the
+  // positive increments seen across the window, so a counter reset partway
+  // through (station reboot, etc.) doesn't turn into a bogus negative total.
+  async _fetchRainWindow() {
+    const c = this._config;
+    this._rainWindowValue = null;
+    if (!c.rain_today || !c.rain_cumulative || !this._hass) return;
+    const hours = c.rain_window_hours || 24;
+    const start = new Date(Date.now() - hours * 3600 * 1000).toISOString();
+    try {
+      const result = await this._hass.callApi(
+        "GET",
+        `history/period/${start}?filter_entity_id=${c.rain_today}&minimal_response&no_attributes`
+      );
+      const points = historyPoints(result);
+      const current = fmt(this._hass, c.rain_today, 1);
+      if (current.value !== null) points.push({ t: Date.now(), v: current.value });
+      points.sort((a, b) => a.t - b.t);
+      let total = 0;
+      for (let i = 1; i < points.length; i++) {
+        const diff = points[i].v - points[i - 1].v;
+        if (diff > 0) total += diff;
+      }
+      this._rainWindowValue = points.length > 0 ? total : null;
+    } catch (e) {
+      this._rainWindowValue = null;
+    }
+    this._update();
   }
   _renderTrend() {
     const els = this._els;
@@ -739,13 +821,16 @@ class EcowittHudCard extends HTMLElement {
     const max = Math.max(...values);
     const range = max - min || 1;
     const w = 300, h = 32, pad = 3;
-    const t0 = pts[0].t, t1 = pts[pts.length - 1].t;
+    // Shared time axis for both series, anchored to the requested window
+    // (not just the observed data points), so temperature and humidity
+    // line up correctly even if their last recorder updates differ.
+    const t0 = this._trendWindowStart || pts[0].t;
+    const t1 = Date.now();
     const tRange = t1 - t0 || 1;
-    const coords = pts.map((p) => {
-      const x = pad + ((p.t - t0) / tRange) * (w - pad * 2);
-      const y = h - pad - ((p.v - min) / range) * (h - pad * 2);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
+    const xFor = (t) => Math.max(pad, Math.min(w - pad, pad + ((t - t0) / tRange) * (w - pad * 2)));
+    const yFor = (v, vmin, vrange) => h - pad - ((v - vmin) / vrange) * (h - pad * 2);
+
+    const coords = pts.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, min, range).toFixed(1)}`);
     const last = values[values.length - 1];
     let color = "#3b82c4";
     if (last >= 32) color = "#d1481c";
@@ -753,12 +838,31 @@ class EcowittHudCard extends HTMLElement {
     else if (last >= 15) color = "#2ba86a";
     const line = coords.join(" ");
     const area = `${pad},${h - pad} ${line} ${w - pad},${h - pad}`;
+
+    let humidityLine = "";
+    const hum = this._humidityTrendData;
+    if (hum && hum.length > 1) {
+      const hValues = hum.map((p) => p.v);
+      const hMin = Math.min(...hValues);
+      const hMax = Math.max(...hValues);
+      const hRange = hMax - hMin || 1;
+      const hCoords = hum.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, hMin, hRange).toFixed(1)}`);
+      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="#3b82c4" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
+      els.trendMinH.textContent = `${hMin.toFixed(0)}%`;
+      els.trendMaxH.textContent = `${hMax.toFixed(0)}%`;
+      els.trendAxisRight.style.display = "";
+    } else {
+      els.trendAxisRight.style.display = "none";
+    }
+
     els.trendSvg.innerHTML = `
       <polygon points="${area}" fill="${color}22"></polygon>
       <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></polyline>
+      ${humidityLine}
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
     els.trendMax.textContent = `${max.toFixed(1)}°`;
+    if (els.trendDotTemp) els.trendDotTemp.style.background = color;
   }
   _update() {
     if (!this._els || !this._hass) return;
@@ -863,8 +967,16 @@ class EcowittHudCard extends HTMLElement {
     els.rainIcon.style.color = raining ? "#3b82c4" : "#8a92a3";
     els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
 
-    const rainToday = fmt(hass, c.rain_today, 1);
-    setStat("rain_today", rainToday.text);
+    if (c.rain_cumulative) {
+      const hours = c.rain_window_hours || 24;
+      const windowText = this._rainWindowValue !== null && this._rainWindowValue !== undefined ? this._rainWindowValue.toFixed(1) : "—";
+      setStat("rain_today", windowText);
+      els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}h)`;
+    } else {
+      const rainToday = fmt(hass, c.rain_today, 1);
+      setStat("rain_today", rainToday.text);
+      els.rainTodaySub.textContent = S.labels.rainToday;
+    }
 
     const moistState = c.moisture && hass.states[c.moisture];
     let moistTxt = S.labels.dash;

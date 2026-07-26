@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here.
 
+## [1.1.0] - 2026-07-26
+
+### Added
+- `rain_cumulative` + `rain_window_hours`: for rain sensors that report a
+  lifetime cumulative total instead of resetting daily (e.g. a
+  Zigbee2MQTT `precipitation` sensor), the card now calculates the total
+  rain within a configurable rolling window (default 24h) by summing
+  only positive increments across the recorder history, so a counter
+  reset mid-window doesn't produce a bogus total.
+- `show_humidity_trend`: optionally overlay a humidity line on the
+  temperature trend chart, each on its own independent vertical scale
+  (temperature range on the left, humidity range on the right) so the
+  two can be compared by shape.
+
 ## [1.0.2] - 2026-07-24
 
 ### Fixed

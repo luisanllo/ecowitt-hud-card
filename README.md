@@ -18,10 +18,10 @@ history dialog.
 ## Features
 
 - 🌡️ Current temperature, feels-like, and **last 24h high/low with the time each occurred**
-- 📈 Temperature trend chart for the last few hours
+- 📈 Temperature trend chart for the last few hours, with an optional humidity overlay (dual axis)
 - 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown
 - 🧭 Wind compass with speed, gust, and direction
-- ☔ Rain block: intensity, today's total, and rain sensor status
+- ☔ Rain block: intensity, today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status
 - ⚠️ Automatic color scales for heat risk and UV index
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
@@ -72,10 +72,13 @@ optional, and the card automatically hides whatever you don't fill in.
 | `wind_gust` | No | Gust speed |
 | `wind_direction` | No | Wind direction (degrees) |
 | `rain_rate` | No | Rain intensity (mm/h) |
-| `rain_today` | No | Today's accumulated rain (mm) |
+| `rain_today` | No | Today's accumulated rain (mm), or a cumulative counter if `rain_cumulative` is on |
+| `rain_cumulative` | No | Set if `rain_today` is a counter that never resets (e.g. a Zigbee2MQTT lifetime `precipitation` total) — the card then shows the total rain within `rain_window_hours` instead of the raw value |
+| `rain_window_hours` | No | Window size in hours used when `rain_cumulative` is on (`24` by default) |
 | `moisture` | No | Rain/moisture sensor (binary_sensor or sensor) |
 | `show_trend` | No | Show the trend chart (`true` by default) |
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
+| `show_humidity_trend` | No | Overlay a humidity line on the trend chart (needs `humidity` set above) |
 
 ### Example
 
@@ -112,6 +115,15 @@ moisture: binary_sensor.my_station_rain_status
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the
   sensor's unit is `%` or the value falls in that range; otherwise it's
   treated as a degree-based index.
+- With `rain_cumulative` on, the rain total is calculated from recorder
+  history by summing only the positive increments seen within
+  `rain_window_hours`, so a counter reset partway through the window
+  (station reboot, etc.) doesn't produce a negative or bogus total. This
+  also requires `rain_today` to have recorder history.
+- The humidity trend overlay uses its own independent vertical scale (shown
+  on the right side of the chart, in blue) so it can be compared by shape
+  against the temperature line (left side) even though the two have very
+  different numeric ranges.
 - The card's language follows `hass.language` / `hass.locale.language`:
   Spanish if it starts with "es", English otherwise. Only these two
   languages are supported for now.
