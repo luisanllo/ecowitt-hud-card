@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/logo.svg" width="96" alt="Ecowitt HUD Card logo">
+</p>
+
 # Ecowitt HUD Card
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
