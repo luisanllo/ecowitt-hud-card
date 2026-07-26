@@ -37,8 +37,12 @@
            fill="#2ba86a" opacity="0.14"/>
   <polyline points="22,186 60,180 100,172 140,176 180,182 220,186 260,188 300,190 340,191 378,192"
             fill="none" stroke="#2ba86a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
-  <text x="22" y="210" font-size="9" fill="#8a92a3">14.2°</text>
-  <text x="378" y="210" font-size="9" fill="#8a92a3" text-anchor="end">27.3°</text>
+  <polyline points="22,180 60,188 100,196 140,192 180,184 220,178 260,174 300,173 340,174 378,176"
+            fill="none" stroke="#3b82c4" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="22" cy="207" r="3" fill="#2ba86a"/>
+  <text x="30" y="210" font-size="9" fill="#8a92a3">14.2°–27.3°</text>
+  <circle cx="290" cy="207" r="3" fill="#3b82c4"/>
+  <text x="298" y="210" font-size="9" fill="#3b82c4">55%–78%</text>
 
   <line x1="22" y1="222" x2="378" y2="222" stroke="#e7e7ea" stroke-width="1"/>
 

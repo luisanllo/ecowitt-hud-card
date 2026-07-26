@@ -33,11 +33,15 @@
   <!-- trend -->
   <text x="22" y="168" font-size="9" font-weight="600" fill="#8a9199" letter-spacing="0.5">TEMPERATURE TREND (6H)</text>
   <polygon points="22,196 22,180 60,182 100,186 140,190 180,193 220,195 260,196 300,197 340,198 378,198 378,198"
-           fill="#5b9be0" opacity="0.16"/>
+           fill="#3fc17e" opacity="0.16"/>
   <polyline points="22,180 60,182 100,186 140,190 180,193 220,195 260,196 300,197 340,198 378,198"
-            fill="none" stroke="#5b9be0" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
-  <text x="22" y="210" font-size="9" fill="#8a9199">17.6°</text>
-  <text x="378" y="210" font-size="9" fill="#8a9199" text-anchor="end">24.1°</text>
+            fill="none" stroke="#3fc17e" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="22,192 60,184 100,178 140,181 180,188 220,193 260,196 300,197 340,196 378,194"
+            fill="none" stroke="#3b82c4" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="22" cy="207" r="3" fill="#3fc17e"/>
+  <text x="30" y="210" font-size="9" fill="#9aa0a6">17.6°–24.1°</text>
+  <circle cx="290" cy="207" r="3" fill="#3b82c4"/>
+  <text x="298" y="210" font-size="9" fill="#3b82c4">58%–82%</text>
 
   <line x1="22" y1="222" x2="378" y2="222" stroke="#35363b" stroke-width="1"/>
 
