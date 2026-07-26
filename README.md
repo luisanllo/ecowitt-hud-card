@@ -18,7 +18,7 @@ history dialog.
 ## Features
 
 - 🌡️ Current temperature, feels-like, and **last 24h high/low with the time each occurred**
-- 📈 Temperature trend chart for the last few hours, with an optional humidity overlay (dual axis)
+- 📈 Temperature trend chart for the last few hours, with an optional humidity overlay (dual axis) and a hover tooltip showing time/temperature/humidity
 - 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown
 - 🧭 Wind compass with speed, gust, and direction
 - ☔ Rain block: intensity, today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status

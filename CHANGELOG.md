@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## [1.2.0] - 2026-07-27
+
+### Added
+- Hovering the trend chart now shows a floating tooltip with the time,
+  temperature, and humidity (when the overlay is on) at that point,
+  plus a vertical guide line, instead of the chart being a static image.
+
+### Fixed
+- The temperature side of the trend chart's min/max labels now uses the
+  same dynamic color as the temperature line itself (the humidity side
+  already matched its line's blue). This got dropped when the min/max
+  labels moved to side columns in 1.1.1 — the color match is what tells
+  the two axes apart at a glance, together with the °/% suffix already
+  shown on each number.
+
 ## [1.1.1] - 2026-07-27
 
 ### Changed

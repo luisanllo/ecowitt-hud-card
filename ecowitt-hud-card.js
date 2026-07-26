@@ -528,9 +528,15 @@ class EcowittHudCard extends HTMLElement {
         .trend { padding: 12px 0 14px; }
         .trend-label { font-size: 9px; letter-spacing: .08em; color: var(--secondary-text-color, #8a92a3); margin-bottom: 5px; text-transform: uppercase; }
         .trend-chart-row { display: flex; align-items: stretch; gap: 8px; }
-        .trend-svg { flex: 1; min-width: 0; display: block; }
+        .trend-svg-wrap { position: relative; flex: 1; min-width: 0; cursor: crosshair; }
+        .trend-svg { width: 100%; display: block; }
         .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
         .trend-axis-col.right { text-align: right; color: #3b82c4; }
+        .trend-crosshair { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--divider-color, rgba(0,0,0,.25)); pointer-events: none; }
+        .trend-tooltip { position: absolute; top: -6px; transform: translate(-50%, -100%); background: var(--card-background-color, #fff); border: 1px solid var(--divider-color, rgba(0,0,0,.12)); border-radius: 6px; padding: 4px 8px; font-size: 10.5px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none; z-index: 2; color: var(--primary-text-color, #1c2128); }
+        .trend-tooltip .tt-time { color: var(--secondary-text-color, #8a92a3); margin-right: 5px; }
+        .trend-tooltip .tt-temp { font-weight: 600; }
+        .trend-tooltip .tt-hum { color: #3b82c4; font-weight: 600; margin-left: 5px; }
         .day { padding: 14px 0 16px; }
         .day-top { display: flex; align-items: center; gap: 8px; }
         .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
@@ -582,7 +588,11 @@ class EcowittHudCard extends HTMLElement {
               <span class="trend-max"></span>
               <span class="trend-min"></span>
             </div>
-            <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
+            <div class="trend-svg-wrap">
+              <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
+              <div class="trend-crosshair" style="display:none;"></div>
+              <div class="trend-tooltip" style="display:none;"></div>
+            </div>
             <div class="trend-axis-col right" style="display:none;">
               <span class="trend-max-h"></span>
               <span class="trend-min-h"></span>
@@ -652,6 +662,11 @@ class EcowittHudCard extends HTMLElement {
     root.querySelectorAll(".stat[data-k]").forEach((el) => {
       el.addEventListener("click", () => this._openMoreInfo(this._config[el.dataset.k]));
     });
+    const trendSvgWrap = root.querySelector(".trend-svg-wrap");
+    if (trendSvgWrap) {
+      trendSvgWrap.addEventListener("mousemove", (ev) => this._onTrendHover(ev.clientX));
+      trendSvgWrap.addEventListener("mouseleave", () => this._hideTrendTooltip());
+    }
 
     this._els = {
       title: root.querySelector(".title"),
@@ -683,8 +698,12 @@ class EcowittHudCard extends HTMLElement {
       edgeEndLbl: root.querySelector(".edge-end-lbl"),
       trendBlock: root.querySelector("#trend-block"),
       trendSvg: root.querySelector(".trend-svg"),
+      trendSvgWrap: root.querySelector(".trend-svg-wrap"),
+      trendCrosshair: root.querySelector(".trend-crosshair"),
+      trendTooltip: root.querySelector(".trend-tooltip"),
       trendMin: root.querySelector(".trend-min"),
       trendMax: root.querySelector(".trend-max"),
+      trendAxisLeft: root.querySelector(".trend-axis-col.left"),
       trendAxisRight: root.querySelector(".trend-axis-col.right"),
       trendMinH: root.querySelector(".trend-min-h"),
       trendMaxH: root.querySelector(".trend-max-h"),
@@ -869,6 +888,7 @@ class EcowittHudCard extends HTMLElement {
     const t0 = this._trendWindowStart || pts[0].t;
     const t1 = Date.now();
     const tRange = t1 - t0 || 1;
+    this._trendXDomain = { t0, tRange };
     const xFor = (t) => Math.max(pad, Math.min(w - pad, pad + ((t - t0) / tRange) * (w - pad * 2)));
     const yFor = (v, vmin, vrange) => h - pad - ((v - vmin) / vrange) * (h - pad * 2);
 
@@ -904,6 +924,53 @@ class EcowittHudCard extends HTMLElement {
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
     els.trendMax.textContent = `${max.toFixed(1)}°`;
+    if (els.trendAxisLeft) els.trendAxisLeft.style.color = color;
+  }
+  _nearestPoint(series, targetT) {
+    if (!series || series.length === 0) return null;
+    let best = series[0];
+    let bestDiff = Math.abs(series[0].t - targetT);
+    for (const p of series) {
+      const diff = Math.abs(p.t - targetT);
+      if (diff < bestDiff) {
+        best = p;
+        bestDiff = diff;
+      }
+    }
+    return best;
+  }
+  _onTrendHover(clientX) {
+    const els = this._els;
+    if (!els || !els.trendSvgWrap || !this._trendXDomain || !this._trendData || this._trendData.length < 2) return;
+    const rect = els.trendSvgWrap.getBoundingClientRect();
+    if (!rect.width) return;
+    let frac = (clientX - rect.left) / rect.width;
+    frac = Math.max(0, Math.min(1, frac));
+    const { t0, tRange } = this._trendXDomain;
+    const targetT = t0 + frac * tRange;
+
+    const tempPoint = this._nearestPoint(this._trendData, targetT);
+    if (!tempPoint) return;
+    const humPoint = this._nearestPoint(this._humidityTrendData, targetT);
+
+    const time = this._timeStr(new Date(tempPoint.t));
+    let html = `<span class="tt-time">${time}</span><span class="tt-temp">${tempPoint.v.toFixed(1)}°</span>`;
+    if (humPoint) html += `<span class="tt-hum">${humPoint.v.toFixed(0)}%</span>`;
+    els.trendTooltip.innerHTML = html;
+    els.trendTooltip.style.display = "";
+    els.trendCrosshair.style.display = "";
+
+    const xPx = frac * rect.width;
+    els.trendCrosshair.style.left = `${xPx}px`;
+    const tooltipWidth = els.trendTooltip.offsetWidth || 60;
+    const clampedX = Math.max(tooltipWidth / 2, Math.min(rect.width - tooltipWidth / 2, xPx));
+    els.trendTooltip.style.left = `${clampedX}px`;
+  }
+  _hideTrendTooltip() {
+    const els = this._els;
+    if (!els || !els.trendTooltip) return;
+    els.trendTooltip.style.display = "none";
+    if (els.trendCrosshair) els.trendCrosshair.style.display = "none";
   }
   _update() {
     if (!this._els || !this._hass) return;
