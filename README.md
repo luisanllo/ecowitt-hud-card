@@ -56,6 +56,7 @@ optional, and the card automatically hides whatever you don't fill in.
 |---|---|---|
 | `temperature` | Yes | Current temperature sensor |
 | `name` | No | Title shown on the card |
+| `time_format` | No | `auto` (system default), `12`, or `24` — controls the clock format used for sunrise/sunset and high/low times (`auto` by default) |
 | `apparent_temperature` | No | Feels-like temperature |
 | `weather_condition` | No | Condition entity (text like `sunny`, `cloudy`...) |
 | `battery` | No | Station battery level |
@@ -79,6 +80,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `show_trend` | No | Show the trend chart (`true` by default) |
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
 | `show_humidity_trend` | No | Overlay a humidity line on the trend chart (needs `humidity` set above) |
+| `trend_chart_height` | No | Chart height in pixels (`48` by default) |
 
 ### Example
 

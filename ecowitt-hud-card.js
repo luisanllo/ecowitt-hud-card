@@ -25,6 +25,10 @@ const STRINGS = {
       rain: "Rain",
       trend: "Trend",
       name: "Name (optional)",
+      timeFormat: "Time format",
+      timeFormatAuto: "Automatic (system default)",
+      timeFormat12: "12-hour (AM/PM)",
+      timeFormat24: "24-hour",
       temperature: "Temperature",
       apparentTemperature: "Feels-like temperature",
       weatherCondition: "General condition (weather entity or text sensor)",
@@ -49,6 +53,7 @@ const STRINGS = {
       showTrend: "Show temperature trend chart",
       trendHours: "Hours of history to display",
       showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
+      trendChartHeight: "Chart height (px)",
     },
     conditions: {
       "clear-night": "Clear (night)",
@@ -101,6 +106,10 @@ const STRINGS = {
       rain: "Lluvia",
       trend: "Tendencia",
       name: "Nombre (opcional)",
+      timeFormat: "Formato de hora",
+      timeFormatAuto: "Automático (según el sistema)",
+      timeFormat12: "12 horas (AM/PM)",
+      timeFormat24: "24 horas",
       temperature: "Temperatura",
       apparentTemperature: "Sensación térmica",
       weatherCondition: "Condición general (weather o sensor texto)",
@@ -125,6 +134,7 @@ const STRINGS = {
       showTrend: "Mostrar gráfico de tendencia de temperatura",
       trendHours: "Horas de histórico a mostrar",
       showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
+      trendChartHeight: "Altura del gráfico (px)",
     },
     conditions: {
       "clear-night": "Despejado (noche)",
@@ -295,6 +305,20 @@ function getFieldGroups(lang) {
       title: E.general,
       schema: [
         { name: "name", selector: { text: {} }, label: E.name },
+        {
+          name: "time_format",
+          selector: {
+            select: {
+              mode: "dropdown",
+              options: [
+                { value: "auto", label: E.timeFormatAuto },
+                { value: "12", label: E.timeFormat12 },
+                { value: "24", label: E.timeFormat24 },
+              ],
+            },
+          },
+          label: E.timeFormat,
+        },
         { name: "temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.temperature },
         { name: "apparent_temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.apparentTemperature },
         { name: "weather_condition", selector: { entity: {} }, label: E.weatherCondition },
@@ -339,6 +363,7 @@ function getFieldGroups(lang) {
         { name: "show_trend", selector: { boolean: {} }, label: E.showTrend },
         { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: E.trendHours },
         { name: "show_humidity_trend", selector: { boolean: {} }, label: E.showHumidityTrend },
+        { name: "trend_chart_height", selector: { number: { min: 24, max: 120, mode: "box" } }, label: E.trendChartHeight },
       ],
     },
   ];
@@ -428,6 +453,10 @@ class EcowittHudCard extends HTMLElement {
     if (trendRelevant) {
       this._fetchTrend();
       this._fetchMinMax();
+    } else if (prev && prev.trend_chart_height !== newConfig.trend_chart_height) {
+      // purely cosmetic — re-render with the already-fetched data instead
+      // of hitting the history API again just to change the chart height
+      this._renderTrend();
     }
     const rainWindowRelevant =
       !prev ||
@@ -498,11 +527,10 @@ class EcowittHudCard extends HTMLElement {
         .battery-label { font-size: 9px; color: var(--secondary-text-color, #70788a); }
         .trend { padding: 12px 0 14px; }
         .trend-label { font-size: 9px; letter-spacing: .08em; color: var(--secondary-text-color, #8a92a3); margin-bottom: 5px; text-transform: uppercase; }
-        .trend-svg { width: 100%; height: 32px; display: block; }
-        .trend-range { display: flex; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
-        .trend-axis { display: flex; align-items: center; gap: 4px; }
-        .trend-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
-        .trend-axis.right { color: #3b82c4; }
+        .trend-chart-row { display: flex; align-items: stretch; gap: 8px; }
+        .trend-svg { flex: 1; min-width: 0; display: block; }
+        .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
+        .trend-axis-col.right { text-align: right; color: #3b82c4; }
         .day { padding: 14px 0 16px; }
         .day-top { display: flex; align-items: center; gap: 8px; }
         .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
@@ -549,10 +577,16 @@ class EcowittHudCard extends HTMLElement {
         </div>
         <div class="trend divider" id="trend-block" style="display:none;">
           <div class="trend-label">${S.labels.trend} <span class="trend-hours-lbl"></span></div>
-          <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
-          <div class="trend-range">
-            <span class="trend-axis left"><span class="trend-dot trend-dot-temp"></span><span class="trend-min"></span>–<span class="trend-max"></span></span>
-            <span class="trend-axis right" style="display:none;"><span class="trend-dot trend-dot-humidity" style="background:#3b82c4;"></span><span class="trend-min-h"></span>–<span class="trend-max-h"></span></span>
+          <div class="trend-chart-row">
+            <div class="trend-axis-col left">
+              <span class="trend-max"></span>
+              <span class="trend-min"></span>
+            </div>
+            <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
+            <div class="trend-axis-col right" style="display:none;">
+              <span class="trend-max-h"></span>
+              <span class="trend-min-h"></span>
+            </div>
           </div>
         </div>
         <div class="day divider">
@@ -651,8 +685,7 @@ class EcowittHudCard extends HTMLElement {
       trendSvg: root.querySelector(".trend-svg"),
       trendMin: root.querySelector(".trend-min"),
       trendMax: root.querySelector(".trend-max"),
-      trendDotTemp: root.querySelector(".trend-dot-temp"),
-      trendAxisRight: root.querySelector(".trend-axis.right"),
+      trendAxisRight: root.querySelector(".trend-axis-col.right"),
       trendMinH: root.querySelector(".trend-min-h"),
       trendMaxH: root.querySelector(".trend-max-h"),
       trendHoursLbl: root.querySelector(".trend-hours-lbl"),
@@ -700,7 +733,13 @@ class EcowittHudCard extends HTMLElement {
   }
   _timeStr(d) {
     if (!d || isNaN(d.getTime())) return "—";
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const opts = { hour: "2-digit", minute: "2-digit" };
+    const fmt = this._config && this._config.time_format;
+    if (fmt === "12") opts.hour12 = true;
+    else if (fmt === "24") opts.hour12 = false;
+    // "auto" (or unset) intentionally omits hour12 so the browser/system
+    // locale's own default decides, matching the user's OS/HA settings.
+    return d.toLocaleTimeString([], opts);
   }
   _durationStr(ms) {
     const L = STRINGS[this._lang()].labels;
@@ -820,7 +859,10 @@ class EcowittHudCard extends HTMLElement {
     const min = Math.min(...values);
     const max = Math.max(...values);
     const range = max - min || 1;
-    const w = 300, h = 32, pad = 3;
+    const w = 300, pad = 3;
+    const h = (this._config && this._config.trend_chart_height) || 48;
+    els.trendSvg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    els.trendSvg.style.height = `${h}px`;
     // Shared time axis for both series, anchored to the requested window
     // (not just the observed data points), so temperature and humidity
     // line up correctly even if their last recorder updates differ.
@@ -862,7 +904,6 @@ class EcowittHudCard extends HTMLElement {
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
     els.trendMax.textContent = `${max.toFixed(1)}°`;
-    if (els.trendDotTemp) els.trendDotTemp.style.background = color;
   }
   _update() {
     if (!this._els || !this._hass) return;

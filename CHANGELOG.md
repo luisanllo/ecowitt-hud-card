@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented here.
 
+## [1.1.1] - 2026-07-27
+
+### Changed
+- The trend chart's min/max labels moved from a flat row below the chart
+  to a column on each side (max at the top, min at the bottom), matching
+  where those values actually sit on the line — the old layout put the
+  temperature max and min side by side at the bottom regardless of shape.
+- Freeing up that space also narrows the plotted area slightly, which
+  combined with the taller default height below makes the line look
+  less visually flattened.
+
+### Added
+- `trend_chart_height`: the trend chart's pixel height is now
+  configurable (default raised from 32px to 48px, which was too short
+  and made temperature/humidity swings look artificially flat).
+- `time_format`: choose `auto` (system/language default, unchanged
+  behavior), `12`, or `24` to control the clock format used for
+  sunrise/sunset and high/low times.
+
 ## [1.1.0] - 2026-07-26
 
 ### Added
