@@ -93,6 +93,7 @@ const STRINGS = {
       gust: "Gust",
       nightfallIn: "Nightfall in",
       sunriseIn: "Sunrise in",
+      noHistory: "No recorder history available yet",
       lessThanMin: "less than 1 min",
       min: "min",
       dash: "—",
@@ -174,11 +175,36 @@ const STRINGS = {
       gust: "Racha",
       nightfallIn: "Anochece en",
       sunriseIn: "Amanece en",
+      noHistory: "Aún no hay histórico disponible",
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
     },
   },
+};
+
+// Shared tuning constants, pulled out of the render/fetch code below so
+// the intent behind each magic number is named once instead of repeated.
+const CHART_WIDTH = 300;
+const CHART_PADDING = 3;
+const DEFAULT_CHART_HEIGHT = 48;
+const DEFAULT_TREND_HOURS = 6;
+const DEFAULT_MINMAX_HOURS = 24;
+const DEFAULT_RAIN_WINDOW_HOURS = 24;
+const HISTORY_REFRESH_MS = 10 * 60 * 1000;
+const SUN_REFRESH_MS = 60 * 1000;
+
+// Shared risk/status palette, reused across the color ladders below
+// (uvRisk, heatRisk, batteryIcon, trendInfo, the trend chart's temperature
+// line) so the same shade always means the same thing across the card.
+const COLORS = {
+  info: "#3b82c4", // cold, rain, falling trend, humidity line
+  low: "#2ba86a", // low risk, healthy battery
+  moderate: "#c78a00", // moderate risk, rising trend
+  high: "#e0722c", // high risk, warm
+  danger: "#d1481c", // dangerous risk, hot, low battery
+  extreme: "#8a3ffc", // extreme risk
+  neutral: "#8a92a3", // steady/unknown/default
 };
 
 function detectLang(hass) {
@@ -205,33 +231,33 @@ function weatherIcon(condition) {
   const c = (condition || "").toLowerCase();
   if (c.includes("clear") && c.includes("night")) return { icon: "mdi:weather-night", color: "#3b5a8f" };
   if (c.includes("thunder") || c.includes("lightning")) return { icon: "mdi:weather-lightning", color: "#8a63c9" };
-  if (c.includes("pour") || c.includes("rain")) return { icon: "mdi:weather-pouring", color: "#3b82c4" };
+  if (c.includes("pour") || c.includes("rain")) return { icon: "mdi:weather-pouring", color: COLORS.info };
   if (c.includes("snow")) return { icon: "mdi:weather-snowy", color: "#8fb3d9" };
-  if (c.includes("fog") || c.includes("mist") || c.includes("haze")) return { icon: "mdi:weather-fog", color: "#8a92a3" };
+  if (c.includes("fog") || c.includes("mist") || c.includes("haze")) return { icon: "mdi:weather-fog", color: COLORS.neutral };
   if (c.includes("wind")) return { icon: "mdi:weather-windy", color: "#5a92a8" };
   if (c.includes("partly") || c.includes("partlycloudy")) return { icon: "mdi:weather-partly-cloudy", color: "#e0a53e" };
-  if (c.includes("cloud")) return { icon: "mdi:weather-cloudy", color: "#8a92a3" };
+  if (c.includes("cloud")) return { icon: "mdi:weather-cloudy", color: COLORS.neutral };
   if (c.includes("clear") || c.includes("sun")) return { icon: "mdi:weather-sunny", color: "#f5a623" };
-  return { icon: "mdi:weather-cloudy", color: "#8a92a3" };
+  return { icon: "mdi:weather-cloudy", color: COLORS.neutral };
 }
 
 function batteryIcon(pct) {
-  if (pct === null || pct === undefined || isNaN(pct)) return { icon: "mdi:battery-unknown", color: "#8a92a3" };
-  if (pct <= 10) return { icon: "mdi:battery-alert-variant-outline", color: "#d1481c" };
-  if (pct <= 30) return { icon: "mdi:battery-low", color: "#c78a00" };
-  if (pct <= 60) return { icon: "mdi:battery-medium", color: "#2ba86a" };
-  return { icon: "mdi:battery-high", color: "#2ba86a" };
+  if (pct === null || pct === undefined || isNaN(pct)) return { icon: "mdi:battery-unknown", color: COLORS.neutral };
+  if (pct <= 10) return { icon: "mdi:battery-alert-variant-outline", color: COLORS.danger };
+  if (pct <= 30) return { icon: "mdi:battery-low", color: COLORS.moderate };
+  if (pct <= 60) return { icon: "mdi:battery-medium", color: COLORS.low };
+  return { icon: "mdi:battery-high", color: COLORS.low };
 }
 
 // Risk scales, tuned for metric units. Returns { label, color }.
 function uvRisk(v, lang) {
   const R = STRINGS[lang].risk;
   if (v === null || isNaN(v)) return { label: STRINGS[lang].labels.dash, color: "var(--primary-text-color, #1c2128)" };
-  if (v >= 11) return { label: R.extreme, color: "#8a3ffc" };
-  if (v >= 8) return { label: R.veryHigh, color: "#d1481c" };
-  if (v >= 6) return { label: R.high, color: "#e0722c" };
-  if (v >= 3) return { label: R.moderate, color: "#c78a00" };
-  return { label: R.low, color: "#2ba86a" };
+  if (v >= 11) return { label: R.extreme, color: COLORS.extreme };
+  if (v >= 8) return { label: R.veryHigh, color: COLORS.danger };
+  if (v >= 6) return { label: R.high, color: COLORS.high };
+  if (v >= 3) return { label: R.moderate, color: COLORS.moderate };
+  return { label: R.low, color: COLORS.low };
 }
 
 // heat stress risk: Ecowitt reports this as a 0-100% risk score, not a
@@ -241,18 +267,18 @@ function heatRisk(v, unit, lang) {
   if (v === null || isNaN(v)) return { label: STRINGS[lang].labels.dash, color: "var(--primary-text-color, #1c2128)" };
   const isPercent = unit === "%" || (v >= 0 && v <= 100 && unit !== "°C" && unit !== "°F");
   if (isPercent) {
-    if (v >= 80) return { label: R.extreme, color: "#8a3ffc" };
-    if (v >= 60) return { label: R.dangerous, color: "#d1481c" };
-    if (v >= 40) return { label: R.high, color: "#e0722c" };
-    if (v >= 20) return { label: R.moderate, color: "#c78a00" };
-    return { label: R.low, color: "#2ba86a" };
+    if (v >= 80) return { label: R.extreme, color: COLORS.extreme };
+    if (v >= 60) return { label: R.dangerous, color: COLORS.danger };
+    if (v >= 40) return { label: R.high, color: COLORS.high };
+    if (v >= 20) return { label: R.moderate, color: COLORS.moderate };
+    return { label: R.low, color: COLORS.low };
   }
   // fallback: temperature-equivalent heat index scale (°C)
-  if (v >= 51) return { label: R.extreme, color: "#8a3ffc" };
-  if (v >= 39) return { label: R.dangerous, color: "#d1481c" };
-  if (v >= 32) return { label: R.high, color: "#e0722c" };
-  if (v >= 27) return { label: R.moderate, color: "#c78a00" };
-  return { label: R.low, color: "#2ba86a" };
+  if (v >= 51) return { label: R.extreme, color: COLORS.extreme };
+  if (v >= 39) return { label: R.dangerous, color: COLORS.danger };
+  if (v >= 32) return { label: R.high, color: COLORS.high };
+  if (v >= 27) return { label: R.moderate, color: COLORS.moderate };
+  return { label: R.low, color: COLORS.low };
 }
 
 function trendInfo(entityOrNull, hass) {
@@ -270,9 +296,9 @@ function trendInfo(entityOrNull, hass) {
     if (s.includes("ris") || s.includes("sub")) dir = "rising";
     else if (s.includes("fall") || s.includes("baj")) dir = "falling";
   }
-  if (dir === "rising") return { icon: "mdi:trending-up", color: "#c78a00" };
-  if (dir === "falling") return { icon: "mdi:trending-down", color: "#3b82c4" };
-  return { icon: "mdi:trending-neutral", color: "#8a92a3" };
+  if (dir === "rising") return { icon: "mdi:trending-up", color: COLORS.moderate };
+  if (dir === "falling") return { icon: "mdi:trending-down", color: COLORS.info };
+  return { icon: "mdi:trending-neutral", color: COLORS.neutral };
 }
 
 function fmt(hass, entityId, decimals) {
@@ -295,7 +321,25 @@ function historyPoints(result) {
       const rawTime = p.last_changed ? p.last_changed : p.lu * 1000;
       return { t: new Date(rawTime).getTime(), v: parseFloat(rawState) };
     })
-    .filter((p) => !isNaN(p.v) && !isNaN(p.t));
+    .filter((p) => !isNaN(p.v) && !isNaN(p.t))
+    .sort((a, b) => a.t - b.t);
+}
+
+// Builds a history/period URL for a single entity starting at startMs.
+// entityId is user-configured (via YAML or the visual editor), so it's
+// encoded rather than trusted as a safe URL fragment.
+function historyUrl(entityId, startMs) {
+  const start = new Date(startMs).toISOString();
+  return `history/period/${start}?filter_entity_id=${encodeURIComponent(entityId)}&minimal_response&no_attributes`;
+}
+
+// Clamps a possibly-invalid config value (hand-written YAML isn't bound by
+// the visual editor's min/max) to a sane range, falling back when it's not
+// a finite number at all.
+function clampNumber(value, min, max, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
 }
 
 function getFieldGroups(lang) {
@@ -518,8 +562,8 @@ class EcowittHudCard extends HTMLElement {
         .hero-unit { font-size: 17px; color: #e08a1e; }
         .hero-sub { font-size: 12px; color: var(--secondary-text-color, #70788a); margin-top: 4px; }
         .hero-minmax { font-size: 11px; color: var(--secondary-text-color, #70788a); margin-top: 4px; display: flex; gap: 14px; }
-        .hero-minmax .arrow-up { color: #d1481c; font-weight: 600; }
-        .hero-minmax .arrow-down { color: #3b82c4; font-weight: 600; }
+        .hero-minmax .arrow-up { color: ${COLORS.danger}; font-weight: 600; }
+        .hero-minmax .arrow-down { color: ${COLORS.info}; font-weight: 600; }
         .hero-minmax .mm-time { color: var(--secondary-text-color, #8a92a3); margin-left: 2px; }
         .battery { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
         .battery-row { display: flex; align-items: center; gap: 5px; }
@@ -528,15 +572,16 @@ class EcowittHudCard extends HTMLElement {
         .trend { padding: 12px 0 14px; }
         .trend-label { font-size: 9px; letter-spacing: .08em; color: var(--secondary-text-color, #8a92a3); margin-bottom: 5px; text-transform: uppercase; }
         .trend-chart-row { display: flex; align-items: stretch; gap: 8px; }
+        .trend-unavailable { font-size: 11px; color: var(--secondary-text-color, #8a92a3); padding: 4px 0; }
         .trend-svg-wrap { position: relative; flex: 1; min-width: 0; cursor: crosshair; }
         .trend-svg { width: 100%; display: block; }
         .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
-        .trend-axis-col.right { text-align: right; color: #3b82c4; }
+        .trend-axis-col.right { text-align: right; color: ${COLORS.info}; }
         .trend-crosshair { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--divider-color, rgba(0,0,0,.25)); pointer-events: none; }
         .trend-tooltip { position: absolute; top: -6px; transform: translate(-50%, -100%); background: var(--card-background-color, #fff); border: 1px solid var(--divider-color, rgba(0,0,0,.12)); border-radius: 6px; padding: 4px 8px; font-size: 10.5px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none; z-index: 2; color: var(--primary-text-color, #1c2128); }
         .trend-tooltip .tt-time { color: var(--secondary-text-color, #8a92a3); margin-right: 5px; }
         .trend-tooltip .tt-temp { font-weight: 600; }
-        .trend-tooltip .tt-hum { color: #3b82c4; font-weight: 600; margin-left: 5px; }
+        .trend-tooltip .tt-hum { color: ${COLORS.info}; font-weight: 600; margin-left: 5px; }
         .day { padding: 14px 0 16px; }
         .day-top { display: flex; align-items: center; gap: 8px; }
         .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
@@ -583,6 +628,7 @@ class EcowittHudCard extends HTMLElement {
         </div>
         <div class="trend divider" id="trend-block" style="display:none;">
           <div class="trend-label">${S.labels.trend} <span class="trend-hours-lbl"></span></div>
+          <div class="trend-unavailable" style="display:none;">${S.labels.noHistory}</div>
           <div class="trend-chart-row">
             <div class="trend-axis-col left">
               <span class="trend-max"></span>
@@ -609,7 +655,7 @@ class EcowittHudCard extends HTMLElement {
         </div>
         <div class="row wind divider">
           <div class="wind-compass">
-            <ha-icon icon="mdi:navigation" class="wind-arrow" style="color:#3b82c4;"></ha-icon>
+            <ha-icon icon="mdi:navigation" class="wind-arrow" style="color:${COLORS.info};"></ha-icon>
             <span class="wind-dir-label"></span>
           </div>
           <div class="wind-info">
@@ -697,6 +743,8 @@ class EcowittHudCard extends HTMLElement {
       edgeEndIcon: root.querySelector(".edge-end-icon"),
       edgeEndLbl: root.querySelector(".edge-end-lbl"),
       trendBlock: root.querySelector("#trend-block"),
+      trendUnavailable: root.querySelector(".trend-unavailable"),
+      trendChartRow: root.querySelector(".trend-chart-row"),
       trendSvg: root.querySelector(".trend-svg"),
       trendSvgWrap: root.querySelector(".trend-svg-wrap"),
       trendCrosshair: root.querySelector(".trend-crosshair"),
@@ -713,23 +761,28 @@ class EcowittHudCard extends HTMLElement {
       stats: {},
     };
     root.querySelectorAll(".stat[data-k]").forEach((el) => {
-      this._els.stats[el.dataset.k] = { val: el.querySelector(".v"), unit: el.querySelector(".u"), root: el };
+      this._els.stats[el.dataset.k] = {
+        val: el.querySelector(".v"),
+        unit: el.querySelector(".u"),
+        root: el,
+        valEl: el.querySelector(".stat-val") || el.querySelector(".rain-val"),
+      };
     });
     this._update();
     this._fetchTrend();
     this._fetchMinMax();
     this._fetchRainWindow();
     if (!this._trendInterval) {
-      this._trendInterval = setInterval(() => this._fetchTrend(), 10 * 60 * 1000);
+      this._trendInterval = setInterval(() => this._fetchTrend(), HISTORY_REFRESH_MS);
     }
     if (!this._sunInterval) {
-      this._sunInterval = setInterval(() => this._updateSunBar(), 60 * 1000);
+      this._sunInterval = setInterval(() => this._updateSunBar(), SUN_REFRESH_MS);
     }
     if (!this._minMaxInterval) {
-      this._minMaxInterval = setInterval(() => this._fetchMinMax(), 10 * 60 * 1000);
+      this._minMaxInterval = setInterval(() => this._fetchMinMax(), HISTORY_REFRESH_MS);
     }
     if (!this._rainWindowInterval) {
-      this._rainWindowInterval = setInterval(() => this._fetchRainWindow(), 10 * 60 * 1000);
+      this._rainWindowInterval = setInterval(() => this._fetchRainWindow(), HISTORY_REFRESH_MS);
     }
   }
   disconnectedCallback() {
@@ -770,53 +823,67 @@ class EcowittHudCard extends HTMLElement {
     if (h <= 0) return `${m} ${L.min}`;
     return `${h}h ${m}${L.min}`;
   }
+  _showTrendMessage(show) {
+    const els = this._els;
+    if (els.trendUnavailable) els.trendUnavailable.style.display = show ? "" : "none";
+    if (els.trendChartRow) els.trendChartRow.style.display = show ? "none" : "";
+  }
   async _fetchTrend() {
     const c = this._config;
-    if (c.show_trend === false || !c.temperature || !this._hass || !this._els || !this._els.trendBlock) return;
-    const hours = c.trend_hours || 6;
-    const startMs = Date.now() - hours * 3600 * 1000;
-    const start = new Date(startMs).toISOString();
-    try {
-      const result = await this._hass.callApi(
-        "GET",
-        `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
-      );
-      const points = historyPoints(result);
-      if (points.length > 1) {
-        this._trendData = points;
-        this._trendWindowStart = startMs;
-
-        this._humidityTrendData = null;
-        if (c.show_humidity_trend && c.humidity) {
-          try {
-            const humResult = await this._hass.callApi(
-              "GET",
-              `history/period/${start}?filter_entity_id=${c.humidity}&minimal_response&no_attributes`
-            );
-            const humPoints = historyPoints(humResult);
-            if (humPoints.length > 1) this._humidityTrendData = humPoints;
-          } catch (e) {
-            // humidity history unavailable; temperature trend still renders alone
-          }
-        }
-
-        this._els.trendHoursLbl.textContent = `(${hours}h)`;
-        this._els.trendBlock.style.display = "";
-        this._renderTrend();
-      }
-    } catch (e) {
-      // history API not available or entity has no recorder history; leave hidden
+    if (!this._hass || !this._els || !this._els.trendBlock) return;
+    if (c.show_trend === false || !c.temperature) {
+      this._els.trendBlock.style.display = "none";
+      return;
     }
+    const hours = clampNumber(c.trend_hours, 1, 24, DEFAULT_TREND_HOURS);
+    const startMs = Date.now() - hours * 3600 * 1000;
+    this._trendFetchToken = (this._trendFetchToken || 0) + 1;
+    const token = this._trendFetchToken;
+
+    let points = [];
+    try {
+      const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
+      if (token !== this._trendFetchToken) return;
+      points = historyPoints(result);
+    } catch (e) {
+      if (token !== this._trendFetchToken) return;
+      points = [];
+    }
+
+    this._els.trendBlock.style.display = "";
+    this._els.trendHoursLbl.textContent = `(${hours}h)`;
+
+    if (points.length <= 1) {
+      this._showTrendMessage(true);
+      return;
+    }
+    this._showTrendMessage(false);
+    this._trendData = points;
+    this._trendWindowStart = startMs;
+
+    this._humidityTrendData = null;
+    if (c.show_humidity_trend && c.humidity) {
+      try {
+        const humResult = await this._hass.callApi("GET", historyUrl(c.humidity, startMs));
+        if (token !== this._trendFetchToken) return;
+        const humPoints = historyPoints(humResult);
+        if (humPoints.length > 1) this._humidityTrendData = humPoints;
+      } catch (e) {
+        // humidity history unavailable; temperature trend still renders alone
+      }
+    }
+
+    this._renderTrend();
   }
   async _fetchMinMax() {
     const c = this._config;
     if (!c.temperature || !this._hass || !this._els || !this._els.heroMinMax) return;
-    const start = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+    const startMs = Date.now() - DEFAULT_MINMAX_HOURS * 3600 * 1000;
+    this._minMaxFetchToken = (this._minMaxFetchToken || 0) + 1;
+    const token = this._minMaxFetchToken;
     try {
-      const result = await this._hass.callApi(
-        "GET",
-        `history/period/${start}?filter_entity_id=${c.temperature}&minimal_response&no_attributes`
-      );
+      const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
+      if (token !== this._minMaxFetchToken) return;
       const points = historyPoints(result);
 
       // include the live current reading too, in case it hasn't landed
@@ -837,6 +904,7 @@ class EcowittHudCard extends HTMLElement {
           `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
       }
     } catch (e) {
+      if (token !== this._minMaxFetchToken) return;
       // history API not available; leave the line empty
     }
   }
@@ -846,19 +914,21 @@ class EcowittHudCard extends HTMLElement {
   // through (station reboot, etc.) doesn't turn into a bogus negative total.
   async _fetchRainWindow() {
     const c = this._config;
-    this._rainWindowValue = null;
-    if (!c.rain_today || !c.rain_cumulative || !this._hass) return;
-    const hours = c.rain_window_hours || 24;
-    const start = new Date(Date.now() - hours * 3600 * 1000).toISOString();
+    if (!c.rain_today || !c.rain_cumulative || !this._hass) {
+      this._rainWindowValue = null;
+      this._update();
+      return;
+    }
+    const hours = clampNumber(c.rain_window_hours, 1, 168, DEFAULT_RAIN_WINDOW_HOURS);
+    const startMs = Date.now() - hours * 3600 * 1000;
+    this._rainWindowFetchToken = (this._rainWindowFetchToken || 0) + 1;
+    const token = this._rainWindowFetchToken;
     try {
-      const result = await this._hass.callApi(
-        "GET",
-        `history/period/${start}?filter_entity_id=${c.rain_today}&minimal_response&no_attributes`
-      );
+      const result = await this._hass.callApi("GET", historyUrl(c.rain_today, startMs));
+      if (token !== this._rainWindowFetchToken) return;
       const points = historyPoints(result);
       const current = fmt(this._hass, c.rain_today, 1);
       if (current.value !== null) points.push({ t: Date.now(), v: current.value });
-      points.sort((a, b) => a.t - b.t);
       let total = 0;
       for (let i = 1; i < points.length; i++) {
         const diff = points[i].v - points[i - 1].v;
@@ -866,6 +936,7 @@ class EcowittHudCard extends HTMLElement {
       }
       this._rainWindowValue = points.length > 0 ? total : null;
     } catch (e) {
+      if (token !== this._rainWindowFetchToken) return;
       this._rainWindowValue = null;
     }
     this._update();
@@ -878,8 +949,8 @@ class EcowittHudCard extends HTMLElement {
     const min = Math.min(...values);
     const max = Math.max(...values);
     const range = max - min || 1;
-    const w = 300, pad = 3;
-    const h = (this._config && this._config.trend_chart_height) || 48;
+    const w = CHART_WIDTH, pad = CHART_PADDING;
+    const h = clampNumber(this._config && this._config.trend_chart_height, 24, 120, DEFAULT_CHART_HEIGHT);
     els.trendSvg.setAttribute("viewBox", `0 0 ${w} ${h}`);
     els.trendSvg.style.height = `${h}px`;
     // Shared time axis for both series, anchored to the requested window
@@ -894,10 +965,10 @@ class EcowittHudCard extends HTMLElement {
 
     const coords = pts.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, min, range).toFixed(1)}`);
     const last = values[values.length - 1];
-    let color = "#3b82c4";
-    if (last >= 32) color = "#d1481c";
-    else if (last >= 25) color = "#e0722c";
-    else if (last >= 15) color = "#2ba86a";
+    let color = COLORS.info;
+    if (last >= 32) color = COLORS.danger;
+    else if (last >= 25) color = COLORS.high;
+    else if (last >= 15) color = COLORS.low;
     const line = coords.join(" ");
     const area = `${pad},${h - pad} ${line} ${w - pad},${h - pad}`;
 
@@ -909,7 +980,7 @@ class EcowittHudCard extends HTMLElement {
       const hMax = Math.max(...hValues);
       const hRange = hMax - hMin || 1;
       const hCoords = hum.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, hMin, hRange).toFixed(1)}`);
-      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="#3b82c4" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
+      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="${COLORS.info}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
       els.trendMinH.textContent = `${hMin.toFixed(0)}%`;
       els.trendMaxH.textContent = `${hMax.toFixed(0)}%`;
       els.trendAxisRight.style.display = "";
@@ -1033,8 +1104,7 @@ class EcowittHudCard extends HTMLElement {
       if (!configured) return;
       s.val.textContent = val;
       if (s.unit) s.unit.textContent = unit || "";
-      const valEl = s.root.querySelector(".stat-val") || s.root.querySelector(".rain-val");
-      if (valEl) valEl.style.color = color || "var(--primary-text-color, #1c2128)";
+      if (s.valEl) s.valEl.style.color = color || "var(--primary-text-color, #1c2128)";
     };
 
     const humidity = fmt(hass, c.humidity, 0);
@@ -1072,11 +1142,11 @@ class EcowittHudCard extends HTMLElement {
     const raining = rainRate.value !== null && rainRate.value > 0;
     setStat("rain_rate", rainRate.text);
     els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
-    els.rainIcon.style.color = raining ? "#3b82c4" : "#8a92a3";
+    els.rainIcon.style.color = raining ? COLORS.info : COLORS.neutral;
     els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
 
     if (c.rain_cumulative) {
-      const hours = c.rain_window_hours || 24;
+      const hours = clampNumber(c.rain_window_hours, 1, 168, DEFAULT_RAIN_WINDOW_HOURS);
       const windowText = this._rainWindowValue !== null && this._rainWindowValue !== undefined ? this._rainWindowValue.toFixed(1) : "—";
       setStat("rain_today", windowText);
       els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}h)`;

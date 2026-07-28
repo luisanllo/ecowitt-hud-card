@@ -2,6 +2,33 @@
 
 All notable changes to this project are documented here.
 
+## [1.2.3] - 2026-07-29
+
+Internal hardening pass following a third-party security review. No new
+config fields; existing YAML keeps working unchanged.
+
+### Fixed
+- Entity IDs are now percent-encoded when built into `history/period`
+  request URLs, so a value containing `&`/`=` (from hand-written YAML)
+  can no longer inject extra query parameters.
+- Overlapping history requests (e.g. rapidly changing the temperature
+  entity in the editor) could previously let a slow, stale request
+  overwrite a newer one's data once it resolved. Each history fetch is
+  now tagged with a request token so only the latest one is applied.
+- `trend_hours`, `rain_window_hours`, and `trend_chart_height` are now
+  clamped to the same bounds the visual editor already enforces, so a
+  hand-written YAML value outside that range can't produce a broken
+  chart.
+
+### Added
+- The trend chart now shows "No recorder history available yet" instead
+  of just disappearing when the configured entity has no history data.
+
+### Changed
+- Consolidated repeated magic numbers (chart dimensions, refresh
+  intervals, default hours) and repeated color hex codes into named
+  constants, for maintainability. No visual or behavioral change.
+
 ## [1.2.1] - 2026-07-29
 
 ### Fixed
