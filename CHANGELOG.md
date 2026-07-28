@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [1.2.1] - 2026-07-29
+
+### Fixed
+- README images (logo, light/dark previews) now use plain Markdown
+  image syntax instead of raw HTML, since HACS's own README viewer
+  doesn't render raw HTML tags. No functional changes to the card
+  itself in this release.
+
 ## [1.2.0] - 2026-07-27
 
 ### Added
