@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.svg" width="96" alt="Ecowitt HUD Card logo">
+  <img src="https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/logo.svg" width="96" alt="Ecowitt HUD Card logo">
 </p>
 
 # Ecowitt HUD Card
@@ -14,8 +14,8 @@ readable panel — every value is tappable and opens Home Assistant's native
 history dialog.
 
 <p align="center">
-  <img src="images/preview-light.svg" width="46%" alt="Light mode preview">
-  <img src="images/preview-dark.svg" width="46%" alt="Dark mode preview">
+  <img src="https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-light.svg" width="46%" alt="Light mode preview">
+  <img src="https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-dark.svg" width="46%" alt="Dark mode preview">
 </p>
 <p align="center"><sub>Light and dark mode — follows your active Home Assistant theme automatically.</sub></p>
 
