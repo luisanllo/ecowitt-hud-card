@@ -2,24 +2,20 @@
 
 All notable changes to this project are documented here.
 
-## [1.2.2] - 2026-07-29
-
-### Fixed
-- The MIT license badge linked to a relative path instead of an
-  absolute URL, the same pattern that broke image rendering elsewhere
-  in HACS's README viewer.
-- Switched the logo and preview images to jsDelivr's GitHub CDN instead
-  of raw.githubusercontent.com, to test whether HACS's renderer only
-  trusts specific image domains. No functional changes to the card
-  itself in this release.
-
 ## [1.2.1] - 2026-07-29
 
 ### Fixed
 - README images (logo, light/dark previews) now use plain Markdown
   image syntax instead of raw HTML, since HACS's own README viewer
-  doesn't render raw HTML tags. No functional changes to the card
-  itself in this release.
+  doesn't render raw HTML tags.
+- The MIT license badge linked to a relative path instead of an
+  absolute URL, the same pattern that broke image rendering elsewhere
+  in HACS's README viewer.
+- Switched the logo and preview images to jsDelivr's GitHub CDN instead
+  of raw.githubusercontent.com — HACS's README viewer rendered
+  shields.io badges fine but not raw.githubusercontent.com images, even
+  as plain Markdown. No functional changes to the card itself in this
+  release.
 
 ## [1.2.0] - 2026-07-27
 
