@@ -1,9 +1,9 @@
-![Ecowitt HUD Card logo](https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/logo.svg)
+![Ecowitt HUD Card logo](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/logo.svg)
 
 # Ecowitt HUD Card
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/luisanllo/ecowitt-hud-card/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/luisanllo/ecowitt-hud-card)](https://github.com/luisanllo/ecowitt-hud-card/releases)
 
 A custom Lovelace card for Home Assistant, built for Ecowitt weather stations.
@@ -11,7 +11,7 @@ Temperature, wind, pressure, rain, and heat/UV risk indices in a single
 readable panel — every value is tappable and opens Home Assistant's native
 history dialog.
 
-![Light mode preview](https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-light.svg) ![Dark mode preview](https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-dark.svg)
+![Light mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-light.svg) ![Dark mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-dark.svg)
 
 *Light and dark mode — follows your active Home Assistant theme automatically.*
 
