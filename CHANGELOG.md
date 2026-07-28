@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.2.2] - 2026-07-29
+
+### Fixed
+- The MIT license badge linked to a relative path instead of an
+  absolute URL, the same pattern that broke image rendering elsewhere
+  in HACS's README viewer.
+- Switched the logo and preview images to jsDelivr's GitHub CDN instead
+  of raw.githubusercontent.com, to test whether HACS's renderer only
+  trusts specific image domains. No functional changes to the card
+  itself in this release.
+
 ## [1.2.1] - 2026-07-29
 
 ### Fixed
