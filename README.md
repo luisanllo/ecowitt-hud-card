@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/logo.svg" width="96" alt="Ecowitt HUD Card logo">
-</p>
+![Ecowitt HUD Card logo](https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/logo.svg)
 
 # Ecowitt HUD Card
 
@@ -13,11 +11,9 @@ Temperature, wind, pressure, rain, and heat/UV risk indices in a single
 readable panel — every value is tappable and opens Home Assistant's native
 history dialog.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-light.svg" width="46%" alt="Light mode preview">
-  <img src="https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-dark.svg" width="46%" alt="Dark mode preview">
-</p>
-<p align="center"><sub>Light and dark mode — follows your active Home Assistant theme automatically.</sub></p>
+![Light mode preview](https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-light.svg) ![Dark mode preview](https://raw.githubusercontent.com/luisanllo/ecowitt-hud-card/main/images/preview-dark.svg)
+
+*Light and dark mode — follows your active Home Assistant theme automatically.*
 
 ## Features
 
