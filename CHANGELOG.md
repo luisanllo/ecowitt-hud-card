@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here.
 
+## [1.2.4] - 2026-07-29
+
+### Changed
+- Renamed the card's display name (in HACS and Home Assistant's "Add
+  card" picker) to "Weather Station Card (Ecowitt & more)", to reflect that
+  it now works with any weather station whose Home Assistant integration
+  exposes comparable sensors, not just Ecowitt — while keeping "Ecowitt"
+  in the name so existing users can still find it.
+- This is a display-name-only change: the custom element tag
+  (`custom:ecowitt-hud-card`), the repository name, and the JS filename
+  are all unchanged, so no existing YAML or installation breaks.
+
 ## [1.2.3] - 2026-07-29
 
 Internal hardening pass following a third-party security review. No new

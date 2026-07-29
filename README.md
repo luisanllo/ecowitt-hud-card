@@ -1,12 +1,14 @@
-![Ecowitt HUD Card logo](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/logo.svg)
+![Weather Station Card logo](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/logo.svg)
 
-# Ecowitt HUD Card
+# Weather Station Card (Ecowitt & more)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/luisanllo/ecowitt-hud-card/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/luisanllo/ecowitt-hud-card)](https://github.com/luisanllo/ecowitt-hud-card/releases)
 
-A custom Lovelace card for Home Assistant, built for Ecowitt weather stations.
+An instrument-panel Lovelace card for Home Assistant, built for Ecowitt
+weather stations — and works with any station whose Home Assistant
+integration exposes comparable sensors (temperature, wind, rain, UV...).
 Temperature, wind, pressure, rain, and heat/UV risk indices in a single
 readable panel — every value is tappable and opens Home Assistant's native
 history dialog.
@@ -34,7 +36,7 @@ history dialog.
 
 1. HACS → **⋮** menu (top right) → **Custom repositories**
 2. URL: `https://github.com/luisanllo/ecowitt-hud-card`, category **Dashboard**
-3. Search for **"Ecowitt HUD Card"** in HACS → Download
+3. Search for **"Weather Station Card"** (or "Ecowitt") in HACS → Download
 4. Add the resource if HACS doesn't do it automatically:
    - URL: `/hacsfiles/ecowitt-hud-card/ecowitt-hud-card.js`
    - Type: JavaScript Module

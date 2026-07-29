@@ -1,5 +1,7 @@
-/* Ecowitt HUD Card — custom Lovelace card for Home Assistant
- * Instrument-panel style card for Ecowitt weather stations.
+/* Weather Station Card — custom Lovelace card for Home Assistant
+ * Instrument-panel style card built for Ecowitt weather stations; works
+ * with any station whose Home Assistant integration exposes comparable
+ * sensors (temperature, wind, rain, UV...).
  *
  * Install via HACS (recommended):
  *   HACS -> three-dot menu -> Custom repositories -> add this repository
@@ -1245,6 +1247,6 @@ customElements.define("ecowitt-hud-card", EcowittHudCard);
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: "ecowitt-hud-card",
-  name: "Ecowitt HUD Card",
-  description: "Instrument-panel card for Ecowitt weather stations",
+  name: "Weather Station Card (Ecowitt & more)",
+  description: "Instrument-panel weather card for Home Assistant — built for Ecowitt, works with any compatible weather station",
 });
