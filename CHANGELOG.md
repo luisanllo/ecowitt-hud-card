@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [1.2.5] - 2026-07-29
+
+### Added
+- CI workflow (`.github/workflows/validate.yaml`) running the official
+  `hacs/action` validation on every push/PR and daily, required before
+  submitting the repository to the HACS default store.
+
 ## [1.2.4] - 2026-07-29
 
 ### Changed
