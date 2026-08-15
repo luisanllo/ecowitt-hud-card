@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [1.3.1] - 2026-08-15
+
+### Added
+- German (`de`), French (`fr`), Portuguese (`pt`), and Italian (`it`) UI
+  translations. Unlike Spanish and the community-contributed Polish
+  translation, these four are machine-translated and have not been
+  reviewed by a native speaker — corrections are welcome via an issue
+  or PR.
+
 ## [1.3.0] - 2026-08-15
 
 ### Added
