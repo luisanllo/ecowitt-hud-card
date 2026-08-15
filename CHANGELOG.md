@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented here.
 
+## [1.3.0] - 2026-08-15
+
+### Added
+- Polish (`pl`) UI translation, contributed by
+  [@ArekKubacki](https://github.com/ArekKubacki)
+  ([#1](https://github.com/luisanllo/ecowitt-hud-card/issues/1)).
+
+### Changed
+- `detectLang()` now extracts the base language subtag from
+  `hass.locale.language` (falling back to `hass.language`, then the
+  browser locale) — e.g. `pl-PL` or `pl_PL` both normalize to `pl` — and
+  looks it up against the available translations, instead of a hardcoded
+  check for Spanish. Adding a future language no longer requires
+  touching this function.
+- The card now also picks up a Home Assistant language change live
+  (previously only the initial language was ever applied; changing it
+  required reloading Home Assistant).
+
 ## [1.2.5] - 2026-07-29
 
 ### Added

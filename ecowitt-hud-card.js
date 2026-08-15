@@ -13,9 +13,9 @@
  *     url: /local/ecowitt-hud-card.js
  *     type: module
  *
- * UI language follows Home Assistant's configured language automatically
- * (English by default, Spanish if hass.language / hass.locale.language
- * starts with "es"). No other languages are supported yet.
+ * UI language follows Home Assistant's configured language automatically.
+ * Supported languages: Polish (pl), Spanish (es) and English (en).
+ * Unsupported languages fall back to English.
  */
 
 const STRINGS = {
@@ -97,6 +97,98 @@ const STRINGS = {
       sunriseIn: "Sunrise in",
       noHistory: "No recorder history available yet",
       lessThanMin: "less than 1 min",
+      min: "min",
+      dash: "—",
+    },
+  },
+  pl: {
+    editor: {
+      general: "Ogólne",
+      thermalAir: "Temperatura / powietrze",
+      wind: "Wiatr",
+      rain: "Opady",
+      trend: "Trend",
+      name: "Nazwa (opcjonalnie)",
+      timeFormat: "Format czasu",
+      timeFormatAuto: "Automatyczny (domyślny systemowy)",
+      timeFormat12: "12-godzinny (AM/PM)",
+      timeFormat24: "24-godzinny",
+      temperature: "Temperatura",
+      apparentTemperature: "Temperatura odczuwalna",
+      weatherCondition: "Ogólne warunki (encja pogody lub czujnik tekstowy)",
+      battery: "Bateria stacji (opcjonalnie)",
+      dewPoint: "Punkt rosy",
+      windChill: "Temperatura odczuwalna przez wiatr",
+      humidex: "Humidex",
+      heatIndex: "Indeks ciepła",
+      humidity: "Wilgotność względna",
+      pressure: "Ciśnienie atmosferyczne",
+      pressureTrend: "Trend ciśnienia (opcjonalnie)",
+      uvIndex: "Indeks UV",
+      illuminance: "Natężenie oświetlenia (lux)",
+      windSpeed: "Prędkość wiatru",
+      windGust: "Prędkość porywów",
+      windDirection: "Kierunek wiatru (stopnie)",
+      rainRate: "Intensywność opadów (mm/h)",
+      rainToday: "Dzisiejsze opady (mm)",
+      rainCumulative: "Czujnik opadów jest licznikiem całkowitym (nigdy się nie resetuje)",
+      rainWindowHours: "Okres zliczania opadów (godziny)",
+      moisture: "Czujnik deszczu / wilgoci (opcjonalnie)",
+      showTrend: "Pokaż wykres trendu temperatury",
+      trendHours: "Liczba godzin historii do wyświetlenia",
+      showHumidityTrend: "Nałóż trend wilgotności (wymaga ustawienia Wilgotności względnej powyżej)",
+      trendChartHeight: "Wysokość wykresu (px)",
+    },
+
+    conditions: {
+      "clear-night": "Bezchmurnie (noc)",
+      cloudy: "Pochmurno",
+      fog: "Mgła",
+      hail: "Grad",
+      lightning: "Burza",
+      "lightning-rainy": "Burza z deszczem",
+      partlycloudy: "Częściowe zachmurzenie",
+      pouring: "Ulewny deszcz",
+      rainy: "Deszcz",
+      snowy: "Śnieg",
+      "snowy-rainy": "Deszcz ze śniegiem",
+      sunny: "Słonecznie",
+      windy: "Wietrznie",
+      "windy-variant": "Wietrznie i pochmurno",
+      exceptional: "Nietypowe warunki",
+    },
+
+    risk: {
+      low: "Niskie",
+      moderate: "Umiarkowane",
+      high: "Wysokie",
+      veryHigh: "Bardzo wysokie",
+      dangerous: "Niebezpieczne",
+      extreme: "Ekstremalne",
+    },
+
+    labels: {
+      battery: "Bateria stacji",
+      trend: "Trend temperatury",
+      humidity: "Wilgotność",
+      dewPoint: "Punkt rosy",
+      windChill: "Odczuwalna przez wiatr",
+      humidex: "Humidex",
+      uvIndex: "Indeks UV",
+      heatRisk: "Ryzyko upału",
+      pressure: "Ciśnienie hPa",
+      illuminance: "Natężenie światła lux",
+      rainToday: "Suma dzisiaj",
+      rainSensor: "Czujnik deszczu",
+      noRain: "Brak opadów",
+      raining: "Pada",
+      feelsLike: "Odczuwalna",
+      windFrom: "Wiatr z kierunku",
+      gust: "Porywy",
+      nightfallIn: "Zmrok za",
+      sunriseIn: "Wschód słońca za",
+      noHistory: "Brak dostępnej historii z rejestratora",
+      lessThanMin: "mniej niż 1 min",
       min: "min",
       dash: "—",
     },
@@ -210,8 +302,24 @@ const COLORS = {
 };
 
 function detectLang(hass) {
-  const raw = (hass && (hass.language || (hass.locale && hass.locale.language))) || "en";
-  return String(raw).toLowerCase().startsWith("es") ? "es" : "en";
+  // Home Assistant normally exposes the selected UI language in
+  // hass.locale.language. Keep hass.language and the browser locale as
+  // fallbacks for compatibility with older HA versions / initial rendering.
+  const raw =
+    (hass && hass.locale && hass.locale.language) ||
+    (hass && hass.language) ||
+    (typeof navigator !== "undefined" && navigator.language) ||
+    "en";
+
+  // Normalize values such as "pl-PL" and "pl_PL" to "pl".
+  const lang = String(raw)
+    .trim()
+    .toLowerCase()
+    .replace(/_/g, "-")
+    .split("-")[0];
+
+  // Use a translation only when it exists; otherwise fall back to English.
+  return Object.prototype.hasOwnProperty.call(STRINGS, lang) ? lang : "en";
 }
 
 const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
@@ -515,16 +623,23 @@ class EcowittHudCard extends HTMLElement {
   }
   set hass(hass) {
     const hadHass = !!this._hass;
+    const previousLang = this._builtLang;
+
     this._hass = hass;
-    // Language can only be known once hass is available. setConfig() runs
-    // before the first hass push, so _buildStatic() had to guess (English)
-    // the first time around. If the real language differs, rebuild once
-    // now that we actually know it.
-    if (!hadHass && this._builtLang !== detectLang(hass)) {
+
+    const currentLang = detectLang(hass);
+
+    // setConfig() may run before HA supplies `hass`, so the card can initially
+    // be built using the browser/default language. Rebuild whenever the real
+    // Home Assistant language differs. This also handles a language change
+    // without requiring a Home Assistant restart.
+    if (!this._els || previousLang !== currentLang) {
       this._buildStatic();
       return;
     }
+
     this._update();
+
     if (!hadHass) {
       // same lifecycle issue affects the history-based fetches below
       this._fetchTrend();

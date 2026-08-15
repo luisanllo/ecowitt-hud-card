@@ -28,7 +28,7 @@ history dialog.
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
 - 🌗 Follows Home Assistant's light/dark theme automatically
-- 🌍 UI in English or Spanish, auto-detected from your Home Assistant language
+- 🌍 UI in English, Spanish, or Polish, auto-detected from your Home Assistant language
 
 ## Installation
 
@@ -128,15 +128,24 @@ moisture: binary_sensor.my_station_rain_status
   on the right side of the chart, in blue) so it can be compared by shape
   against the temperature line (left side) even though the two have very
   different numeric ranges.
-- The card's language follows `hass.language` / `hass.locale.language`:
-  Spanish if it starts with "es", English otherwise. Only these two
-  languages are supported for now.
+- The card's language follows Home Assistant's configured UI language
+  (`hass.locale.language`, with `hass.language` and the browser locale as
+  fallbacks), normalized to its base subtag (e.g. `pl-PL` → `pl`).
+  Currently supported: English, Spanish, and Polish. Unsupported languages
+  fall back to English. A language change is picked up live, without
+  needing to reload Home Assistant.
 
 ## Contributing
 
 This is a personal project, but bug reports and suggestions are welcome —
 open an [issue](https://github.com/luisanllo/ecowitt-hud-card/issues) or a
 pull request.
+
+### Credits
+
+- Polish translation and a more general, extensible language-detection
+  system, contributed by [@ArekKubacki](https://github.com/ArekKubacki)
+  ([#1](https://github.com/luisanllo/ecowitt-hud-card/issues/1)).
 
 ## License
 
