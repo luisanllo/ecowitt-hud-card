@@ -7,8 +7,8 @@
 
   <!-- hero: weather icon (clear night) -->
   <g transform="translate(24,50)">
-    <path d="M32,4 A17,17 0 1 1 20,-11 A13,13 0 1 0 32,4 Z" fill="#7f9fd6"/>
-    <path d="M40,10 l1.6,3.4 L45,15 l-3.4,1.6 L40,20 l-1.6,-3.4 L35,15 l3.4,-1.6 Z" fill="#7f9fd6"/>
+    <path d="M22,2 A20,20 0 1,0 22,42 A26,26 0 1,1 22,2 Z" fill="#8fa8d9"/>
+    <path d="M40,4 L41.6,8.4 L46,10 L41.6,11.6 L40,16 L38.4,11.6 L34,10 L38.4,8.4 Z" fill="#e8d97a"/>
   </g>
 
   <!-- temp block -->
@@ -74,8 +74,8 @@
   <!-- wind -->
   <g transform="translate(56,320)">
     <circle cx="0" cy="0" r="32" fill="none" stroke="#35363b" stroke-width="1.4"/>
-    <g transform="rotate(60)">
-      <path d="M0,-18 L7,6 L0,1 L-7,6 Z" fill="#5b9be0"/>
+    <g transform="rotate(60) translate(0,-29) rotate(180)">
+      <path d="M0,-13 L5,5 L0,1 L-5,5 Z" fill="#5b9be0"/>
     </g>
   </g>
   <text x="100" y="312" font-size="20" font-weight="600" fill="#e8eaed">1.2<tspan font-size="11" fill="#9aa0a6" font-weight="400"> km/h</tspan></text>

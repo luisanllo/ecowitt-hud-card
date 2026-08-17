@@ -75,8 +75,8 @@
   <!-- wind -->
   <g transform="translate(56,320)">
     <circle cx="0" cy="0" r="32" fill="none" stroke="#e7e7ea" stroke-width="1.4"/>
-    <g transform="rotate(315)">
-      <path d="M0,-18 L7,6 L0,1 L-7,6 Z" fill="#3b82c4"/>
+    <g transform="rotate(315) translate(0,-29) rotate(180)">
+      <path d="M0,-13 L5,5 L0,1 L-5,5 Z" fill="#3b82c4"/>
     </g>
   </g>
   <text x="100" y="312" font-size="20" font-weight="600" fill="#1c2128">3.4<tspan font-size="11" fill="#70788a" font-weight="400"> km/h</tspan></text>
