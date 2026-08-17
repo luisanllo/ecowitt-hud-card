@@ -13,7 +13,7 @@ Temperature, wind, pressure, rain, and heat/UV risk indices in a single
 readable panel — every value is tappable and opens Home Assistant's native
 history dialog.
 
-![Light mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-light.svg) ![Dark mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-dark.svg)
+![Light mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-light.svg?v=2) ![Dark mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-dark.svg?v=2)
 
 *Light and dark mode — follows your active Home Assistant theme automatically.*
 
