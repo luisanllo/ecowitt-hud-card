@@ -1043,7 +1043,7 @@ class EcowittHudCard extends HTMLElement {
         .day-caption { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); text-align: center; margin-top: 7px; }
         .wind { gap: 20px; padding: 16px 0; align-items: center; }
         .wind-compass { width: 64px; height: 64px; flex: none; border-radius: 50%; border: 1px solid var(--divider-color, rgba(0,0,0,.1)); position: relative; display: flex; align-items: center; justify-content: center; }
-        .wind-compass ha-icon { position: absolute; --mdc-icon-size: 26px; }
+        .wind-compass ha-icon { position: absolute; --mdc-icon-size: 20px; transform-origin: center center; transition: transform .35s ease; }
         .wind-compass span { font-size: 8px; color: var(--secondary-text-color, #70788a); }
         .wind-info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
         .wind-speed { font-size: 22px; font-weight: 600; }
@@ -1544,7 +1544,7 @@ class EcowittHudCard extends HTMLElement {
     els.windSpeedUnit.textContent = windSpeed.unit || "km/h";
     els.windDir.textContent = windDirVal.value !== null ? `${S.labels.windFrom} ${compassLabel(windDirVal.value)} (${windDirVal.text}°)` : S.labels.dash;
     els.windGust.textContent = windGust.value !== null ? `${S.labels.gust} ${windGust.text} ${windGust.unit || "km/h"}` : "";
-    els.windArrow.style.transform = windDirVal.value !== null ? `rotate(${windDirVal.value}deg)` : "none";
+    els.windArrow.style.transform = windDirVal.value !== null ? `rotate(${windDirVal.value}deg) translateY(-29px) rotate(180deg)` : "none";
     els.windDirLabel.textContent = windDirVal.value !== null ? compassLabel(windDirVal.value) : "";
 
     const setStat = (key, val, unit, color) => {

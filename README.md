@@ -147,9 +147,13 @@ pull request.
 
 ### Credits
 
+Contributions from [@ArekKubacki](https://github.com/ArekKubacki):
+
 - Polish translation and a more general, extensible language-detection
-  system, contributed by [@ArekKubacki](https://github.com/ArekKubacki)
-  ([#1](https://github.com/luisanllo/ecowitt-hud-card/issues/1)).
+  system ([#1](https://github.com/luisanllo/ecowitt-hud-card/issues/1)).
+- Wind compass redesign: the direction arrow now sits near the rim,
+  pointing back toward the center, instead of overlapping the center
+  label ([#2](https://github.com/luisanllo/ecowitt-hud-card/issues/2)).
 
 ## License
 

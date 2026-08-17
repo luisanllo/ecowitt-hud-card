@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [1.3.2] - 2026-08-17
+
+### Changed
+- Wind compass: the direction arrow now sits near the rim of the
+  compass, pointing back toward the center, instead of sitting in the
+  middle where it could overlap the direction label. Contributed by
+  [@ArekKubacki](https://github.com/ArekKubacki)
+  ([#2](https://github.com/luisanllo/ecowitt-hud-card/issues/2)).
+
 ## [1.3.1] - 2026-08-15
 
 ### Added
