@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented here.
 
+## [1.3.3] - 2026-08-20
+
+### Fixed
+- Rain window ("today's total" in cumulative-counter mode) could get stuck
+  showing no value indefinitely if `hass` wasn't available yet the first
+  time the card built itself (a normal, common ordering in Home
+  Assistant's card lifecycle). Every other history-based reading
+  (trend chart, 24h high/low) already retried once `hass` arrived; the
+  rain window now does too.
+
+### Changed
+- The trend chart, 24h high/low, and rain window each retry once, 15
+  seconds later, if their first history fetch fails or comes back
+  empty — instead of waiting for the full 10-minute refresh. This
+  helps on dashboards with many cards, where a burst of simultaneous
+  history requests at load time can make one of them time out.
+
 ## [1.3.2] - 2026-08-17
 
 ### Changed

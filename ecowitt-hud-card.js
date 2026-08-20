@@ -621,6 +621,11 @@ const DEFAULT_MINMAX_HOURS = 24;
 const DEFAULT_RAIN_WINDOW_HOURS = 24;
 const HISTORY_REFRESH_MS = 10 * 60 * 1000;
 const SUN_REFRESH_MS = 60 * 1000;
+// On a dashboard with many cards, the initial burst of simultaneous
+// history/period requests can cause one to time out or come back empty.
+// Rather than wait out the full 10-minute refresh, failed fetches get
+// one quick retry shortly after.
+const QUICK_RETRY_MS = 15 * 1000;
 
 // Shared risk/status palette, reused across the color ladders below
 // (uvRisk, heatRisk, batteryIcon, trendInfo, the trend chart's temperature
@@ -978,6 +983,7 @@ class EcowittHudCard extends HTMLElement {
       // same lifecycle issue affects the history-based fetches below
       this._fetchTrend();
       this._fetchMinMax();
+      this._fetchRainWindow();
     }
   }
   getCardSize() {
@@ -1253,6 +1259,18 @@ class EcowittHudCard extends HTMLElement {
       clearInterval(this._rainWindowInterval);
       this._rainWindowInterval = null;
     }
+    if (this._trendRetryTimer) {
+      clearTimeout(this._trendRetryTimer);
+      this._trendRetryTimer = null;
+    }
+    if (this._minMaxRetryTimer) {
+      clearTimeout(this._minMaxRetryTimer);
+      this._minMaxRetryTimer = null;
+    }
+    if (this._rainWindowRetryTimer) {
+      clearTimeout(this._rainWindowRetryTimer);
+      this._rainWindowRetryTimer = null;
+    }
   }
   _timeStr(d) {
     if (!d || isNaN(d.getTime())) return "—";
@@ -1279,7 +1297,11 @@ class EcowittHudCard extends HTMLElement {
     if (els.trendUnavailable) els.trendUnavailable.style.display = show ? "" : "none";
     if (els.trendChartRow) els.trendChartRow.style.display = show ? "none" : "";
   }
-  async _fetchTrend() {
+  async _fetchTrend(isRetry) {
+    if (this._trendRetryTimer) {
+      clearTimeout(this._trendRetryTimer);
+      this._trendRetryTimer = null;
+    }
     const c = this._config;
     if (!this._hass || !this._els || !this._els.trendBlock) return;
     if (c.show_trend === false || !c.temperature) {
@@ -1306,6 +1328,10 @@ class EcowittHudCard extends HTMLElement {
 
     if (points.length <= 1) {
       this._showTrendMessage(true);
+      // A dashboard with many cards can make the very first history
+      // request fail or come back empty while things are still settling.
+      // Retry once shortly instead of waiting for the 10-minute interval.
+      if (!isRetry) this._trendRetryTimer = setTimeout(() => this._fetchTrend(true), QUICK_RETRY_MS);
       return;
     }
     this._showTrendMessage(false);
@@ -1326,12 +1352,17 @@ class EcowittHudCard extends HTMLElement {
 
     this._renderTrend();
   }
-  async _fetchMinMax() {
+  async _fetchMinMax(isRetry) {
+    if (this._minMaxRetryTimer) {
+      clearTimeout(this._minMaxRetryTimer);
+      this._minMaxRetryTimer = null;
+    }
     const c = this._config;
     if (!c.temperature || !this._hass || !this._els || !this._els.heroMinMax) return;
     const startMs = Date.now() - DEFAULT_MINMAX_HOURS * 3600 * 1000;
     this._minMaxFetchToken = (this._minMaxFetchToken || 0) + 1;
     const token = this._minMaxFetchToken;
+    let ok = false;
     try {
       const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
       if (token !== this._minMaxFetchToken) return;
@@ -1343,6 +1374,7 @@ class EcowittHudCard extends HTMLElement {
       if (current.value !== null) points.push({ t: Date.now(), v: current.value });
 
       if (points.length > 0) {
+        ok = true;
         let maxP = points[0], minP = points[0];
         for (const p of points) {
           if (p.v > maxP.v) maxP = p;
@@ -1358,12 +1390,17 @@ class EcowittHudCard extends HTMLElement {
       if (token !== this._minMaxFetchToken) return;
       // history API not available; leave the line empty
     }
+    if (!ok && !isRetry) this._minMaxRetryTimer = setTimeout(() => this._fetchMinMax(true), QUICK_RETRY_MS);
   }
   // For counters that never reset (e.g. a Zigbee2MQTT lifetime precipitation
   // total), the raw state is meaningless on its own — this sums only the
   // positive increments seen across the window, so a counter reset partway
   // through (station reboot, etc.) doesn't turn into a bogus negative total.
-  async _fetchRainWindow() {
+  async _fetchRainWindow(isRetry) {
+    if (this._rainWindowRetryTimer) {
+      clearTimeout(this._rainWindowRetryTimer);
+      this._rainWindowRetryTimer = null;
+    }
     const c = this._config;
     if (!c.rain_today || !c.rain_cumulative || !this._hass) {
       this._rainWindowValue = null;
@@ -1391,6 +1428,9 @@ class EcowittHudCard extends HTMLElement {
       this._rainWindowValue = null;
     }
     this._update();
+    if (this._rainWindowValue === null && !isRetry) {
+      this._rainWindowRetryTimer = setTimeout(() => this._fetchRainWindow(true), QUICK_RETRY_MS);
+    }
   }
   _renderTrend() {
     const els = this._els;
