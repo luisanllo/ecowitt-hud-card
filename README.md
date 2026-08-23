@@ -23,7 +23,7 @@ history dialog.
 - 📈 Temperature trend chart for the last few hours, with an optional humidity overlay (dual axis) and a hover tooltip showing time/temperature/humidity
 - 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown
 - 🧭 Wind compass with speed, gust, and direction
-- ☔ Rain block: intensity, today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status
+- ☔ Rain block: peak intensity over a short recent window (avoids the "always reads 0" problem of spiky instantaneous rain-rate sensors), today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status
 - ⚠️ Automatic color scales for heat risk and UV index
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
@@ -75,6 +75,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `wind_gust` | No | Gust speed |
 | `wind_direction` | No | Wind direction (degrees) |
 | `rain_rate` | No | Rain intensity (mm/h) |
+| `rain_rate_window_minutes` | No | Show the peak rain rate over the last N minutes instead of the instantaneous reading (`5` by default) — set to `0` for the raw instantaneous value |
 | `rain_today` | No | Today's accumulated rain (mm), or a cumulative counter if `rain_cumulative` is on |
 | `rain_cumulative` | No | Set if `rain_today` is a counter that never resets (e.g. a Zigbee2MQTT lifetime `precipitation` total) — the card then shows the total rain within `rain_window_hours` instead of the raw value |
 | `rain_window_hours` | No | Window size in hours used when `rain_cumulative` is on (`24` by default) |
@@ -119,6 +120,15 @@ moisture: binary_sensor.my_station_rain_status
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the
   sensor's unit is `%` or the value falls in that range; otherwise it's
   treated as a degree-based index.
+- `rain_rate` shows the peak value seen in the last `rain_rate_window_minutes`
+  (5 minutes by default), not the instantaneous state. Rain-rate sensors
+  derived from a tipping-bucket gauge report a real value for a moment after
+  each tip and settle back to 0 in between, so reading the live state at a
+  random moment shows 0 far more often than not, even in a downpour —
+  showing the recent peak is far more representative of "is it raining hard
+  right now." Set `rain_rate_window_minutes: 0` to go back to the raw
+  instantaneous value. This also requires `rain_rate` to have recorder
+  history.
 - With `rain_cumulative` on, the rain total is calculated from recorder
   history by summing only the positive increments seen within
   `rain_window_hours`, so a counter reset partway through the window

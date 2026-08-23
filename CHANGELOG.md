@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## [1.4.0] - 2026-08-24
+
+### Added
+- `rain_rate` now shows the peak value over a short recent window (5
+  minutes by default, configurable via `rain_rate_window_minutes`,
+  `0` for the old instantaneous behavior). Rain-rate sensors derived
+  from a tipping-bucket gauge are spiky by nature — they report a real
+  value for a moment after each tip and settle back to 0 in between —
+  so the instantaneous reading showed 0 far more often than not, even
+  during heavy rain. The rain icon/status still reflects the live
+  instantaneous state, so it stops saying "raining" as soon as it
+  actually does. The peak updates the instant a new reading arrives
+  (same responsiveness as the rest of the card), not just on its
+  periodic refresh.
+
 ## [1.3.4] - 2026-08-23
 
 ### Fixed

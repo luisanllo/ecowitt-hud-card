@@ -50,6 +50,7 @@ const STRINGS = {
       windGust: "Gust speed",
       windDirection: "Wind direction (degrees)",
       rainRate: "Rain rate (mm/h)",
+      rainRateWindow: "Rain rate peak window (minutes, 0 = instantaneous)",
       rainToday: "Today's rainfall (mm)",
       rainCumulative: "Rain sensor is a cumulative counter (never resets)",
       rainWindowHours: "Rain window (hours)",
@@ -92,6 +93,7 @@ const STRINGS = {
       rainSensor: "Rain sensor",
       noRain: "No rain",
       raining: "Raining",
+      rainPeak: "Peak",
       feelsLike: "Feels like",
       windFrom: "Wind from",
       gust: "Gust",
@@ -132,6 +134,7 @@ const STRINGS = {
       windGust: "Prędkość porywów",
       windDirection: "Kierunek wiatru (stopnie)",
       rainRate: "Intensywność opadów (mm/h)",
+      rainRateWindow: "Okno szczytu intensywności (minuty, 0 = wartość chwilowa)",
       rainToday: "Dzisiejsze opady (mm)",
       rainCumulative: "Czujnik opadów jest licznikiem całkowitym (nigdy się nie resetuje)",
       rainWindowHours: "Okres zliczania opadów (godziny)",
@@ -184,6 +187,7 @@ const STRINGS = {
       rainSensor: "Czujnik deszczu",
       noRain: "Brak opadów",
       raining: "Pada",
+      rainPeak: "Szczyt",
       feelsLike: "Odczuwalna",
       windFrom: "Wiatr z kierunku",
       gust: "Porywy",
@@ -224,6 +228,7 @@ const STRINGS = {
       windGust: "Velocidad de racha",
       windDirection: "Dirección del viento (grados)",
       rainRate: "Intensidad de lluvia (mm/h)",
+      rainRateWindow: "Ventana de pico de intensidad (minutos, 0 = instantáneo)",
       rainToday: "Lluvia acumulada hoy (mm)",
       rainCumulative: "El sensor de lluvia es un contador acumulado (no se resetea)",
       rainWindowHours: "Ventana de lluvia (horas)",
@@ -266,6 +271,7 @@ const STRINGS = {
       rainSensor: "Sensor lluvia",
       noRain: "Sin lluvia",
       raining: "Lloviendo",
+      rainPeak: "Pico",
       feelsLike: "Sensación",
       windFrom: "Viento del",
       gust: "Racha",
@@ -310,6 +316,7 @@ const STRINGS = {
       windGust: "Böengeschwindigkeit",
       windDirection: "Windrichtung (Grad)",
       rainRate: "Regenintensität (mm/h)",
+      rainRateWindow: "Spitzenfenster Regenintensität (Minuten, 0 = Momentanwert)",
       rainToday: "Heutiger Niederschlag (mm)",
       rainCumulative: "Regensensor ist ein kumulativer Zähler (setzt sich nie zurück)",
       rainWindowHours: "Regenfenster (Stunden)",
@@ -352,6 +359,7 @@ const STRINGS = {
       rainSensor: "Regensensor",
       noRain: "Kein Regen",
       raining: "Regnet",
+      rainPeak: "Spitze",
       feelsLike: "Gefühlt wie",
       windFrom: "Wind aus",
       gust: "Böe",
@@ -392,6 +400,7 @@ const STRINGS = {
       windGust: "Vitesse des rafales",
       windDirection: "Direction du vent (degrés)",
       rainRate: "Intensité de la pluie (mm/h)",
+      rainRateWindow: "Fenêtre de pic d'intensité (minutes, 0 = instantané)",
       rainToday: "Pluie du jour (mm)",
       rainCumulative: "Le capteur de pluie est un compteur cumulatif (ne se réinitialise jamais)",
       rainWindowHours: "Fenêtre de pluie (heures)",
@@ -434,6 +443,7 @@ const STRINGS = {
       rainSensor: "Capteur de pluie",
       noRain: "Pas de pluie",
       raining: "Il pleut",
+      rainPeak: "Pic",
       feelsLike: "Ressenti",
       windFrom: "Vent de",
       gust: "Rafale",
@@ -474,6 +484,7 @@ const STRINGS = {
       windGust: "Velocidade de rajada",
       windDirection: "Direção do vento (graus)",
       rainRate: "Intensidade da chuva (mm/h)",
+      rainRateWindow: "Janela de pico de intensidade (minutos, 0 = instantâneo)",
       rainToday: "Chuva de hoje (mm)",
       rainCumulative: "O sensor de chuva é um contador cumulativo (nunca reinicia)",
       rainWindowHours: "Janela de chuva (horas)",
@@ -516,6 +527,7 @@ const STRINGS = {
       rainSensor: "Sensor de chuva",
       noRain: "Sem chuva",
       raining: "Chovendo",
+      rainPeak: "Pico",
       feelsLike: "Sensação",
       windFrom: "Vento de",
       gust: "Rajada",
@@ -556,6 +568,7 @@ const STRINGS = {
       windGust: "Velocità raffica",
       windDirection: "Direzione del vento (gradi)",
       rainRate: "Intensità pioggia (mm/h)",
+      rainRateWindow: "Finestra di picco intensità (minuti, 0 = istantaneo)",
       rainToday: "Pioggia di oggi (mm)",
       rainCumulative: "Il sensore di pioggia è un contatore cumulativo (non si azzera mai)",
       rainWindowHours: "Finestra pioggia (ore)",
@@ -598,6 +611,7 @@ const STRINGS = {
       rainSensor: "Sensore pioggia",
       noRain: "Nessuna pioggia",
       raining: "Piove",
+      rainPeak: "Picco",
       feelsLike: "Percepita",
       windFrom: "Vento da",
       gust: "Raffica",
@@ -619,8 +633,15 @@ const DEFAULT_CHART_HEIGHT = 48;
 const DEFAULT_TREND_HOURS = 6;
 const DEFAULT_MINMAX_HOURS = 24;
 const DEFAULT_RAIN_WINDOW_HOURS = 24;
+const DEFAULT_RAIN_RATE_WINDOW_MINUTES = 5;
 const HISTORY_REFRESH_MS = 10 * 60 * 1000;
 const SUN_REFRESH_MS = 60 * 1000;
+// The rain-rate peak window slides in real time, so a spike that happened
+// a few minutes ago silently falls out of it. A 10-minute refresh (fine for
+// the other history-based fields, which move slowly) would regularly miss
+// short spikes entirely: they'd age out of the window between refreshes
+// without ever being shown. Refresh this one much more often instead.
+const RAIN_RATE_PEAK_REFRESH_MS = 60 * 1000;
 // On a dashboard with many cards, the initial burst of simultaneous
 // history/period requests can cause one to time out or come back empty.
 // Rather than wait out the full 10-minute refresh, failed fetches get
@@ -844,6 +865,7 @@ function getFieldGroups(lang) {
       title: E.rain,
       schema: [
         { name: "rain_rate", selector: { entity: { domain: "sensor", device_class: "precipitation_intensity" } }, label: E.rainRate },
+        { name: "rain_rate_window_minutes", selector: { number: { min: 0, max: 60, mode: "box" } }, label: E.rainRateWindow },
         { name: "rain_today", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainToday },
         { name: "rain_cumulative", selector: { boolean: {} }, label: E.rainCumulative },
         { name: "rain_window_hours", selector: { number: { min: 1, max: 168, mode: "box" } }, label: E.rainWindowHours },
@@ -959,6 +981,13 @@ class EcowittHudCard extends HTMLElement {
     if (rainWindowRelevant) {
       this._fetchRainWindow();
     }
+    const rainRatePeakRelevant =
+      !prev ||
+      prev.rain_rate !== newConfig.rain_rate ||
+      prev.rain_rate_window_minutes !== newConfig.rain_rate_window_minutes;
+    if (rainRatePeakRelevant) {
+      this._fetchRainRatePeak();
+    }
   }
   set hass(hass) {
     const hadHass = !!this._hass;
@@ -979,11 +1008,37 @@ class EcowittHudCard extends HTMLElement {
 
     this._update();
 
+    // The rain-rate peak window is short (minutes) enough that waiting out
+    // even the fast periodic refresh can show a stale value for a
+    // meaningful fraction of the window. Re-fetch immediately whenever the
+    // live entity actually changes — same responsiveness as the plain
+    // live fields — instead of only on a timer. (The other history-backed
+    // fields use hours-long windows, where that lag is negligible, so they
+    // don't need this.) The periodic refresh still runs too, since it's
+    // the only thing that notices the peak needs to decay after rain
+    // stops and the entity stops pushing new states entirely.
+    const rrEntity = this._config && this._config.rain_rate;
+    if (rrEntity && this._hass) {
+      const st = this._hass.states[rrEntity];
+      const marker = st ? st.last_changed || st.state : null;
+      // _buildStatic() (triggered from setConfig() or a language change)
+      // already does its own initial fetch and returns before reaching
+      // this code, so _lastRainRateMarker can still be unset the first
+      // time this actually runs. Gate on that directly, rather than on
+      // hadHass, so this first evaluation always just seeds the baseline
+      // instead of firing a redundant duplicate fetch.
+      if (this._lastRainRateMarker !== undefined && marker !== this._lastRainRateMarker) {
+        this._fetchRainRatePeak();
+      }
+      this._lastRainRateMarker = marker;
+    }
+
     if (!hadHass) {
       // same lifecycle issue affects the history-based fetches below
       this._fetchTrend();
       this._fetchMinMax();
       this._fetchRainWindow();
+      this._fetchRainRatePeak();
     }
   }
   getCardSize() {
@@ -1229,6 +1284,7 @@ class EcowittHudCard extends HTMLElement {
     this._fetchTrend();
     this._fetchMinMax();
     this._fetchRainWindow();
+    this._fetchRainRatePeak();
     if (!this._trendInterval) {
       this._trendInterval = setInterval(() => this._fetchTrend(), HISTORY_REFRESH_MS);
     }
@@ -1240,6 +1296,9 @@ class EcowittHudCard extends HTMLElement {
     }
     if (!this._rainWindowInterval) {
       this._rainWindowInterval = setInterval(() => this._fetchRainWindow(), HISTORY_REFRESH_MS);
+    }
+    if (!this._rainRatePeakInterval) {
+      this._rainRatePeakInterval = setInterval(() => this._fetchRainRatePeak(), RAIN_RATE_PEAK_REFRESH_MS);
     }
   }
   disconnectedCallback() {
@@ -1259,6 +1318,10 @@ class EcowittHudCard extends HTMLElement {
       clearInterval(this._rainWindowInterval);
       this._rainWindowInterval = null;
     }
+    if (this._rainRatePeakInterval) {
+      clearInterval(this._rainRatePeakInterval);
+      this._rainRatePeakInterval = null;
+    }
     if (this._trendRetryTimer) {
       clearTimeout(this._trendRetryTimer);
       this._trendRetryTimer = null;
@@ -1270,6 +1333,10 @@ class EcowittHudCard extends HTMLElement {
     if (this._rainWindowRetryTimer) {
       clearTimeout(this._rainWindowRetryTimer);
       this._rainWindowRetryTimer = null;
+    }
+    if (this._rainRatePeakRetryTimer) {
+      clearTimeout(this._rainRatePeakRetryTimer);
+      this._rainRatePeakRetryTimer = null;
     }
   }
   _timeStr(d) {
@@ -1430,6 +1497,43 @@ class EcowittHudCard extends HTMLElement {
     this._update();
     if (this._rainWindowValue === null && !isRetry) {
       this._rainWindowRetryTimer = setTimeout(() => this._fetchRainWindow(true), QUICK_RETRY_MS);
+    }
+  }
+  // Instantaneous rain-rate sensors derived from a tipping-bucket gauge are
+  // extremely spiky — they report a real rate for a moment after each tip
+  // and settle back to 0 between them, so reading the live state at a random
+  // moment shows 0 far more often than not, even mid-downpour. Showing the
+  // peak over a short recent window is far more representative of "is it
+  // raining hard right now" than the instantaneous value.
+  async _fetchRainRatePeak(isRetry) {
+    if (this._rainRatePeakRetryTimer) {
+      clearTimeout(this._rainRatePeakRetryTimer);
+      this._rainRatePeakRetryTimer = null;
+    }
+    const c = this._config;
+    const minutes = clampNumber(c.rain_rate_window_minutes, 0, 60, DEFAULT_RAIN_RATE_WINDOW_MINUTES);
+    if (!c.rain_rate || !this._hass || minutes <= 0) {
+      this._rainRatePeakValue = null;
+      this._update();
+      return;
+    }
+    const startMs = Date.now() - minutes * 60 * 1000;
+    this._rainRatePeakFetchToken = (this._rainRatePeakFetchToken || 0) + 1;
+    const token = this._rainRatePeakFetchToken;
+    try {
+      const result = await this._hass.callApi("GET", historyUrl(c.rain_rate, startMs));
+      if (token !== this._rainRatePeakFetchToken) return;
+      const points = historyPoints(result);
+      const current = fmt(this._hass, c.rain_rate, 1);
+      if (current.value !== null) points.push({ t: Date.now(), v: current.value });
+      this._rainRatePeakValue = points.length > 0 ? Math.max(...points.map((p) => p.v)) : null;
+    } catch (e) {
+      if (token !== this._rainRatePeakFetchToken) return;
+      this._rainRatePeakValue = null;
+    }
+    this._update();
+    if (this._rainRatePeakValue === null && !isRetry) {
+      this._rainRatePeakRetryTimer = setTimeout(() => this._fetchRainRatePeak(true), QUICK_RETRY_MS);
     }
   }
   _renderTrend() {
@@ -1630,11 +1734,22 @@ class EcowittHudCard extends HTMLElement {
     setStat("illuminance", lux.value !== null && lux.value >= 1000 ? `${(lux.value / 1000).toFixed(1)}k` : lux.text, lux.unit || "lx");
 
     const rainRate = fmt(hass, c.rain_rate, 1);
+    // "Raining now" (icon + color) always reflects the live instantaneous
+    // reading, even when the big number below shows a recent peak instead —
+    // otherwise the icon would keep saying "raining" for the rest of the
+    // peak window after the rain has actually stopped.
     const raining = rainRate.value !== null && rainRate.value > 0;
-    setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
     els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
     els.rainIcon.style.color = raining ? COLORS.info : COLORS.neutral;
-    els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
+    const peakMinutes = clampNumber(c.rain_rate_window_minutes, 0, 60, DEFAULT_RAIN_RATE_WINDOW_MINUTES);
+    if (peakMinutes > 0) {
+      const peakText = this._rainRatePeakValue !== null && this._rainRatePeakValue !== undefined ? this._rainRatePeakValue.toFixed(1) : "—";
+      setStat("rain_rate", peakText, rainRate.unit || "mm/h");
+      els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes}min)`;
+    } else {
+      setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
+      els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
+    }
 
     const rainToday = fmt(hass, c.rain_today, 1);
     const rainTodayUnit = rainToday.unit || "mm";
