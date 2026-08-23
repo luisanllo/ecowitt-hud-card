@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.3.4] - 2026-08-23
+
+### Fixed
+- Pressure, rain rate, and today's rainfall now show the sensor's actual
+  unit (e.g. `inHg`, `in/h`, `in` for US-imperial Ecowitt setups) instead
+  of always assuming metric (`hPa`, `mm/h`, `mm`). Illuminance had the
+  same issue and is fixed too. Temperature and wind speed were already
+  unaffected, since they already read the unit from the entity. Reported
+  by [@ssweeney85](https://github.com/ssweeney85)
+  ([#3](https://github.com/luisanllo/ecowitt-hud-card/issues/3)).
+
 ## [1.3.3] - 2026-08-20
 
 ### Fixed

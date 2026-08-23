@@ -86,8 +86,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "UV index",
       heatRisk: "Heat risk",
-      pressure: "Pressure hPa",
-      illuminance: "Illuminance lux",
+      pressure: "Pressure",
+      illuminance: "Illuminance",
       rainToday: "Today's total",
       rainSensor: "Rain sensor",
       noRain: "No rain",
@@ -178,8 +178,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Indeks UV",
       heatRisk: "Ryzyko upału",
-      pressure: "Ciśnienie hPa",
-      illuminance: "Natężenie światła lux",
+      pressure: "Ciśnienie",
+      illuminance: "Natężenie światła",
       rainToday: "Suma dzisiaj",
       rainSensor: "Czujnik deszczu",
       noRain: "Brak opadów",
@@ -260,8 +260,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Índice UV",
       heatRisk: "Riesgo calor",
-      pressure: "Presión hPa",
-      illuminance: "Iluminancia lux",
+      pressure: "Presión",
+      illuminance: "Iluminancia",
       rainToday: "Acumulada hoy",
       rainSensor: "Sensor lluvia",
       noRain: "Sin lluvia",
@@ -346,8 +346,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "UV-Index",
       heatRisk: "Hitzerisiko",
-      pressure: "Druck hPa",
-      illuminance: "Beleuchtungsstärke Lux",
+      pressure: "Druck",
+      illuminance: "Beleuchtungsstärke",
       rainToday: "Heutige Summe",
       rainSensor: "Regensensor",
       noRain: "Kein Regen",
@@ -428,8 +428,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Indice UV",
       heatRisk: "Risque de chaleur",
-      pressure: "Pression hPa",
-      illuminance: "Éclairement lux",
+      pressure: "Pression",
+      illuminance: "Éclairement",
       rainToday: "Total du jour",
       rainSensor: "Capteur de pluie",
       noRain: "Pas de pluie",
@@ -510,8 +510,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Índice UV",
       heatRisk: "Risco de calor",
-      pressure: "Pressão hPa",
-      illuminance: "Iluminância lux",
+      pressure: "Pressão",
+      illuminance: "Iluminância",
       rainToday: "Total de hoje",
       rainSensor: "Sensor de chuva",
       noRain: "Sem chuva",
@@ -592,8 +592,8 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Indice UV",
       heatRisk: "Rischio caldo",
-      pressure: "Pressione hPa",
-      illuminance: "Illuminamento lux",
+      pressure: "Pressione",
+      illuminance: "Illuminamento",
       rainToday: "Totale odierno",
       rainSensor: "Sensore pioggia",
       noRain: "Nessuna pioggia",
@@ -1130,16 +1130,16 @@ class EcowittHudCard extends HTMLElement {
           <div class="stat clickable" data-k="humidex"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidex}</div></div>
           <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.uvIndex}</div></div>
           <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
-          <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
-          <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
+          <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
+          <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
         </div>
         <div class="row rain">
           <div class="stat clickable" data-k="rain_rate">
-            <div class="rain-val"><ha-icon class="rain-icon" style="--mdc-icon-size:18px;"></ha-icon><span class="v"></span> <span class="stat-unit">mm/h</span></div>
+            <div class="rain-val"><ha-icon class="rain-icon" style="--mdc-icon-size:18px;"></ha-icon><span class="v"></span> <span class="stat-unit u"></span></div>
             <div class="rain-sub moisture-sub"></div>
           </div>
           <div class="stat clickable" data-k="rain_today">
-            <div class="rain-val"><span class="v"></span> <span class="stat-unit">mm</span></div>
+            <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
             <div class="rain-sub rain-today-sub">${S.labels.rainToday}</div>
           </div>
           <div class="stat clickable" data-k="moisture">
@@ -1616,7 +1616,7 @@ class EcowittHudCard extends HTMLElement {
     setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
 
     const pressure = fmt(hass, c.pressure, 0);
-    setStat("pressure", pressure.text, "");
+    setStat("pressure", pressure.text, pressure.unit || "hPa");
     const trend = trendInfo(c.pressure_trend, hass);
     if (trend) {
       els.trendIcon.style.display = "";
@@ -1627,23 +1627,24 @@ class EcowittHudCard extends HTMLElement {
     }
 
     const lux = fmt(hass, c.illuminance, 0);
-    setStat("illuminance", lux.value !== null && lux.value >= 1000 ? `${(lux.value / 1000).toFixed(1)}k` : lux.text, "");
+    setStat("illuminance", lux.value !== null && lux.value >= 1000 ? `${(lux.value / 1000).toFixed(1)}k` : lux.text, lux.unit || "lx");
 
     const rainRate = fmt(hass, c.rain_rate, 1);
     const raining = rainRate.value !== null && rainRate.value > 0;
-    setStat("rain_rate", rainRate.text);
+    setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
     els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
     els.rainIcon.style.color = raining ? COLORS.info : COLORS.neutral;
     els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
 
+    const rainToday = fmt(hass, c.rain_today, 1);
+    const rainTodayUnit = rainToday.unit || "mm";
     if (c.rain_cumulative) {
       const hours = clampNumber(c.rain_window_hours, 1, 168, DEFAULT_RAIN_WINDOW_HOURS);
       const windowText = this._rainWindowValue !== null && this._rainWindowValue !== undefined ? this._rainWindowValue.toFixed(1) : "—";
-      setStat("rain_today", windowText);
+      setStat("rain_today", windowText, rainTodayUnit);
       els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}h)`;
     } else {
-      const rainToday = fmt(hass, c.rain_today, 1);
-      setStat("rain_today", rainToday.text);
+      setStat("rain_today", rainToday.text, rainTodayUnit);
       els.rainTodaySub.textContent = S.labels.rainToday;
     }
 
