@@ -121,7 +121,13 @@ moisture: binary_sensor.my_station_rain_status
   a spike in the trend chart or a bogus 24h high/low. Only an
   implausible *jump* is treated as suspect, never a specific value like
   0 — a real 0°C or a genuinely fast, sustained change are never
-  affected.
+  affected. The plausible-jump threshold adapts to whether `temperature`
+  reports in °C or °F.
+- The humidity trend line always uses its own fixed color, distinct from
+  every color the temperature line can take (which changes with how hot
+  or cold the current reading is) — the two are never visually
+  indistinguishable, and the top value on each axis carries a small
+  🌡️/💧 marker as a second, color-independent cue.
 - The sun bar uses Home Assistant's `sun.sun` entity; no extra configuration
   needed.
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the

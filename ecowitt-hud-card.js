@@ -634,11 +634,16 @@ const DEFAULT_TREND_HOURS = 6;
 const DEFAULT_MINMAX_HOURS = 24;
 const DEFAULT_RAIN_WINDOW_HOURS = 24;
 const DEFAULT_RAIN_RATE_WINDOW_MINUTES = 5;
-// Generous enough that a genuine reading never trips it (even a fast
-// real swing between recorder samples, in either °C or °F) while still
-// catching a decode glitch, which typically collapses to a value far
-// outside anything physically plausible for the moment.
-const TEMP_OUTLIER_MAX_JUMP = 20;
+// Outdoor temperature essentially never swings by this much between two
+// closely-spaced recorder samples under real weather — a jump this big
+// is almost always a decode glitch, not a genuine reading. °F needs a
+// larger raw number for the same real-world temperature delta (10°C of
+// change == 18°F of change), hence the two separate constants.
+const TEMP_OUTLIER_MAX_JUMP_C = 10;
+const TEMP_OUTLIER_MAX_JUMP_F = 18;
+function tempOutlierMaxJump(unit) {
+  return String(unit || "").includes("F") ? TEMP_OUTLIER_MAX_JUMP_F : TEMP_OUTLIER_MAX_JUMP_C;
+}
 // Humidity is always 0-100 regardless of unit system, so this one can be
 // a flat percentage-point threshold.
 const HUMIDITY_OUTLIER_MAX_JUMP = 40;
@@ -660,13 +665,18 @@ const QUICK_RETRY_MS = 15 * 1000;
 // (uvRisk, heatRisk, batteryIcon, trendInfo, the trend chart's temperature
 // line) so the same shade always means the same thing across the card.
 const COLORS = {
-  info: "#3b82c4", // cold, rain, falling trend, humidity line
+  info: "#3b82c4", // cold, rain, falling trend
   low: "#2ba86a", // low risk, healthy battery
   moderate: "#c78a00", // moderate risk, rising trend
   high: "#e0722c", // high risk, warm
   danger: "#d1481c", // dangerous risk, hot, low battery
   extreme: "#8a3ffc", // extreme risk
   neutral: "#8a92a3", // steady/unknown/default
+  // The temperature trend line's color changes with the current reading
+  // (info/low/high/danger, same as above) — humidity needs one fixed
+  // color distinct from *all four* of those so the two lines are never
+  // accidentally the same color depending on how warm or cold it is.
+  humidity: "#8a3ffc",
 };
 
 function detectLang(hass) {
@@ -1127,12 +1137,12 @@ class EcowittHudCard extends HTMLElement {
         .trend-svg-wrap { position: relative; flex: 1; min-width: 0; cursor: crosshair; }
         .trend-svg { width: 100%; display: block; }
         .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
-        .trend-axis-col.right { text-align: right; color: ${COLORS.info}; }
+        .trend-axis-col.right { text-align: right; color: ${COLORS.humidity}; }
         .trend-crosshair { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--divider-color, rgba(0,0,0,.25)); pointer-events: none; }
         .trend-tooltip { position: absolute; top: -6px; transform: translate(-50%, -100%); background: var(--card-background-color, #fff); border: 1px solid var(--divider-color, rgba(0,0,0,.12)); border-radius: 6px; padding: 4px 8px; font-size: 10.5px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none; z-index: 2; color: var(--primary-text-color, #1c2128); }
         .trend-tooltip .tt-time { color: var(--secondary-text-color, #8a92a3); margin-right: 5px; }
         .trend-tooltip .tt-temp { font-weight: 600; }
-        .trend-tooltip .tt-hum { color: ${COLORS.info}; font-weight: 600; margin-left: 5px; }
+        .trend-tooltip .tt-hum { color: ${COLORS.humidity}; font-weight: 600; margin-left: 5px; }
         .day { padding: 14px 0 16px; }
         .day-top { display: flex; align-items: center; gap: 8px; }
         .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
@@ -1423,7 +1433,8 @@ class EcowittHudCard extends HTMLElement {
     try {
       const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
       if (token !== this._trendFetchToken) return;
-      points = filterOutliers(historyPoints(result), TEMP_OUTLIER_MAX_JUMP);
+      const tempUnit = fmt(this._hass, c.temperature, 1).unit;
+      points = filterOutliers(historyPoints(result), tempOutlierMaxJump(tempUnit));
     } catch (e) {
       if (token !== this._trendFetchToken) return;
       points = [];
@@ -1472,7 +1483,8 @@ class EcowittHudCard extends HTMLElement {
     try {
       const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
       if (token !== this._minMaxFetchToken) return;
-      const points = filterOutliers(historyPoints(result), TEMP_OUTLIER_MAX_JUMP);
+      const tempUnit = fmt(this._hass, c.temperature, 1).unit;
+      const points = filterOutliers(historyPoints(result), tempOutlierMaxJump(tempUnit));
 
       // include the live current reading too, in case it hasn't landed
       // in the recorder yet as a distinct history point
@@ -1614,9 +1626,9 @@ class EcowittHudCard extends HTMLElement {
       const hMax = Math.max(...hValues);
       const hRange = hMax - hMin || 1;
       const hCoords = hum.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, hMin, hRange).toFixed(1)}`);
-      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="${COLORS.info}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
+      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="${COLORS.humidity}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
       els.trendMinH.textContent = `${hMin.toFixed(0)}%`;
-      els.trendMaxH.textContent = `${hMax.toFixed(0)}%`;
+      els.trendMaxH.textContent = `💧 ${hMax.toFixed(0)}%`;
       els.trendAxisRight.style.display = "";
     } else {
       els.trendAxisRight.style.display = "none";
@@ -1628,7 +1640,11 @@ class EcowittHudCard extends HTMLElement {
       ${humidityLine}
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
-    els.trendMax.textContent = `${max.toFixed(1)}°`;
+    // A small marker on the top value of each axis column identifies
+    // which line it belongs to without relying on color alone — the
+    // temperature line's color already changes with the reading itself
+    // (see `color` above), so color can't be the only cue.
+    els.trendMax.textContent = `🌡️ ${max.toFixed(1)}°`;
     if (els.trendAxisLeft) els.trendAxisLeft.style.color = color;
   }
   _nearestPoint(series, targetT) {

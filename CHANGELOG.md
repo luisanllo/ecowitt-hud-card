@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented here.
 
+## [1.4.2] - 2026-08-24
+
+### Fixed
+- The temperature outlier filter added in 1.4.1 used a threshold generous
+  enough to sometimes miss a real glitch: a "collapse to 0" jump can be
+  smaller than the threshold if the surrounding real temperature is
+  already on the cool side (e.g. a dawn low). The threshold is now
+  smaller and scales with the unit (°C vs °F).
+- The humidity trend line could render in the exact same color as the
+  temperature line, since temperature's color changes with how hot or
+  cold the current reading is (and one of its states shared humidity's
+  fixed color) — making the two indistinguishable whenever the
+  temperature happened to be on the cool side. Humidity now always uses
+  its own color, distinct from every state temperature's line can be in,
+  and the top value on each axis also gets a small 🌡️/💧 marker as a
+  second, color-independent way to tell them apart.
+
 ## [1.4.1] - 2026-08-24
 
 ### Fixed
