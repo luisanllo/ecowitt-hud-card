@@ -115,6 +115,13 @@ moisture: binary_sensor.my_station_rain_status
 
 - The trend chart and 24h high/low require `temperature` to have recorder
   history in Home Assistant.
+- A single implausible reading in the temperature or humidity history (a
+  decode glitch that reads as 0, or some other garbage value, then
+  recovers on the very next reading) is dropped instead of showing up as
+  a spike in the trend chart or a bogus 24h high/low. Only an
+  implausible *jump* is treated as suspect, never a specific value like
+  0 — a real 0°C or a genuinely fast, sustained change are never
+  affected.
 - The sun bar uses Home Assistant's `sun.sun` entity; no extra configuration
   needed.
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the

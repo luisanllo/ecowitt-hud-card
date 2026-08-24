@@ -634,6 +634,14 @@ const DEFAULT_TREND_HOURS = 6;
 const DEFAULT_MINMAX_HOURS = 24;
 const DEFAULT_RAIN_WINDOW_HOURS = 24;
 const DEFAULT_RAIN_RATE_WINDOW_MINUTES = 5;
+// Generous enough that a genuine reading never trips it (even a fast
+// real swing between recorder samples, in either °C or °F) while still
+// catching a decode glitch, which typically collapses to a value far
+// outside anything physically plausible for the moment.
+const TEMP_OUTLIER_MAX_JUMP = 20;
+// Humidity is always 0-100 regardless of unit system, so this one can be
+// a flat percentage-point threshold.
+const HUMIDITY_OUTLIER_MAX_JUMP = 40;
 const HISTORY_REFRESH_MS = 10 * 60 * 1000;
 const SUN_REFRESH_MS = 60 * 1000;
 // The rain-rate peak window slides in real time, so a spike that happened
@@ -793,6 +801,37 @@ function historyPoints(result) {
     })
     .filter((p) => !isNaN(p.v) && !isNaN(p.t))
     .sort((a, b) => a.t - b.t);
+}
+
+// Drops lone glitch readings from a sorted points array — a dropped or
+// corrupted sensor packet occasionally decodes as 0, or some other value
+// with no relation to reality, showing up as a spike that snaps right
+// back on the next reading. A point that deviates from the last
+// *accepted* point by more than maxJump is kept only if the point right
+// after it *doesn't* snap back close to that last-accepted value — i.e.
+// only if what follows suggests a real, sustained change rather than a
+// glitch-then-recovery. A deviating point at the very end of the series,
+// with nothing after it to vouch for it, is dropped too: that's the most
+// visible spot on a chart for a stray spike to show up. Deliberately
+// doesn't special-case "value is exactly 0": 0 is a completely normal
+// real reading for some fields (0°C, no rain), so only an implausible
+// *jump* is treated as suspect, never a specific value.
+function filterOutliers(points, maxJump) {
+  if (points.length < 2) return points;
+  const out = [points[0]];
+  for (let i = 1; i < points.length; i++) {
+    const p = points[i];
+    const last = out[out.length - 1];
+    if (Math.abs(p.v - last.v) <= maxJump) {
+      out.push(p);
+      continue;
+    }
+    const next = points[i + 1];
+    const sustained = next && Math.abs(next.v - last.v) > maxJump;
+    if (sustained) out.push(p);
+    // else: isolated blip (or an unconfirmed spike at the tail) — drop it.
+  }
+  return out;
 }
 
 // Builds a history/period URL for a single entity starting at startMs.
@@ -1384,7 +1423,7 @@ class EcowittHudCard extends HTMLElement {
     try {
       const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
       if (token !== this._trendFetchToken) return;
-      points = historyPoints(result);
+      points = filterOutliers(historyPoints(result), TEMP_OUTLIER_MAX_JUMP);
     } catch (e) {
       if (token !== this._trendFetchToken) return;
       points = [];
@@ -1410,7 +1449,7 @@ class EcowittHudCard extends HTMLElement {
       try {
         const humResult = await this._hass.callApi("GET", historyUrl(c.humidity, startMs));
         if (token !== this._trendFetchToken) return;
-        const humPoints = historyPoints(humResult);
+        const humPoints = filterOutliers(historyPoints(humResult), HUMIDITY_OUTLIER_MAX_JUMP);
         if (humPoints.length > 1) this._humidityTrendData = humPoints;
       } catch (e) {
         // humidity history unavailable; temperature trend still renders alone
@@ -1433,7 +1472,7 @@ class EcowittHudCard extends HTMLElement {
     try {
       const result = await this._hass.callApi("GET", historyUrl(c.temperature, startMs));
       if (token !== this._minMaxFetchToken) return;
-      const points = historyPoints(result);
+      const points = filterOutliers(historyPoints(result), TEMP_OUTLIER_MAX_JUMP);
 
       // include the live current reading too, in case it hasn't landed
       // in the recorder yet as a distinct history point

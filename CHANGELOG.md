@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [1.4.1] - 2026-08-24
+
+### Fixed
+- A single implausible reading in temperature or humidity history (e.g.
+  a decode glitch that reads as 0, then recovers on the next reading)
+  no longer shows up as a spike in the trend chart or as a bogus 24h
+  high/low. Only an implausible jump from the surrounding readings is
+  treated as suspect and dropped — never a specific value like 0, so a
+  real 0°C or a genuinely fast, sustained change are never affected.
+
 ## [1.4.0] - 2026-08-24
 
 ### Added
