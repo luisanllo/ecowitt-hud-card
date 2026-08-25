@@ -37,11 +37,11 @@
   <polyline points="22,180 60,182 100,186 140,190 180,193 220,195 260,196 300,197 340,198 378,198"
             fill="none" stroke="#3fc17e" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
   <polyline points="22,192 60,184 100,178 140,181 180,188 220,193 260,196 300,197 340,196 378,194"
-            fill="none" stroke="#3b82c4" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+            fill="none" stroke="#8a3ffc" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
   <circle cx="22" cy="207" r="3" fill="#3fc17e"/>
   <text x="30" y="210" font-size="9" fill="#9aa0a6">17.6°–24.1°</text>
-  <circle cx="290" cy="207" r="3" fill="#3b82c4"/>
-  <text x="298" y="210" font-size="9" fill="#3b82c4">58%–82%</text>
+  <circle cx="290" cy="207" r="3" fill="#8a3ffc"/>
+  <text x="298" y="210" font-size="9" fill="#8a3ffc">58%–82%</text>
 
   <line x1="22" y1="222" x2="378" y2="222" stroke="#35363b" stroke-width="1"/>
 
@@ -107,10 +107,10 @@
   <text x="368" y="440" font-size="12" fill="#8a9199">→</text>
   <text x="22" y="454" font-size="9.5" fill="#9aa0a6">UV index</text>
   <text x="112" y="454" font-size="9.5" fill="#9aa0a6">Heat risk</text>
-  <text x="292" y="454" font-size="9.5" fill="#9aa0a6">Pressure hPa</text>
+  <text x="292" y="454" font-size="9.5" fill="#9aa0a6">Pressure</text>
 
   <text x="22" y="484" font-size="16" font-weight="600" fill="#e8eaed">1</text>
-  <text x="22" y="498" font-size="9.5" fill="#9aa0a6">Illuminance lux</text>
+  <text x="22" y="498" font-size="9.5" fill="#9aa0a6">Illuminance</text>
 
   <line x1="22" y1="514" x2="378" y2="514" stroke="#35363b" stroke-width="1"/>
 
@@ -119,7 +119,7 @@
     <path d="M0,-10 C4,-4 6,0 6,4 C6,8 3,10.5 0,10.5 C-3,10.5 -6,8 -6,4 C-6,0 -4,-4 0,-10 Z" fill="#8a9199"/>
   </g>
   <text x="36" y="546" font-size="20" font-weight="600" fill="#e8eaed">0.0<tspan font-size="12" fill="#9aa0a6" font-weight="400"> mm/h</tspan></text>
-  <text x="22" y="562" font-size="9.5" fill="#8a9199">No rain</text>
+  <text x="22" y="562" font-size="9.5" fill="#8a9199">Peak (5min)</text>
 
   <text x="150" y="546" font-size="20" font-weight="600" fill="#e8eaed">0.0<tspan font-size="12" fill="#9aa0a6" font-weight="400"> mm</tspan></text>
   <text x="150" y="562" font-size="9.5" fill="#8a9199">Today's total</text>
