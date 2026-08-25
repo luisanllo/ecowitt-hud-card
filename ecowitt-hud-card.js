@@ -46,6 +46,7 @@ const STRINGS = {
       pressureTrend: "Pressure trend (optional)",
       uvIndex: "UV index",
       illuminance: "Illuminance (lux)",
+      solarRadiation: "Solar radiation (W/m²)",
       windSpeed: "Wind speed",
       windGust: "Gust speed",
       windDirection: "Wind direction (degrees)",
@@ -59,6 +60,11 @@ const STRINGS = {
       trendHours: "Hours of history to display",
       showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
       trendChartHeight: "Chart height (px)",
+      showSunBar: "Show sun position bar",
+      lightning: "Lightning",
+      lightningStrikes: "Strike count sensor",
+      lightningDistance: "Strike distance sensor",
+      lastLightningTime: "Last strike time sensor",
     },
     conditions: {
       "clear-night": "Clear (night)",
@@ -103,6 +109,13 @@ const STRINGS = {
       lessThanMin: "less than 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Strikes",
+      lightningDistance: "Distance",
+      lastStrike: "Last strike",
+      agoFormat: "{0} ago",
+      solarRadiation: "Solar radiation",
+      noDetection: "No detection",
+      day: "d",
     },
   },
   pl: {
@@ -130,6 +143,7 @@ const STRINGS = {
       pressureTrend: "Trend ciśnienia (opcjonalnie)",
       uvIndex: "Indeks UV",
       illuminance: "Natężenie oświetlenia (lux)",
+      solarRadiation: "Promieniowanie słoneczne (W/m²)",
       windSpeed: "Prędkość wiatru",
       windGust: "Prędkość porywów",
       windDirection: "Kierunek wiatru (stopnie)",
@@ -143,6 +157,11 @@ const STRINGS = {
       trendHours: "Liczba godzin historii do wyświetlenia",
       showHumidityTrend: "Nałóż trend wilgotności (wymaga ustawienia Wilgotności względnej powyżej)",
       trendChartHeight: "Wysokość wykresu (px)",
+      showSunBar: "Wyświetl położenie paska słonecznego",
+      lightning: "Wyładowania atmosferyczne",
+      lightningStrikes: "Czujnik liczby wyładowań",
+      lightningDistance: "Czujnik odległości wyładowania",
+      lastLightningTime: "Czujnik czasu ostatniego wyładowania",
     },
 
     conditions: {
@@ -197,6 +216,13 @@ const STRINGS = {
       lessThanMin: "mniej niż 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Wyładowania",
+      lightningDistance: "Odległość",
+      lastStrike: "Ostatnie wyładowanie",
+      agoFormat: "{0} temu",
+      solarRadiation: "Promieniowanie słoneczne",
+      noDetection: "Brak wykrycia",
+      day: "d",
     },
   },
   es: {
@@ -224,6 +250,7 @@ const STRINGS = {
       pressureTrend: "Tendencia de presión (opcional)",
       uvIndex: "Índice UV",
       illuminance: "Iluminancia (lux)",
+      solarRadiation: "Radiación solar (W/m²)",
       windSpeed: "Velocidad del viento",
       windGust: "Velocidad de racha",
       windDirection: "Dirección del viento (grados)",
@@ -237,6 +264,11 @@ const STRINGS = {
       trendHours: "Horas de histórico a mostrar",
       showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
       trendChartHeight: "Altura del gráfico (px)",
+      showSunBar: "Ver la posición de la barra solar",
+      lightning: "Rayos",
+      lightningStrikes: "Sensor de número de rayos",
+      lightningDistance: "Sensor de distancia del rayo",
+      lastLightningTime: "Sensor de hora del último rayo",
     },
     conditions: {
       "clear-night": "Despejado (noche)",
@@ -281,6 +313,13 @@ const STRINGS = {
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Rayos",
+      lightningDistance: "Distancia",
+      lastStrike: "Último rayo",
+      agoFormat: "hace {0}",
+      solarRadiation: "Radiación solar",
+      noDetection: "Sin detección",
+      day: "d",
     },
   },
   // The languages below (de, fr, pt, it) are machine-translated and have
@@ -312,6 +351,7 @@ const STRINGS = {
       pressureTrend: "Druck-Trend (optional)",
       uvIndex: "UV-Index",
       illuminance: "Beleuchtungsstärke (Lux)",
+      solarRadiation: "Sonneneinstrahlung (W/m²)",
       windSpeed: "Windgeschwindigkeit",
       windGust: "Böengeschwindigkeit",
       windDirection: "Windrichtung (Grad)",
@@ -325,6 +365,11 @@ const STRINGS = {
       trendHours: "Anzuzeigende Stunden des Verlaufs",
       showHumidityTrend: "Feuchtigkeitstrend überlagern (benötigt relative Luftfeuchtigkeit oben)",
       trendChartHeight: "Diagrammhöhe (px)",
+      showSunBar: "Position der Sonnenblende anzeigen",
+      lightning: "Blitze",
+      lightningStrikes: "Sensor Blitzanzahl",
+      lightningDistance: "Sensor Blitzentfernung",
+      lastLightningTime: "Sensor Zeit des letzten Blitzes",
     },
     conditions: {
       "clear-night": "Klar (Nacht)",
@@ -369,6 +414,13 @@ const STRINGS = {
       lessThanMin: "weniger als 1 Min",
       min: "Min",
       dash: "—",
+      strikeCount: "Blitze",
+      lightningDistance: "Entfernung",
+      lastStrike: "Letzter Blitz",
+      agoFormat: "vor {0}",
+      solarRadiation: "Sonneneinstrahlung",
+      noDetection: "Keine Erkennung",
+      day: "T",
     },
   },
   fr: {
@@ -396,6 +448,7 @@ const STRINGS = {
       pressureTrend: "Tendance de la pression (optionnel)",
       uvIndex: "Indice UV",
       illuminance: "Éclairement (lux)",
+      solarRadiation: "Radiation solaire (W/m²)",
       windSpeed: "Vitesse du vent",
       windGust: "Vitesse des rafales",
       windDirection: "Direction du vent (degrés)",
@@ -409,6 +462,11 @@ const STRINGS = {
       trendHours: "Heures d'historique à afficher",
       showHumidityTrend: "Superposer la tendance d'humidité (nécessite l'humidité relative ci-dessus)",
       trendChartHeight: "Hauteur du graphique (px)",
+      showSunBar: "Afficher la barre de position du soleil",
+      lightning: "Foudre",
+      lightningStrikes: "Capteur nombre d'éclairs",
+      lightningDistance: "Capteur distance du dernier éclair",
+      lastLightningTime: "Capteur horodatage dernier éclair",
     },
     conditions: {
       "clear-night": "Dégagé (nuit)",
@@ -453,6 +511,13 @@ const STRINGS = {
       lessThanMin: "moins d'1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Éclairs",
+      lightningDistance: "Distance",
+      lastStrike: "Dernier éclair",
+      agoFormat: "il y a {0}",
+      solarRadiation: "Radiation solaire",
+      noDetection: "Aucune détection",
+      day: "j",
     },
   },
   pt: {
@@ -480,6 +545,7 @@ const STRINGS = {
       pressureTrend: "Tendência de pressão (opcional)",
       uvIndex: "Índice UV",
       illuminance: "Iluminância (lux)",
+      solarRadiation: "Radiação solar (W/m²)",
       windSpeed: "Velocidade do vento",
       windGust: "Velocidade de rajada",
       windDirection: "Direção do vento (graus)",
@@ -493,6 +559,11 @@ const STRINGS = {
       trendHours: "Horas de histórico a exibir",
       showHumidityTrend: "Sobrepor tendência de umidade (requer Umidade relativa acima)",
       trendChartHeight: "Altura do gráfico (px)",
+      showSunBar: "Apresentar a posição da barra de proteção solar",
+      lightning: "Raios",
+      lightningStrikes: "Sensor de contagem de raios",
+      lightningDistance: "Sensor de distância do raio",
+      lastLightningTime: "Sensor de horário do último raio",
     },
     conditions: {
       "clear-night": "Limpo (noite)",
@@ -537,6 +608,13 @@ const STRINGS = {
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Raios",
+      lightningDistance: "Distância",
+      lastStrike: "Último raio",
+      agoFormat: "há {0}",
+      solarRadiation: "Radiação solar",
+      noDetection: "Sem detecção",
+      day: "d",
     },
   },
   it: {
@@ -564,6 +642,7 @@ const STRINGS = {
       pressureTrend: "Tendenza della pressione (opzionale)",
       uvIndex: "Indice UV",
       illuminance: "Illuminamento (lux)",
+      solarRadiation: "Radiazione solare (W/m²)",
       windSpeed: "Velocità del vento",
       windGust: "Velocità raffica",
       windDirection: "Direzione del vento (gradi)",
@@ -577,6 +656,11 @@ const STRINGS = {
       trendHours: "Ore di storico da visualizzare",
       showHumidityTrend: "Sovrapponi tendenza umidità (richiede Umidità relativa sopra)",
       trendChartHeight: "Altezza grafico (px)",
+      showSunBar: "Visualizza la posizione della barra parasole",
+      lightning: "Fulmini",
+      lightningStrikes: "Sensore conteggio fulmini",
+      lightningDistance: "Sensore distanza fulmine",
+      lastLightningTime: "Sensore orario ultimo fulmine",
     },
     conditions: {
       "clear-night": "Sereno (notte)",
@@ -621,6 +705,13 @@ const STRINGS = {
       lessThanMin: "meno di 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Fulmini",
+      lightningDistance: "Distanza",
+      lastStrike: "Ultimo fulmine",
+      agoFormat: "{0} fa",
+      solarRadiation: "Radiazione solare",
+      noDetection: "Nessun rilevamento",
+      day: "g",
     },
   },
 };
@@ -769,6 +860,17 @@ function heatRisk(v, unit, lang) {
   return { label: R.low, color: COLORS.low };
 }
 
+// Solar radiation color ladder (W/m²): blue while low, green in the
+// comfortable/typical range, yellow approaching very strong sun, red once
+// it's intense. Thresholds only, no risk label needed for this one.
+function solarRadiationColor(v) {
+  if (v === null || v === undefined || isNaN(v)) return "var(--primary-text-color, #1c2128)";
+  if (v >= 900) return COLORS.danger;
+  if (v >= 700) return COLORS.moderate;
+  if (v >= 300) return COLORS.low;
+  return COLORS.info;
+}
+
 function trendInfo(entityOrNull, hass) {
   if (!entityOrNull) return null;
   const st = hass.states[entityOrNull];
@@ -886,6 +988,7 @@ function getFieldGroups(lang) {
         { name: "apparent_temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.apparentTemperature },
         { name: "weather_condition", selector: { entity: {} }, label: E.weatherCondition },
         { name: "battery", selector: { entity: { domain: "sensor", device_class: "battery" } }, label: E.battery },
+        { name: "show_sun_bar", selector: { boolean: {} }, label: E.showSunBar },
       ],
     },
     {
@@ -900,6 +1003,7 @@ function getFieldGroups(lang) {
         { name: "pressure_trend", selector: { entity: {} }, label: E.pressureTrend },
         { name: "uv_index", selector: { entity: { domain: "sensor" } }, label: E.uvIndex },
         { name: "illuminance", selector: { entity: { domain: "sensor", device_class: "illuminance" } }, label: E.illuminance },
+        { name: "solar_radiation", selector: { entity: { domain: "sensor", device_class: "irradiance" } }, label: E.solarRadiation },
       ],
     },
     {
@@ -930,12 +1034,28 @@ function getFieldGroups(lang) {
         { name: "trend_chart_height", selector: { number: { min: 24, max: 120, mode: "box" } }, label: E.trendChartHeight },
       ],
     },
+    {
+      title: E.lightning,
+      schema: [
+        { name: "lightning_strikes", selector: { entity: { domain: "sensor" } }, label: E.lightningStrikes },
+        { name: "lightning_distance", selector: { entity: { domain: "sensor" } }, label: E.lightningDistance },
+        { name: "last_lightning", selector: { entity: { domain: "sensor" } }, label: E.lastLightningTime },
+      ],
+    },
   ];
 }
 
 class EcowittHudCardEditor extends HTMLElement {
+  // The card treats a missing "show_sun_bar" as true (see the `!== false`
+  // checks in EcowittHudCard), but ha-form's boolean selector shows an
+  // unchecked toggle for any key that's simply absent from the config.
+  // Backfilling the default here keeps what the editor displays in sync
+  // with what the card actually does.
+  _withDefaults(config) {
+    return { show_sun_bar: true, ...(config || {}) };
+  }
   setConfig(config) {
-    this._config = config || {};
+    this._config = this._withDefaults(config);
     if (this._form) {
       // Typing in the form fires value-changed -> config-changed, and HA
       // round-trips that straight back into setConfig(). Just refresh the
@@ -1007,6 +1127,20 @@ class EcowittHudCard extends HTMLElement {
       return;
     }
     this._update();
+    const sunBarRelevant = !prev || prev.show_sun_bar !== newConfig.show_sun_bar;
+    if (sunBarRelevant) {
+      const showSunBar = newConfig.show_sun_bar !== false;
+      this._els.dayBlock.style.display = showSunBar ? "" : "none";
+      if (showSunBar) {
+        this._updateSunBar();
+        if (!this._sunInterval) {
+          this._sunInterval = setInterval(() => this._updateSunBar(), SUN_REFRESH_MS);
+        }
+      } else if (this._sunInterval) {
+        clearInterval(this._sunInterval);
+        this._sunInterval = null;
+      }
+    }
     const trendRelevant =
       !prev ||
       prev.temperature !== newConfig.temperature ||
@@ -1167,6 +1301,7 @@ class EcowittHudCard extends HTMLElement {
         .rain { gap: 28px; padding-top: 16px; }
         .rain-val { font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
         .rain-sub { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
+        .lightning-row { padding-bottom: 16px; }
       </style>
       <ha-card>
         <div class="title" style="display:none;"></div>
@@ -1236,6 +1371,7 @@ class EcowittHudCard extends HTMLElement {
           <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
           <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
           <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
+          <div class="stat clickable" data-k="solar_radiation"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.solarRadiation}</div></div>
         </div>
         <div class="row rain">
           <div class="stat clickable" data-k="rain_rate">
@@ -1249,6 +1385,20 @@ class EcowittHudCard extends HTMLElement {
           <div class="stat clickable" data-k="moisture">
             <div class="rain-val"><span class="v"></span></div>
             <div class="rain-sub">${S.labels.rainSensor}</div>
+          </div>
+        </div>
+        <div class="row rain lightning-row" style="display:none;">
+          <div class="stat clickable" data-k="lightning_strikes">
+            <div class="rain-val"><ha-icon class="lightning-icon" icon="mdi:weather-lightning" style="--mdc-icon-size:18px;color:#8a63c9;"></ha-icon><span class="v"></span></div>
+            <div class="stat-label">${S.labels.strikeCount}</div>
+          </div>
+          <div class="stat clickable" data-k="lightning_distance">
+            <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
+            <div class="stat-label">${S.labels.lightningDistance}</div>
+          </div>
+          <div class="stat clickable" data-k="last_lightning">
+            <div class="rain-val"><span class="v"></span></div>
+            <div class="stat-label">${S.labels.lastStrike}</div>
           </div>
         </div>
       </ha-card>
@@ -1296,6 +1446,7 @@ class EcowittHudCard extends HTMLElement {
       rainIcon: root.querySelector(".rain-icon"),
       moistureSub: root.querySelector(".moisture-sub"),
       rainTodaySub: root.querySelector(".rain-today-sub"),
+      dayBlock: root.querySelector(".day"),
       dayFill: root.querySelector(".day-fill"),
       dayMarker: root.querySelector(".day-marker"),
       dayCaption: root.querySelector(".day-caption"),
@@ -1319,6 +1470,7 @@ class EcowittHudCard extends HTMLElement {
       trendHoursLbl: root.querySelector(".trend-hours-lbl"),
       gridBlock: root.querySelector(".grid"),
       rainBlock: root.querySelector(".row.rain"),
+      lightningBlock: root.querySelector(".lightning-row"),
       stats: {},
     };
     root.querySelectorAll(".stat[data-k]").forEach((el) => {
@@ -1337,7 +1489,7 @@ class EcowittHudCard extends HTMLElement {
     if (!this._trendInterval) {
       this._trendInterval = setInterval(() => this._fetchTrend(), HISTORY_REFRESH_MS);
     }
-    if (!this._sunInterval) {
+    if (!this._sunInterval && this._config.show_sun_bar !== false) {
       this._sunInterval = setInterval(() => this._updateSunBar(), SUN_REFRESH_MS);
     }
     if (!this._minMaxInterval) {
@@ -1407,6 +1559,25 @@ class EcowittHudCard extends HTMLElement {
     const m = totalMin % 60;
     if (h <= 0) return `${m} ${L.min}`;
     return `${h}h ${m}${L.min}`;
+  }
+  // Wraps a duration with the language's "X ago" phrasing (word order
+  // varies: English trails "ago", French/Spanish/Portuguese lead with it).
+  // Below 24h this reuses _durationStr's "Xh Ym" format; beyond that it
+  // switches to a day-based format ("3j 5h") since minutes stop being a
+  // useful unit for something that happened days ago.
+  _agoStr(ms) {
+    const L = STRINGS[this._lang()].labels;
+    if (ms === null || isNaN(ms)) return L.dash;
+    if (ms <= 0) return (L.agoFormat || "{0}").replace("{0}", L.lessThanMin);
+    const totalMin = Math.round(ms / 60000);
+    if (totalMin >= 1440) {
+      const days = Math.floor(totalMin / 1440);
+      const remHours = Math.floor((totalMin % 1440) / 60);
+      const dur = remHours > 0 ? `${days}${L.day} ${remHours}h` : `${days}${L.day}`;
+      return (L.agoFormat || "{0}").replace("{0}", dur);
+    }
+    const dur = this._durationStr(ms);
+    return (L.agoFormat || "{0}").replace("{0}", dur);
   }
   _showTrendMessage(show) {
     const els = this._els;
@@ -1788,6 +1959,9 @@ class EcowittHudCard extends HTMLElement {
     const lux = fmt(hass, c.illuminance, 0);
     setStat("illuminance", lux.value !== null && lux.value >= 1000 ? `${(lux.value / 1000).toFixed(1)}k` : lux.text, lux.unit || "lx");
 
+    const radiation = fmt(hass, c.solar_radiation, 0);
+    setStat("solar_radiation", radiation.text, radiation.unit || "W/m²", solarRadiationColor(radiation.value));
+
     const rainRate = fmt(hass, c.rain_rate, 1);
     // "Raining now" (icon + color) always reflects the live instantaneous
     // reading, even when the big number below shows a recent peak instead —
@@ -1835,13 +2009,56 @@ class EcowittHudCard extends HTMLElement {
     }
     setStat("moisture", moistTxt);
 
-    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "pressure", "illuminance"];
+    // Lightning: strike count and distance follow the same generic
+    // numeric-sensor pattern as the grid/rain stats above.
+    const strikes = fmt(hass, c.lightning_strikes, 0);
+    setStat("lightning_strikes", strikes.text, strikes.unit);
+
+    // Ecowitt lightning sensors report a fixed 40 km when no strike has
+    // been detected (it's the sensor's max range, not a real reading), so
+    // treat that value as "no detection" instead of showing "40.0 km".
+    const lightningDist = fmt(hass, c.lightning_distance, 1);
+    if (lightningDist.value !== null && Math.abs(lightningDist.value - 40) < 0.05) {
+      setStat("lightning_distance", S.labels.noDetection, "");
+    } else {
+      setStat("lightning_distance", lightningDist.text, lightningDist.unit || "km");
+    }
+
+    // Last strike is a timestamp sensor, not a plain number, so it's
+    // rendered manually as a relative "X ago" string instead of via fmt().
+    const lastLightningStat = els.stats.last_lightning;
+    if (lastLightningStat) {
+      const configured = !!c.last_lightning;
+      lastLightningStat.root.style.display = configured ? "" : "none";
+      if (configured) {
+        const st = c.last_lightning && hass.states[c.last_lightning];
+        let text = S.labels.dash;
+        if (st && st.state && st.state !== "unknown" && st.state !== "unavailable") {
+          const t = new Date(st.state).getTime();
+          if (!isNaN(t)) {
+            const diff = Date.now() - t;
+            text = diff >= 0 ? this._agoStr(diff) : this._timeStr(new Date(t));
+          } else {
+            text = st.state;
+          }
+        }
+        lastLightningStat.val.textContent = text;
+      }
+    }
+
+    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "pressure", "illuminance", "solar_radiation"];
     els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
 
     const rainKeys = ["rain_rate", "rain_today", "moisture"];
     els.rainBlock.style.display = rainKeys.some((k) => !!c[k]) ? "" : "none";
 
-    this._updateSunBar();
+    const lightningKeys = ["lightning_strikes", "lightning_distance", "last_lightning"];
+    els.lightningBlock.style.display = lightningKeys.some((k) => !!c[k]) ? "" : "none";
+
+    els.dayBlock.style.display = c.show_sun_bar !== false ? "" : "none";
+    if (c.show_sun_bar !== false) {
+      this._updateSunBar();
+    }
   }
 
   _updateSunBar() {

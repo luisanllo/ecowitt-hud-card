@@ -21,9 +21,11 @@ history dialog.
 
 - 🌡️ Current temperature, feels-like, and **last 24h high/low with the time each occurred**
 - 📈 Temperature trend chart for the last few hours, with an optional humidity overlay (dual axis) and a hover tooltip showing time/temperature/humidity
-- 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown
+- 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown — can be hidden
 - 🧭 Wind compass with speed, gust, and direction
 - ☔ Rain block: peak intensity over a short recent window (avoids the "always reads 0" problem of spiky instantaneous rain-rate sensors), today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status
+- ⛈️ Optional lightning block: strike count, distance (with automatic "no detection" handling for sensors that report a fixed max-range value when idle), and time since the last strike
+- ☀️ Optional solar radiation reading with an automatic color scale
 - ⚠️ Automatic color scales for heat risk and UV index
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
@@ -62,6 +64,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `apparent_temperature` | No | Feels-like temperature |
 | `weather_condition` | No | Condition entity (text like `sunny`, `cloudy`...) |
 | `battery` | No | Station battery level |
+| `show_sun_bar` | No | Show the sun position bar (`true` by default) |
 | `dew_point` | No | Dew point |
 | `wind_chill` | No | Wind chill |
 | `humidex` | No | Humidex |
@@ -71,6 +74,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `pressure_trend` | No | Pressure trend (rising/falling/steady) |
 | `uv_index` | No | UV index |
 | `illuminance` | No | Illuminance (lux) |
+| `solar_radiation` | No | Solar radiation (W/m²) |
 | `wind_speed` | No | Wind speed |
 | `wind_gust` | No | Gust speed |
 | `wind_direction` | No | Wind direction (degrees) |
@@ -84,6 +88,9 @@ optional, and the card automatically hides whatever you don't fill in.
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
 | `show_humidity_trend` | No | Overlay a humidity line on the trend chart (needs `humidity` set above) |
 | `trend_chart_height` | No | Chart height in pixels (`48` by default) |
+| `lightning_strikes` | No | Lightning strike count sensor |
+| `lightning_distance` | No | Distance to the last detected strike |
+| `last_lightning` | No | Timestamp sensor for the last detected strike (shown as a relative "X ago" time) |
 
 ### Example
 
@@ -129,7 +136,11 @@ moisture: binary_sensor.my_station_rain_status
   indistinguishable, and the top value on each axis carries a small
   🌡️/💧 marker as a second, color-independent cue.
 - The sun bar uses Home Assistant's `sun.sun` entity; no extra configuration
-  needed.
+  needed. Set `show_sun_bar: false` to hide it.
+- `lightning_distance` treats a reading of exactly 40 km as "no detection"
+  rather than showing "40.0 km" — some Ecowitt lightning sensors report
+  that fixed value (their maximum detection range) when idle, instead of
+  a real distance.
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the
   sensor's unit is `%` or the value falls in that range; otherwise it's
   treated as a degree-based index.
@@ -177,6 +188,12 @@ Contributions from [@ArekKubacki](https://github.com/ArekKubacki):
 - Wind compass redesign: the direction arrow now sits near the rim,
   pointing back toward the center, instead of overlapping the center
   label ([#2](https://github.com/luisanllo/ecowitt-hud-card/issues/2)).
+
+Contributions from [@tonyontheroad](https://github.com/tonyontheroad):
+
+- Solar radiation reading, lightning tracking (strike count, distance,
+  time since last strike), and a toggle to hide the sun position bar
+  ([#5](https://github.com/luisanllo/ecowitt-hud-card/pull/5)).
 
 ## License
 

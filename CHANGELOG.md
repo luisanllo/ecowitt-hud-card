@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here.
 
+## [1.5.0] - 2026-08-25
+
+### Added
+- Solar radiation reading (`solar_radiation`) with an automatic color
+  scale.
+- Lightning tracking: strike count, distance to the last strike (with
+  automatic "no detection" handling for sensors that report a fixed
+  max-range value like 40 km when idle, instead of a real distance),
+  and a relative "X ago" time since the last strike.
+- `show_sun_bar` option to hide the sun position bar.
+
+Contributed by [@tonyontheroad](https://github.com/tonyontheroad)
+([#5](https://github.com/luisanllo/ecowitt-hud-card/pull/5)).
+
 ## [1.4.2] - 2026-08-24
 
 ### Fixed
