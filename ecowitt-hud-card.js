@@ -46,6 +46,7 @@ const STRINGS = {
       pressureTrend: "Pressure trend (optional)",
       uvIndex: "UV index",
       illuminance: "Illuminance (lux)",
+      solarRadiation: "Solar radiation (W/m²)",
       windSpeed: "Wind speed",
       windGust: "Gust speed",
       windDirection: "Wind direction (degrees)",
@@ -59,6 +60,11 @@ const STRINGS = {
       trendHours: "Hours of history to display",
       showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
       trendChartHeight: "Chart height (px)",
+      showSunBar: "Show sun position bar",
+      lightning: "Lightning",
+      lightningStrikes: "Strike count sensor",
+      lightningDistance: "Strike distance sensor",
+      lastLightningTime: "Last strike time sensor",
     },
     conditions: {
       "clear-night": "Clear (night)",
@@ -103,6 +109,13 @@ const STRINGS = {
       lessThanMin: "less than 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Strikes",
+      lightningDistance: "Distance",
+      lastStrike: "Last strike",
+      agoFormat: "{0} ago",
+      solarRadiation: "Solar radiation",
+      noDetection: "No detection",
+      day: "d",
     },
   },
   pl: {
@@ -130,6 +143,7 @@ const STRINGS = {
       pressureTrend: "Trend ciśnienia (opcjonalnie)",
       uvIndex: "Indeks UV",
       illuminance: "Natężenie oświetlenia (lux)",
+      solarRadiation: "Promieniowanie słoneczne (W/m²)",
       windSpeed: "Prędkość wiatru",
       windGust: "Prędkość porywów",
       windDirection: "Kierunek wiatru (stopnie)",
@@ -143,6 +157,11 @@ const STRINGS = {
       trendHours: "Liczba godzin historii do wyświetlenia",
       showHumidityTrend: "Nałóż trend wilgotności (wymaga ustawienia Wilgotności względnej powyżej)",
       trendChartHeight: "Wysokość wykresu (px)",
+      showSunBar: "Wyświetl położenie paska słonecznego",
+      lightning: "Wyładowania atmosferyczne",
+      lightningStrikes: "Czujnik liczby wyładowań",
+      lightningDistance: "Czujnik odległości wyładowania",
+      lastLightningTime: "Czujnik czasu ostatniego wyładowania",
     },
 
     conditions: {
@@ -197,6 +216,13 @@ const STRINGS = {
       lessThanMin: "mniej niż 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Wyładowania",
+      lightningDistance: "Odległość",
+      lastStrike: "Ostatnie wyładowanie",
+      agoFormat: "{0} temu",
+      solarRadiation: "Promieniowanie słoneczne",
+      noDetection: "Brak wykrycia",
+      day: "d",
     },
   },
   es: {
@@ -224,6 +250,7 @@ const STRINGS = {
       pressureTrend: "Tendencia de presión (opcional)",
       uvIndex: "Índice UV",
       illuminance: "Iluminancia (lux)",
+      solarRadiation: "Radiación solar (W/m²)",
       windSpeed: "Velocidad del viento",
       windGust: "Velocidad de racha",
       windDirection: "Dirección del viento (grados)",
@@ -237,6 +264,11 @@ const STRINGS = {
       trendHours: "Horas de histórico a mostrar",
       showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
       trendChartHeight: "Altura del gráfico (px)",
+      showSunBar: "Ver la posición de la barra solar",
+      lightning: "Rayos",
+      lightningStrikes: "Sensor de número de rayos",
+      lightningDistance: "Sensor de distancia del rayo",
+      lastLightningTime: "Sensor de hora del último rayo",
     },
     conditions: {
       "clear-night": "Despejado (noche)",
@@ -281,6 +313,13 @@ const STRINGS = {
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Rayos",
+      lightningDistance: "Distancia",
+      lastStrike: "Último rayo",
+      agoFormat: "hace {0}",
+      solarRadiation: "Radiación solar",
+      noDetection: "Sin detección",
+      day: "d",
     },
   },
   // The languages below (de, fr, pt, it) are machine-translated and have
@@ -312,6 +351,7 @@ const STRINGS = {
       pressureTrend: "Druck-Trend (optional)",
       uvIndex: "UV-Index",
       illuminance: "Beleuchtungsstärke (Lux)",
+      solarRadiation: "Sonneneinstrahlung (W/m²)",
       windSpeed: "Windgeschwindigkeit",
       windGust: "Böengeschwindigkeit",
       windDirection: "Windrichtung (Grad)",
@@ -325,6 +365,11 @@ const STRINGS = {
       trendHours: "Anzuzeigende Stunden des Verlaufs",
       showHumidityTrend: "Feuchtigkeitstrend überlagern (benötigt relative Luftfeuchtigkeit oben)",
       trendChartHeight: "Diagrammhöhe (px)",
+      showSunBar: "Position der Sonnenblende anzeigen",
+      lightning: "Blitze",
+      lightningStrikes: "Sensor Blitzanzahl",
+      lightningDistance: "Sensor Blitzentfernung",
+      lastLightningTime: "Sensor Zeit des letzten Blitzes",
     },
     conditions: {
       "clear-night": "Klar (Nacht)",
@@ -369,6 +414,13 @@ const STRINGS = {
       lessThanMin: "weniger als 1 Min",
       min: "Min",
       dash: "—",
+      strikeCount: "Blitze",
+      lightningDistance: "Entfernung",
+      lastStrike: "Letzter Blitz",
+      agoFormat: "vor {0}",
+      solarRadiation: "Sonneneinstrahlung",
+      noDetection: "Keine Erkennung",
+      day: "T",
     },
   },
   fr: {
@@ -396,6 +448,7 @@ const STRINGS = {
       pressureTrend: "Tendance de la pression (optionnel)",
       uvIndex: "Indice UV",
       illuminance: "Éclairement (lux)",
+      solarRadiation: "Radiation solaire (W/m²)",
       windSpeed: "Vitesse du vent",
       windGust: "Vitesse des rafales",
       windDirection: "Direction du vent (degrés)",
@@ -409,6 +462,11 @@ const STRINGS = {
       trendHours: "Heures d'historique à afficher",
       showHumidityTrend: "Superposer la tendance d'humidité (nécessite l'humidité relative ci-dessus)",
       trendChartHeight: "Hauteur du graphique (px)",
+      showSunBar: "Afficher la barre de position du soleil",
+      lightning: "Foudre",
+      lightningStrikes: "Capteur nombre d'éclairs",
+      lightningDistance: "Capteur distance du dernier éclair",
+      lastLightningTime: "Capteur horodatage dernier éclair",
     },
     conditions: {
       "clear-night": "Dégagé (nuit)",
@@ -453,6 +511,13 @@ const STRINGS = {
       lessThanMin: "moins d'1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Éclairs",
+      lightningDistance: "Distance",
+      lastStrike: "Dernier éclair",
+      agoFormat: "il y a {0}",
+      solarRadiation: "Radiation solaire",
+      noDetection: "Aucune détection",
+      day: "j",
     },
   },
   pt: {
@@ -480,6 +545,7 @@ const STRINGS = {
       pressureTrend: "Tendência de pressão (opcional)",
       uvIndex: "Índice UV",
       illuminance: "Iluminância (lux)",
+      solarRadiation: "Radiação solar (W/m²)",
       windSpeed: "Velocidade do vento",
       windGust: "Velocidade de rajada",
       windDirection: "Direção do vento (graus)",
@@ -493,6 +559,11 @@ const STRINGS = {
       trendHours: "Horas de histórico a exibir",
       showHumidityTrend: "Sobrepor tendência de umidade (requer Umidade relativa acima)",
       trendChartHeight: "Altura do gráfico (px)",
+      showSunBar: "Apresentar a posição da barra de proteção solar",
+      lightning: "Raios",
+      lightningStrikes: "Sensor de contagem de raios",
+      lightningDistance: "Sensor de distância do raio",
+      lastLightningTime: "Sensor de horário do último raio",
     },
     conditions: {
       "clear-night": "Limpo (noite)",
@@ -537,6 +608,13 @@ const STRINGS = {
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Raios",
+      lightningDistance: "Distância",
+      lastStrike: "Último raio",
+      agoFormat: "há {0}",
+      solarRadiation: "Radiação solar",
+      noDetection: "Sem detecção",
+      day: "d",
     },
   },
   it: {
@@ -564,6 +642,7 @@ const STRINGS = {
       pressureTrend: "Tendenza della pressione (opzionale)",
       uvIndex: "Indice UV",
       illuminance: "Illuminamento (lux)",
+      solarRadiation: "Radiazione solare (W/m²)",
       windSpeed: "Velocità del vento",
       windGust: "Velocità raffica",
       windDirection: "Direzione del vento (gradi)",
@@ -577,6 +656,11 @@ const STRINGS = {
       trendHours: "Ore di storico da visualizzare",
       showHumidityTrend: "Sovrapponi tendenza umidità (richiede Umidità relativa sopra)",
       trendChartHeight: "Altezza grafico (px)",
+      showSunBar: "Visualizza la posizione della barra parasole",
+      lightning: "Fulmini",
+      lightningStrikes: "Sensore conteggio fulmini",
+      lightningDistance: "Sensore distanza fulmine",
+      lastLightningTime: "Sensore orario ultimo fulmine",
     },
     conditions: {
       "clear-night": "Sereno (notte)",
@@ -621,6 +705,13 @@ const STRINGS = {
       lessThanMin: "meno di 1 min",
       min: "min",
       dash: "—",
+      strikeCount: "Fulmini",
+      lightningDistance: "Distanza",
+      lastStrike: "Ultimo fulmine",
+      agoFormat: "{0} fa",
+      solarRadiation: "Radiazione solare",
+      noDetection: "Nessun rilevamento",
+      day: "g",
     },
   },
 };
@@ -666,17 +757,17 @@ function detectLang(hass) {
   // hass.locale.language. Keep hass.language and the browser locale as
   // fallbacks for compatibility with older HA versions / initial rendering.
   const raw =
-    (hass && hass.locale && hass.locale.language) ||
-    (hass && hass.language) ||
-    (typeof navigator !== "undefined" && navigator.language) ||
-    "en";
+  (hass && hass.locale && hass.locale.language) ||
+  (hass && hass.language) ||
+  (typeof navigator !== "undefined" && navigator.language) ||
+  "en";
 
   // Normalize values such as "pl-PL" and "pl_PL" to "pl".
   const lang = String(raw)
-    .trim()
-    .toLowerCase()
-    .replace(/_/g, "-")
-    .split("-")[0];
+  .trim()
+  .toLowerCase()
+  .replace(/_/g, "-")
+  .split("-")[0];
 
   // Use a translation only when it exists; otherwise fall back to English.
   return Object.prototype.hasOwnProperty.call(STRINGS, lang) ? lang : "en";
@@ -751,6 +842,17 @@ function heatRisk(v, unit, lang) {
   return { label: R.low, color: COLORS.low };
 }
 
+// Solar radiation color ladder (W/m²): blue while low, green in the
+// comfortable/typical range, yellow approaching very strong sun, red once
+// it's intense. Thresholds only, no risk label needed for this one.
+function solarRadiationColor(v) {
+  if (v === null || v === undefined || isNaN(v)) return "var(--primary-text-color, #1c2128)";
+  if (v >= 900) return COLORS.danger;
+  if (v >= 700) return COLORS.moderate;
+  if (v >= 300) return COLORS.low;
+  return COLORS.info;
+}
+
 function trendInfo(entityOrNull, hass) {
   if (!entityOrNull) return null;
   const st = hass.states[entityOrNull];
@@ -786,13 +888,13 @@ function fmt(hass, entityId, decimals) {
 function historyPoints(result) {
   if (!result || !result[0]) return [];
   return result[0]
-    .map((p) => {
-      const rawState = p.state !== undefined && p.state !== null ? p.state : p.s;
-      const rawTime = p.last_changed ? p.last_changed : p.lu * 1000;
-      return { t: new Date(rawTime).getTime(), v: parseFloat(rawState) };
-    })
-    .filter((p) => !isNaN(p.v) && !isNaN(p.t))
-    .sort((a, b) => a.t - b.t);
+  .map((p) => {
+    const rawState = p.state !== undefined && p.state !== null ? p.state : p.s;
+    const rawTime = p.last_changed ? p.last_changed : p.lu * 1000;
+    return { t: new Date(rawTime).getTime(), v: parseFloat(rawState) };
+  })
+  .filter((p) => !isNaN(p.v) && !isNaN(p.t))
+  .sort((a, b) => a.t - b.t);
 }
 
 // Builds a history/period URL for a single entity starting at startMs.
@@ -837,6 +939,7 @@ function getFieldGroups(lang) {
         { name: "apparent_temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.apparentTemperature },
         { name: "weather_condition", selector: { entity: {} }, label: E.weatherCondition },
         { name: "battery", selector: { entity: { domain: "sensor", device_class: "battery" } }, label: E.battery },
+        { name: "show_sun_bar", selector: { boolean: {} }, label: E.showSunBar },
       ],
     },
     {
@@ -851,6 +954,7 @@ function getFieldGroups(lang) {
         { name: "pressure_trend", selector: { entity: {} }, label: E.pressureTrend },
         { name: "uv_index", selector: { entity: { domain: "sensor" } }, label: E.uvIndex },
         { name: "illuminance", selector: { entity: { domain: "sensor", device_class: "illuminance" } }, label: E.illuminance },
+        { name: "solar_radiation", selector: { entity: { domain: "sensor", device_class: "irradiance" } }, label: E.solarRadiation },
       ],
     },
     {
@@ -881,12 +985,28 @@ function getFieldGroups(lang) {
         { name: "trend_chart_height", selector: { number: { min: 24, max: 120, mode: "box" } }, label: E.trendChartHeight },
       ],
     },
+    {
+      title: E.lightning,
+      schema: [
+        { name: "lightning_strikes", selector: { entity: { domain: "sensor" } }, label: E.lightningStrikes },
+        { name: "lightning_distance", selector: { entity: { domain: "sensor" } }, label: E.lightningDistance },
+        { name: "last_lightning", selector: { entity: { domain: "sensor" } }, label: E.lastLightningTime },
+      ],
+    },
   ];
 }
 
 class EcowittHudCardEditor extends HTMLElement {
+  // The card treats a missing "show_sun_bar" as true (see the `!== false`
+  // checks in EcowittHudCard), but ha-form's boolean selector shows an
+  // unchecked toggle for any key that's simply absent from the config.
+  // Backfilling the default here keeps what the editor displays in sync
+  // with what the card actually does.
+  _withDefaults(config) {
+    return { show_sun_bar: true, ...(config || {}) };
+  }
   setConfig(config) {
-    this._config = config || {};
+    this._config = this._withDefaults(config);
     if (this._form) {
       // Typing in the form fires value-changed -> config-changed, and HA
       // round-trips that straight back into setConfig(). Just refresh the
@@ -958,13 +1078,27 @@ class EcowittHudCard extends HTMLElement {
       return;
     }
     this._update();
+    const sunBarRelevant = !prev || prev.show_sun_bar !== newConfig.show_sun_bar;
+    if (sunBarRelevant) {
+      const showSunBar = newConfig.show_sun_bar !== false;
+      this._els.dayBlock.style.display = showSunBar ? "" : "none";
+      if (showSunBar) {
+        this._updateSunBar();
+        if (!this._sunInterval) {
+          this._sunInterval = setInterval(() => this._updateSunBar(), SUN_REFRESH_MS);
+        }
+      } else if (this._sunInterval) {
+        clearInterval(this._sunInterval);
+        this._sunInterval = null;
+      }
+    }
     const trendRelevant =
-      !prev ||
-      prev.temperature !== newConfig.temperature ||
-      prev.trend_hours !== newConfig.trend_hours ||
-      prev.show_trend !== newConfig.show_trend ||
-      prev.show_humidity_trend !== newConfig.show_humidity_trend ||
-      prev.humidity !== newConfig.humidity;
+    !prev ||
+    prev.temperature !== newConfig.temperature ||
+    prev.trend_hours !== newConfig.trend_hours ||
+    prev.show_trend !== newConfig.show_trend ||
+    prev.show_humidity_trend !== newConfig.show_humidity_trend ||
+    prev.humidity !== newConfig.humidity;
     if (trendRelevant) {
       this._fetchTrend();
       this._fetchMinMax();
@@ -974,17 +1108,17 @@ class EcowittHudCard extends HTMLElement {
       this._renderTrend();
     }
     const rainWindowRelevant =
-      !prev ||
-      prev.rain_today !== newConfig.rain_today ||
-      prev.rain_cumulative !== newConfig.rain_cumulative ||
-      prev.rain_window_hours !== newConfig.rain_window_hours;
+    !prev ||
+    prev.rain_today !== newConfig.rain_today ||
+    prev.rain_cumulative !== newConfig.rain_cumulative ||
+    prev.rain_window_hours !== newConfig.rain_window_hours;
     if (rainWindowRelevant) {
       this._fetchRainWindow();
     }
     const rainRatePeakRelevant =
-      !prev ||
-      prev.rain_rate !== newConfig.rain_rate ||
-      prev.rain_rate_window_minutes !== newConfig.rain_rate_window_minutes;
+    !prev ||
+    prev.rain_rate !== newConfig.rain_rate ||
+    prev.rain_rate_window_minutes !== newConfig.rain_rate_window_minutes;
     if (rainRatePeakRelevant) {
       this._fetchRainRatePeak();
     }
@@ -1060,149 +1194,165 @@ class EcowittHudCard extends HTMLElement {
     const S = STRINGS[lang];
     const root = this.shadowRoot;
     root.innerHTML = `
-      <style>
-        :host { display: block; }
-        ha-card { display: block; padding: 22px 24px; background: var(--ha-card-background, var(--card-background-color, #fff)); color: var(--primary-text-color, #1c2128); font-family: -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; border-radius: var(--ha-card-border-radius, 12px); box-shadow: var(--ha-card-box-shadow, 0 1px 3px rgba(0,0,0,.12)); border: 1px solid var(--divider-color, rgba(0,0,0,.06)); }
-        .clickable { cursor: pointer; border-radius: 6px; transition: background .15s ease; }
-        .clickable:hover { background: rgba(127,127,127,.12); }
-        .clickable:active { background: rgba(127,127,127,.18); }
-        .title { font-size: 13px; font-weight: 600; color: var(--secondary-text-color, #70788a); margin: 0 0 14px; letter-spacing: .02em; }
-        .row { display: flex; }
-        .divider { border-bottom: 1px solid var(--divider-color, rgba(0,0,0,.08)); }
-        .hero { align-items: center; gap: 16px; padding-bottom: 16px; }
-        .hero-temp { font-size: 40px; font-weight: 600; line-height: 1; }
-        .hero-unit { font-size: 17px; color: #e08a1e; }
-        .hero-sub { font-size: 12px; color: var(--secondary-text-color, #70788a); margin-top: 4px; }
-        .hero-minmax { font-size: 11px; color: var(--secondary-text-color, #70788a); margin-top: 4px; display: flex; gap: 14px; }
-        .hero-minmax .arrow-up { color: ${COLORS.danger}; font-weight: 600; }
-        .hero-minmax .arrow-down { color: ${COLORS.info}; font-weight: 600; }
-        .hero-minmax .mm-time { color: var(--secondary-text-color, #8a92a3); margin-left: 2px; }
-        .battery { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-        .battery-row { display: flex; align-items: center; gap: 5px; }
-        .battery-pct { font-size: 15px; font-weight: 600; }
-        .battery-label { font-size: 9px; color: var(--secondary-text-color, #70788a); }
-        .trend { padding: 12px 0 14px; }
-        .trend-label { font-size: 9px; letter-spacing: .08em; color: var(--secondary-text-color, #8a92a3); margin-bottom: 5px; text-transform: uppercase; }
-        .trend-chart-row { display: flex; align-items: stretch; gap: 8px; }
-        .trend-unavailable { font-size: 11px; color: var(--secondary-text-color, #8a92a3); padding: 4px 0; }
-        .trend-svg-wrap { position: relative; flex: 1; min-width: 0; cursor: crosshair; }
-        .trend-svg { width: 100%; display: block; }
-        .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
-        .trend-axis-col.right { text-align: right; color: ${COLORS.info}; }
-        .trend-crosshair { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--divider-color, rgba(0,0,0,.25)); pointer-events: none; }
-        .trend-tooltip { position: absolute; top: -6px; transform: translate(-50%, -100%); background: var(--card-background-color, #fff); border: 1px solid var(--divider-color, rgba(0,0,0,.12)); border-radius: 6px; padding: 4px 8px; font-size: 10.5px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none; z-index: 2; color: var(--primary-text-color, #1c2128); }
-        .trend-tooltip .tt-time { color: var(--secondary-text-color, #8a92a3); margin-right: 5px; }
-        .trend-tooltip .tt-temp { font-weight: 600; }
-        .trend-tooltip .tt-hum { color: ${COLORS.info}; font-weight: 600; margin-left: 5px; }
-        .day { padding: 14px 0 16px; }
-        .day-top { display: flex; align-items: center; gap: 8px; }
-        .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
-        .day-edge ha-icon { --mdc-icon-size: 15px; }
-        .day-track { flex: 1; height: 4px; border-radius: 2px; background: var(--divider-color, rgba(0,0,0,.07)); position: relative; }
-        .day-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px; }
-        .day-marker { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%; background: #f5a623; box-shadow: 0 0 8px rgba(245,166,35,.5); transform: translate(-50%, -50%); }
-        .day-caption { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); text-align: center; margin-top: 7px; }
-        .wind { gap: 20px; padding: 16px 0; align-items: center; }
-        .wind-compass { width: 64px; height: 64px; flex: none; border-radius: 50%; border: 1px solid var(--divider-color, rgba(0,0,0,.1)); position: relative; display: flex; align-items: center; justify-content: center; }
-        .wind-compass ha-icon { position: absolute; --mdc-icon-size: 20px; transform-origin: center center; transition: transform .35s ease; }
-        .wind-compass span { font-size: 8px; color: var(--secondary-text-color, #70788a); }
-        .wind-info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
-        .wind-speed { font-size: 22px; font-weight: 600; }
-        .wind-speed-unit { font-size: 11px; color: var(--secondary-text-color, #70788a); font-weight: 400; }
-        .wind-dir { font-size: 11px; color: var(--secondary-text-color, #70788a); }
-        .wind-gust { font-size: 11.5px; color: var(--secondary-text-color, #8a92a3); }
-        .grid { display: flex; flex-wrap: wrap; gap: 22px 28px; padding: 16px 0; }
-        .stat-val { font-size: 16px; font-weight: 600; }
-        .stat-unit { font-size: 12px; color: var(--secondary-text-color, #70788a); }
-        .stat-label { font-size: 9.5px; color: var(--secondary-text-color, #70788a); margin-top: 2px; }
-        .rain { gap: 28px; padding-top: 16px; }
-        .rain-val { font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-        .rain-sub { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
-      </style>
-      <ha-card>
-        <div class="title" style="display:none;"></div>
-        <div class="row hero divider">
-          <ha-icon class="hero-icon clickable" style="--mdc-icon-size:48px;flex:none;"></ha-icon>
-          <div style="flex:1">
-            <div class="row" style="align-items:baseline;gap:10px;">
-              <div class="hero-temp clickable"><span class="hero-temp-val">—</span><span class="hero-unit"></span></div>
-              <div class="hero-sub clickable"></div>
-            </div>
-            <div class="hero-minmax"></div>
-          </div>
-          <div class="battery clickable">
-            <div class="battery-row">
-              <ha-icon class="battery-icon" style="--mdc-icon-size:16px;"></ha-icon>
-              <span class="battery-pct">—</span>
-            </div>
-            <div class="battery-label">${S.labels.battery}</div>
-          </div>
-        </div>
-        <div class="trend divider" id="trend-block" style="display:none;">
-          <div class="trend-label">${S.labels.trend} <span class="trend-hours-lbl"></span></div>
-          <div class="trend-unavailable" style="display:none;">${S.labels.noHistory}</div>
-          <div class="trend-chart-row">
-            <div class="trend-axis-col left">
-              <span class="trend-max"></span>
-              <span class="trend-min"></span>
-            </div>
-            <div class="trend-svg-wrap">
-              <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
-              <div class="trend-crosshair" style="display:none;"></div>
-              <div class="trend-tooltip" style="display:none;"></div>
-            </div>
-            <div class="trend-axis-col right" style="display:none;">
-              <span class="trend-max-h"></span>
-              <span class="trend-min-h"></span>
-            </div>
-          </div>
-        </div>
-        <div class="day divider">
-          <div class="day-top">
-            <span class="day-edge"><ha-icon class="edge-start-icon" icon="mdi:weather-sunset-up"></ha-icon><span class="edge-start-lbl"></span></span>
-            <div class="day-track"><div class="day-fill"></div><div class="day-marker"></div></div>
-            <span class="day-edge"><span class="edge-end-lbl"></span><ha-icon class="edge-end-icon" icon="mdi:weather-sunset-down"></ha-icon></span>
-          </div>
-          <div class="day-caption"></div>
-        </div>
-        <div class="row wind divider">
-          <div class="wind-compass">
-            <ha-icon icon="mdi:navigation" class="wind-arrow" style="color:${COLORS.info};"></ha-icon>
-            <span class="wind-dir-label"></span>
-          </div>
-          <div class="wind-info">
-            <div class="row" style="align-items:baseline;gap:8px;">
-              <span class="wind-speed clickable"><span class="wind-speed-val">—</span> <span class="wind-speed-unit"></span></span>
-              <span class="wind-dir clickable"></span>
-            </div>
-            <div class="wind-gust clickable"></div>
-          </div>
-        </div>
-        <div class="grid divider">
-          <div class="stat clickable" data-k="humidity"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidity}</div></div>
-          <div class="stat clickable" data-k="dew_point"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.dewPoint}</div></div>
-          <div class="stat clickable" data-k="wind_chill"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.windChill}</div></div>
-          <div class="stat clickable" data-k="humidex"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidex}</div></div>
-          <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.uvIndex}</div></div>
-          <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
-          <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
-          <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
-        </div>
-        <div class="row rain">
-          <div class="stat clickable" data-k="rain_rate">
-            <div class="rain-val"><ha-icon class="rain-icon" style="--mdc-icon-size:18px;"></ha-icon><span class="v"></span> <span class="stat-unit u"></span></div>
-            <div class="rain-sub moisture-sub"></div>
-          </div>
-          <div class="stat clickable" data-k="rain_today">
-            <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
-            <div class="rain-sub rain-today-sub">${S.labels.rainToday}</div>
-          </div>
-          <div class="stat clickable" data-k="moisture">
-            <div class="rain-val"><span class="v"></span></div>
-            <div class="rain-sub">${S.labels.rainSensor}</div>
-          </div>
-        </div>
-      </ha-card>
+    <style>
+    :host { display: block; }
+    ha-card { display: block; padding: 22px 24px; background: var(--ha-card-background, var(--card-background-color, #fff)); color: var(--primary-text-color, #1c2128); font-family: -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; border-radius: var(--ha-card-border-radius, 12px); box-shadow: var(--ha-card-box-shadow, 0 1px 3px rgba(0,0,0,.12)); border: 1px solid var(--divider-color, rgba(0,0,0,.06)); }
+    .clickable { cursor: pointer; border-radius: 6px; transition: background .15s ease; }
+    .clickable:hover { background: rgba(127,127,127,.12); }
+    .clickable:active { background: rgba(127,127,127,.18); }
+    .title { font-size: 13px; font-weight: 600; color: var(--secondary-text-color, #70788a); margin: 0 0 14px; letter-spacing: .02em; }
+    .row { display: flex; }
+    .divider { border-bottom: 1px solid var(--divider-color, rgba(0,0,0,.08)); }
+    .hero { align-items: center; gap: 16px; padding-bottom: 16px; }
+    .hero-temp { font-size: 40px; font-weight: 600; line-height: 1; }
+    .hero-unit { font-size: 17px; color: #e08a1e; }
+    .hero-sub { font-size: 12px; color: var(--secondary-text-color, #70788a); margin-top: 4px; }
+    .hero-minmax { font-size: 11px; color: var(--secondary-text-color, #70788a); margin-top: 4px; display: flex; gap: 14px; }
+    .hero-minmax .arrow-up { color: ${COLORS.danger}; font-weight: 600; }
+    .hero-minmax .arrow-down { color: ${COLORS.info}; font-weight: 600; }
+    .hero-minmax .mm-time { color: var(--secondary-text-color, #8a92a3); margin-left: 2px; }
+    .battery { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+    .battery-row { display: flex; align-items: center; gap: 5px; }
+    .battery-pct { font-size: 15px; font-weight: 600; }
+    .battery-label { font-size: 9px; color: var(--secondary-text-color, #70788a); }
+    .trend { padding: 12px 0 14px; }
+    .trend-label { font-size: 9px; letter-spacing: .08em; color: var(--secondary-text-color, #8a92a3); margin-bottom: 5px; text-transform: uppercase; }
+    .trend-chart-row { display: flex; align-items: stretch; gap: 8px; }
+    .trend-unavailable { font-size: 11px; color: var(--secondary-text-color, #8a92a3); padding: 4px 0; }
+    .trend-svg-wrap { position: relative; flex: 1; min-width: 0; cursor: crosshair; }
+    .trend-svg { width: 100%; display: block; }
+    .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
+    .trend-axis-col.right { text-align: right; color: ${COLORS.info}; }
+    .trend-crosshair { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--divider-color, rgba(0,0,0,.25)); pointer-events: none; }
+    .trend-tooltip { position: absolute; top: -6px; transform: translate(-50%, -100%); background: var(--card-background-color, #fff); border: 1px solid var(--divider-color, rgba(0,0,0,.12)); border-radius: 6px; padding: 4px 8px; font-size: 10.5px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none; z-index: 2; color: var(--primary-text-color, #1c2128); }
+    .trend-tooltip .tt-time { color: var(--secondary-text-color, #8a92a3); margin-right: 5px; }
+    .trend-tooltip .tt-temp { font-weight: 600; }
+    .trend-tooltip .tt-hum { color: ${COLORS.info}; font-weight: 600; margin-left: 5px; }
+    .day { padding: 14px 0 16px; }
+    .day-top { display: flex; align-items: center; gap: 8px; }
+    .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
+    .day-edge ha-icon { --mdc-icon-size: 15px; }
+    .day-track { flex: 1; height: 4px; border-radius: 2px; background: var(--divider-color, rgba(0,0,0,.07)); position: relative; }
+    .day-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px; }
+    .day-marker { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%; background: #f5a623; box-shadow: 0 0 8px rgba(245,166,35,.5); transform: translate(-50%, -50%); }
+    .day-caption { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); text-align: center; margin-top: 7px; }
+    .wind { gap: 20px; padding: 16px 0; align-items: center; }
+    .wind-compass { width: 64px; height: 64px; flex: none; border-radius: 50%; border: 1px solid var(--divider-color, rgba(0,0,0,.1)); position: relative; display: flex; align-items: center; justify-content: center; }
+    .wind-compass ha-icon { position: absolute; --mdc-icon-size: 20px; transform-origin: center center; transition: transform .35s ease; }
+    .wind-compass span { font-size: 8px; color: var(--secondary-text-color, #70788a); }
+    .wind-info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+    .wind-speed { font-size: 22px; font-weight: 600; }
+    .wind-speed-unit { font-size: 11px; color: var(--secondary-text-color, #70788a); font-weight: 400; }
+    .wind-dir { font-size: 11px; color: var(--secondary-text-color, #70788a); }
+    .wind-gust { font-size: 11.5px; color: var(--secondary-text-color, #8a92a3); }
+    .grid { display: flex; flex-wrap: wrap; gap: 22px 28px; padding: 16px 0; }
+    .stat-val { font-size: 16px; font-weight: 600; }
+    .stat-unit { font-size: 12px; color: var(--secondary-text-color, #70788a); }
+    .stat-label { font-size: 9.5px; color: var(--secondary-text-color, #70788a); margin-top: 2px; }
+    .rain { gap: 28px; padding-top: 16px; }
+    .rain-val { font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .rain-sub { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
+    .lightning-row { padding-bottom: 16px; }
+    </style>
+    <ha-card>
+    <div class="title" style="display:none;"></div>
+    <div class="row hero divider">
+    <ha-icon class="hero-icon clickable" style="--mdc-icon-size:48px;flex:none;"></ha-icon>
+    <div style="flex:1">
+    <div class="row" style="align-items:baseline;gap:10px;">
+    <div class="hero-temp clickable"><span class="hero-temp-val">—</span><span class="hero-unit"></span></div>
+    <div class="hero-sub clickable"></div>
+    </div>
+    <div class="hero-minmax"></div>
+    </div>
+    <div class="battery clickable">
+    <div class="battery-row">
+    <ha-icon class="battery-icon" style="--mdc-icon-size:16px;"></ha-icon>
+    <span class="battery-pct">—</span>
+    </div>
+    <div class="battery-label">${S.labels.battery}</div>
+    </div>
+    </div>
+    <div class="trend divider" id="trend-block" style="display:none;">
+    <div class="trend-label">${S.labels.trend} <span class="trend-hours-lbl"></span></div>
+    <div class="trend-unavailable" style="display:none;">${S.labels.noHistory}</div>
+    <div class="trend-chart-row">
+    <div class="trend-axis-col left">
+    <span class="trend-max"></span>
+    <span class="trend-min"></span>
+    </div>
+    <div class="trend-svg-wrap">
+    <svg class="trend-svg" viewBox="0 0 300 32" preserveAspectRatio="none"></svg>
+    <div class="trend-crosshair" style="display:none;"></div>
+    <div class="trend-tooltip" style="display:none;"></div>
+    </div>
+    <div class="trend-axis-col right" style="display:none;">
+    <span class="trend-max-h"></span>
+    <span class="trend-min-h"></span>
+    </div>
+    </div>
+    </div>
+    <div class="day divider">
+    <div class="day-top">
+    <span class="day-edge"><ha-icon class="edge-start-icon" icon="mdi:weather-sunset-up"></ha-icon><span class="edge-start-lbl"></span></span>
+    <div class="day-track"><div class="day-fill"></div><div class="day-marker"></div></div>
+    <span class="day-edge"><span class="edge-end-lbl"></span><ha-icon class="edge-end-icon" icon="mdi:weather-sunset-down"></ha-icon></span>
+    </div>
+    <div class="day-caption"></div>
+    </div>
+    <div class="row wind divider">
+    <div class="wind-compass">
+    <ha-icon icon="mdi:navigation" class="wind-arrow" style="color:${COLORS.info};"></ha-icon>
+    <span class="wind-dir-label"></span>
+    </div>
+    <div class="wind-info">
+    <div class="row" style="align-items:baseline;gap:8px;">
+    <span class="wind-speed clickable"><span class="wind-speed-val">—</span> <span class="wind-speed-unit"></span></span>
+    <span class="wind-dir clickable"></span>
+    </div>
+    <div class="wind-gust clickable"></div>
+    </div>
+    </div>
+    <div class="grid divider">
+    <div class="stat clickable" data-k="humidity"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidity}</div></div>
+    <div class="stat clickable" data-k="dew_point"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.dewPoint}</div></div>
+    <div class="stat clickable" data-k="wind_chill"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.windChill}</div></div>
+    <div class="stat clickable" data-k="humidex"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidex}</div></div>
+    <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.uvIndex}</div></div>
+    <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
+    <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
+    <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
+    <div class="stat clickable" data-k="solar_radiation"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.solarRadiation}</div></div>
+    </div>
+    <div class="row rain">
+    <div class="stat clickable" data-k="rain_rate">
+    <div class="rain-val"><ha-icon class="rain-icon" style="--mdc-icon-size:18px;"></ha-icon><span class="v"></span> <span class="stat-unit u"></span></div>
+    <div class="rain-sub moisture-sub"></div>
+    </div>
+    <div class="stat clickable" data-k="rain_today">
+    <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
+    <div class="rain-sub rain-today-sub">${S.labels.rainToday}</div>
+    </div>
+    <div class="stat clickable" data-k="moisture">
+    <div class="rain-val"><span class="v"></span></div>
+    <div class="rain-sub">${S.labels.rainSensor}</div>
+    </div>
+    </div>
+    <div class="row rain lightning-row" style="display:none;">
+    <div class="stat clickable" data-k="lightning_strikes">
+    <div class="rain-val"><ha-icon class="lightning-icon" icon="mdi:weather-lightning" style="--mdc-icon-size:18px;color:#8a63c9;"></ha-icon><span class="v"></span></div>
+    <div class="stat-label">${S.labels.strikeCount}</div>
+    </div>
+    <div class="stat clickable" data-k="lightning_distance">
+    <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
+    <div class="stat-label">${S.labels.lightningDistance}</div>
+    </div>
+    <div class="stat clickable" data-k="last_lightning">
+    <div class="rain-val"><span class="v"></span></div>
+    <div class="stat-label">${S.labels.lastStrike}</div>
+    </div>
+    </div>
+    </ha-card>
     `;
 
     // wire click handlers once
@@ -1210,96 +1360,98 @@ class EcowittHudCard extends HTMLElement {
       const el = root.querySelector(sel);
       if (el) el.addEventListener("click", () => this._openMoreInfo(this._config[key]));
     };
-    bind(".hero-icon", "weather_condition");
-    bind(".hero-temp", "temperature");
-    bind(".hero-sub", "apparent_temperature");
-    bind(".battery", "battery");
-    bind(".wind-speed", "wind_speed");
-    bind(".wind-dir", "wind_direction");
-    bind(".wind-gust", "wind_gust");
-    root.querySelectorAll(".stat[data-k]").forEach((el) => {
-      el.addEventListener("click", () => this._openMoreInfo(this._config[el.dataset.k]));
-    });
-    const trendSvgWrap = root.querySelector(".trend-svg-wrap");
-    if (trendSvgWrap) {
-      trendSvgWrap.addEventListener("mousemove", (ev) => this._onTrendHover(ev.clientX));
-      trendSvgWrap.addEventListener("mouseleave", () => this._hideTrendTooltip());
-    }
+      bind(".hero-icon", "weather_condition");
+      bind(".hero-temp", "temperature");
+      bind(".hero-sub", "apparent_temperature");
+      bind(".battery", "battery");
+      bind(".wind-speed", "wind_speed");
+      bind(".wind-dir", "wind_direction");
+      bind(".wind-gust", "wind_gust");
+      root.querySelectorAll(".stat[data-k]").forEach((el) => {
+        el.addEventListener("click", () => this._openMoreInfo(this._config[el.dataset.k]));
+      });
+      const trendSvgWrap = root.querySelector(".trend-svg-wrap");
+      if (trendSvgWrap) {
+        trendSvgWrap.addEventListener("mousemove", (ev) => this._onTrendHover(ev.clientX));
+        trendSvgWrap.addEventListener("mouseleave", () => this._hideTrendTooltip());
+      }
 
-    this._els = {
-      title: root.querySelector(".title"),
-      heroIcon: root.querySelector(".hero-icon"),
-      heroTempVal: root.querySelector(".hero-temp-val"),
-      heroUnit: root.querySelector(".hero-unit"),
-      heroSub: root.querySelector(".hero-sub"),
-      heroMinMax: root.querySelector(".hero-minmax"),
-      batteryIcon: root.querySelector(".battery-icon"),
-      batteryPct: root.querySelector(".battery-pct"),
-      batteryBlock: root.querySelector(".battery"),
-      windBlock: root.querySelector(".row.wind"),
-      windArrow: root.querySelector(".wind-arrow"),
-      windDirLabel: root.querySelector(".wind-dir-label"),
-      windSpeedVal: root.querySelector(".wind-speed-val"),
-      windSpeedUnit: root.querySelector(".wind-speed-unit"),
-      windDir: root.querySelector(".wind-dir"),
-      windGust: root.querySelector(".wind-gust"),
-      trendIcon: root.querySelector(".trend-icon"),
-      rainIcon: root.querySelector(".rain-icon"),
-      moistureSub: root.querySelector(".moisture-sub"),
-      rainTodaySub: root.querySelector(".rain-today-sub"),
-      dayFill: root.querySelector(".day-fill"),
-      dayMarker: root.querySelector(".day-marker"),
-      dayCaption: root.querySelector(".day-caption"),
-      edgeStartIcon: root.querySelector(".edge-start-icon"),
-      edgeStartLbl: root.querySelector(".edge-start-lbl"),
-      edgeEndIcon: root.querySelector(".edge-end-icon"),
-      edgeEndLbl: root.querySelector(".edge-end-lbl"),
-      trendBlock: root.querySelector("#trend-block"),
-      trendUnavailable: root.querySelector(".trend-unavailable"),
-      trendChartRow: root.querySelector(".trend-chart-row"),
-      trendSvg: root.querySelector(".trend-svg"),
-      trendSvgWrap: root.querySelector(".trend-svg-wrap"),
-      trendCrosshair: root.querySelector(".trend-crosshair"),
-      trendTooltip: root.querySelector(".trend-tooltip"),
-      trendMin: root.querySelector(".trend-min"),
-      trendMax: root.querySelector(".trend-max"),
-      trendAxisLeft: root.querySelector(".trend-axis-col.left"),
-      trendAxisRight: root.querySelector(".trend-axis-col.right"),
-      trendMinH: root.querySelector(".trend-min-h"),
-      trendMaxH: root.querySelector(".trend-max-h"),
-      trendHoursLbl: root.querySelector(".trend-hours-lbl"),
-      gridBlock: root.querySelector(".grid"),
-      rainBlock: root.querySelector(".row.rain"),
-      stats: {},
-    };
-    root.querySelectorAll(".stat[data-k]").forEach((el) => {
-      this._els.stats[el.dataset.k] = {
-        val: el.querySelector(".v"),
-        unit: el.querySelector(".u"),
-        root: el,
-        valEl: el.querySelector(".stat-val") || el.querySelector(".rain-val"),
+      this._els = {
+        title: root.querySelector(".title"),
+        heroIcon: root.querySelector(".hero-icon"),
+        heroTempVal: root.querySelector(".hero-temp-val"),
+        heroUnit: root.querySelector(".hero-unit"),
+        heroSub: root.querySelector(".hero-sub"),
+        heroMinMax: root.querySelector(".hero-minmax"),
+        batteryIcon: root.querySelector(".battery-icon"),
+        batteryPct: root.querySelector(".battery-pct"),
+        batteryBlock: root.querySelector(".battery"),
+        windBlock: root.querySelector(".row.wind"),
+        windArrow: root.querySelector(".wind-arrow"),
+        windDirLabel: root.querySelector(".wind-dir-label"),
+        windSpeedVal: root.querySelector(".wind-speed-val"),
+        windSpeedUnit: root.querySelector(".wind-speed-unit"),
+        windDir: root.querySelector(".wind-dir"),
+        windGust: root.querySelector(".wind-gust"),
+        trendIcon: root.querySelector(".trend-icon"),
+        rainIcon: root.querySelector(".rain-icon"),
+        moistureSub: root.querySelector(".moisture-sub"),
+        rainTodaySub: root.querySelector(".rain-today-sub"),
+        dayBlock: root.querySelector(".day"),
+        dayFill: root.querySelector(".day-fill"),
+        dayMarker: root.querySelector(".day-marker"),
+        dayCaption: root.querySelector(".day-caption"),
+        edgeStartIcon: root.querySelector(".edge-start-icon"),
+        edgeStartLbl: root.querySelector(".edge-start-lbl"),
+        edgeEndIcon: root.querySelector(".edge-end-icon"),
+        edgeEndLbl: root.querySelector(".edge-end-lbl"),
+        trendBlock: root.querySelector("#trend-block"),
+        trendUnavailable: root.querySelector(".trend-unavailable"),
+        trendChartRow: root.querySelector(".trend-chart-row"),
+        trendSvg: root.querySelector(".trend-svg"),
+        trendSvgWrap: root.querySelector(".trend-svg-wrap"),
+        trendCrosshair: root.querySelector(".trend-crosshair"),
+        trendTooltip: root.querySelector(".trend-tooltip"),
+        trendMin: root.querySelector(".trend-min"),
+        trendMax: root.querySelector(".trend-max"),
+        trendAxisLeft: root.querySelector(".trend-axis-col.left"),
+        trendAxisRight: root.querySelector(".trend-axis-col.right"),
+        trendMinH: root.querySelector(".trend-min-h"),
+        trendMaxH: root.querySelector(".trend-max-h"),
+        trendHoursLbl: root.querySelector(".trend-hours-lbl"),
+        gridBlock: root.querySelector(".grid"),
+        rainBlock: root.querySelector(".row.rain"),
+        lightningBlock: root.querySelector(".lightning-row"),
+        stats: {},
       };
-    });
-    this._update();
-    this._fetchTrend();
-    this._fetchMinMax();
-    this._fetchRainWindow();
-    this._fetchRainRatePeak();
-    if (!this._trendInterval) {
-      this._trendInterval = setInterval(() => this._fetchTrend(), HISTORY_REFRESH_MS);
-    }
-    if (!this._sunInterval) {
-      this._sunInterval = setInterval(() => this._updateSunBar(), SUN_REFRESH_MS);
-    }
-    if (!this._minMaxInterval) {
-      this._minMaxInterval = setInterval(() => this._fetchMinMax(), HISTORY_REFRESH_MS);
-    }
-    if (!this._rainWindowInterval) {
-      this._rainWindowInterval = setInterval(() => this._fetchRainWindow(), HISTORY_REFRESH_MS);
-    }
-    if (!this._rainRatePeakInterval) {
-      this._rainRatePeakInterval = setInterval(() => this._fetchRainRatePeak(), RAIN_RATE_PEAK_REFRESH_MS);
-    }
+      root.querySelectorAll(".stat[data-k]").forEach((el) => {
+        this._els.stats[el.dataset.k] = {
+          val: el.querySelector(".v"),
+                                                     unit: el.querySelector(".u"),
+                                                     root: el,
+                                                     valEl: el.querySelector(".stat-val") || el.querySelector(".rain-val"),
+        };
+      });
+      this._update();
+      this._fetchTrend();
+      this._fetchMinMax();
+      this._fetchRainWindow();
+      this._fetchRainRatePeak();
+      if (!this._trendInterval) {
+        this._trendInterval = setInterval(() => this._fetchTrend(), HISTORY_REFRESH_MS);
+      }
+      if (!this._sunInterval && this._config.show_sun_bar !== false) {
+        this._sunInterval = setInterval(() => this._updateSunBar(), SUN_REFRESH_MS);
+      }
+      if (!this._minMaxInterval) {
+        this._minMaxInterval = setInterval(() => this._fetchMinMax(), HISTORY_REFRESH_MS);
+      }
+      if (!this._rainWindowInterval) {
+        this._rainWindowInterval = setInterval(() => this._fetchRainWindow(), HISTORY_REFRESH_MS);
+      }
+      if (!this._rainRatePeakInterval) {
+        this._rainRatePeakInterval = setInterval(() => this._fetchRainRatePeak(), RAIN_RATE_PEAK_REFRESH_MS);
+      }
   }
   disconnectedCallback() {
     if (this._trendInterval) {
@@ -1358,6 +1510,25 @@ class EcowittHudCard extends HTMLElement {
     const m = totalMin % 60;
     if (h <= 0) return `${m} ${L.min}`;
     return `${h}h ${m}${L.min}`;
+  }
+  // Wraps a duration with the language's "X ago" phrasing (word order
+  // varies: English trails "ago", French/Spanish/Portuguese lead with it).
+  // Below 24h this reuses _durationStr's "Xh Ym" format; beyond that it
+  // switches to a day-based format ("3j 5h") since minutes stop being a
+  // useful unit for something that happened days ago.
+  _agoStr(ms) {
+    const L = STRINGS[this._lang()].labels;
+    if (ms === null || isNaN(ms)) return L.dash;
+    if (ms <= 0) return (L.agoFormat || "{0}").replace("{0}", L.lessThanMin);
+    const totalMin = Math.round(ms / 60000);
+    if (totalMin >= 1440) {
+      const days = Math.floor(totalMin / 1440);
+      const remHours = Math.floor((totalMin % 1440) / 60);
+      const dur = remHours > 0 ? `${days}${L.day} ${remHours}h` : `${days}${L.day}`;
+      return (L.agoFormat || "{0}").replace("{0}", dur);
+    }
+    const dur = this._durationStr(ms);
+    return (L.agoFormat || "{0}").replace("{0}", dur);
   }
   _showTrendMessage(show) {
     const els = this._els;
@@ -1450,8 +1621,8 @@ class EcowittHudCard extends HTMLElement {
         const maxTime = this._timeStr(new Date(maxP.t));
         const minTime = this._timeStr(new Date(minP.t));
         this._els.heroMinMax.innerHTML =
-          `<span><span class="arrow-up">↑</span> ${maxP.v.toFixed(1)}°<span class="mm-time">${maxTime}</span></span>` +
-          `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
+        `<span><span class="arrow-up">↑</span> ${maxP.v.toFixed(1)}°<span class="mm-time">${maxTime}</span></span>` +
+        `<span><span class="arrow-down">↓</span> ${minP.v.toFixed(1)}°<span class="mm-time">${minTime}</span></span>`;
       }
     } catch (e) {
       if (token !== this._minMaxFetchToken) return;
@@ -1584,9 +1755,9 @@ class EcowittHudCard extends HTMLElement {
     }
 
     els.trendSvg.innerHTML = `
-      <polygon points="${area}" fill="${color}22"></polygon>
-      <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></polyline>
-      ${humidityLine}
+    <polygon points="${area}" fill="${color}22"></polygon>
+    <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></polyline>
+    ${humidityLine}
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
     els.trendMax.textContent = `${max.toFixed(1)}°`;
@@ -1702,91 +1873,137 @@ class EcowittHudCard extends HTMLElement {
       if (s.valEl) s.valEl.style.color = color || "var(--primary-text-color, #1c2128)";
     };
 
-    const humidity = fmt(hass, c.humidity, 0);
-    setStat("humidity", humidity.text, "%");
-    const dew = fmt(hass, c.dew_point, 1);
-    setStat("dew_point", dew.text, "°");
-    const chill = fmt(hass, c.wind_chill, 1);
-    setStat("wind_chill", chill.text, "°");
-    const humidex = fmt(hass, c.humidex, 1);
-    setStat("humidex", humidex.text, "°");
+      const humidity = fmt(hass, c.humidity, 0);
+      setStat("humidity", humidity.text, "%");
+      const dew = fmt(hass, c.dew_point, 1);
+      setStat("dew_point", dew.text, "°");
+      const chill = fmt(hass, c.wind_chill, 1);
+      setStat("wind_chill", chill.text, "°");
+      const humidex = fmt(hass, c.humidex, 1);
+      setStat("humidex", humidex.text, "°");
 
-    const uv = fmt(hass, c.uv_index, 0);
-    const uvR = uvRisk(uv.value, lang);
-    setStat("uv_index", uv.text, "", uvR.color);
+      const uv = fmt(hass, c.uv_index, 0);
+      const uvR = uvRisk(uv.value, lang);
+      setStat("uv_index", uv.text, "", uvR.color);
 
-    const heat = fmt(hass, c.heat_index, 0);
-    const heatR = heatRisk(heat.value, heat.unit, lang);
-    setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
+      const heat = fmt(hass, c.heat_index, 0);
+      const heatR = heatRisk(heat.value, heat.unit, lang);
+      setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
 
-    const pressure = fmt(hass, c.pressure, 0);
-    setStat("pressure", pressure.text, pressure.unit || "hPa");
-    const trend = trendInfo(c.pressure_trend, hass);
-    if (trend) {
-      els.trendIcon.style.display = "";
-      els.trendIcon.setAttribute("icon", trend.icon);
-      els.trendIcon.style.color = trend.color;
-    } else {
-      els.trendIcon.style.display = "none";
-    }
-
-    const lux = fmt(hass, c.illuminance, 0);
-    setStat("illuminance", lux.value !== null && lux.value >= 1000 ? `${(lux.value / 1000).toFixed(1)}k` : lux.text, lux.unit || "lx");
-
-    const rainRate = fmt(hass, c.rain_rate, 1);
-    // "Raining now" (icon + color) always reflects the live instantaneous
-    // reading, even when the big number below shows a recent peak instead —
-    // otherwise the icon would keep saying "raining" for the rest of the
-    // peak window after the rain has actually stopped.
-    const raining = rainRate.value !== null && rainRate.value > 0;
-    els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
-    els.rainIcon.style.color = raining ? COLORS.info : COLORS.neutral;
-    const peakMinutes = clampNumber(c.rain_rate_window_minutes, 0, 60, DEFAULT_RAIN_RATE_WINDOW_MINUTES);
-    if (peakMinutes > 0) {
-      const peakText = this._rainRatePeakValue !== null && this._rainRatePeakValue !== undefined ? this._rainRatePeakValue.toFixed(1) : "—";
-      setStat("rain_rate", peakText, rainRate.unit || "mm/h");
-      els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes}min)`;
-    } else {
-      setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
-      els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
-    }
-
-    const rainToday = fmt(hass, c.rain_today, 1);
-    const rainTodayUnit = rainToday.unit || "mm";
-    if (c.rain_cumulative) {
-      const hours = clampNumber(c.rain_window_hours, 1, 168, DEFAULT_RAIN_WINDOW_HOURS);
-      const windowText = this._rainWindowValue !== null && this._rainWindowValue !== undefined ? this._rainWindowValue.toFixed(1) : "—";
-      setStat("rain_today", windowText, rainTodayUnit);
-      els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}h)`;
-    } else {
-      setStat("rain_today", rainToday.text, rainTodayUnit);
-      els.rainTodaySub.textContent = S.labels.rainToday;
-    }
-
-    const moistState = c.moisture && hass.states[c.moisture];
-    let moistTxt = S.labels.dash;
-    if (moistState && moistState.state !== undefined && moistState.state !== null) {
-      const raw = String(moistState.state).trim();
-      const s = raw.toLowerCase();
-      if (s === "wet" || s === "on" || s === "true" || s === "yes" || s === "leak" || s === "moist" || s === "humedo" || s === "húmedo") {
-        moistTxt = S.labels.raining;
-      } else if (s === "dry" || s === "off" || s === "false" || s === "no" || s === "seco") {
-        moistTxt = S.labels.noRain;
-      } else if (s === "unknown" || s === "unavailable" || s === "") {
-        moistTxt = S.labels.dash;
+      const pressure = fmt(hass, c.pressure, 0);
+      setStat("pressure", pressure.text, pressure.unit || "hPa");
+      const trend = trendInfo(c.pressure_trend, hass);
+      if (trend) {
+        els.trendIcon.style.display = "";
+        els.trendIcon.setAttribute("icon", trend.icon);
+        els.trendIcon.style.color = trend.color;
       } else {
-        moistTxt = raw.charAt(0).toUpperCase() + raw.slice(1);
+        els.trendIcon.style.display = "none";
       }
-    }
-    setStat("moisture", moistTxt);
 
-    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "pressure", "illuminance"];
-    els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
+      const lux = fmt(hass, c.illuminance, 0);
+      setStat("illuminance", lux.value !== null && lux.value >= 1000 ? `${(lux.value / 1000).toFixed(1)}k` : lux.text, lux.unit || "lx");
 
-    const rainKeys = ["rain_rate", "rain_today", "moisture"];
-    els.rainBlock.style.display = rainKeys.some((k) => !!c[k]) ? "" : "none";
+      const radiation = fmt(hass, c.solar_radiation, 0);
+      setStat("solar_radiation", radiation.text, radiation.unit || "W/m²", solarRadiationColor(radiation.value));
 
-    this._updateSunBar();
+      const rainRate = fmt(hass, c.rain_rate, 1);
+      // "Raining now" (icon + color) always reflects the live instantaneous
+      // reading, even when the big number below shows a recent peak instead —
+      // otherwise the icon would keep saying "raining" for the rest of the
+      // peak window after the rain has actually stopped.
+      const raining = rainRate.value !== null && rainRate.value > 0;
+      els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
+      els.rainIcon.style.color = raining ? COLORS.info : COLORS.neutral;
+      const peakMinutes = clampNumber(c.rain_rate_window_minutes, 0, 60, DEFAULT_RAIN_RATE_WINDOW_MINUTES);
+      if (peakMinutes > 0) {
+        const peakText = this._rainRatePeakValue !== null && this._rainRatePeakValue !== undefined ? this._rainRatePeakValue.toFixed(1) : "—";
+        setStat("rain_rate", peakText, rainRate.unit || "mm/h");
+        els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes}min)`;
+      } else {
+        setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
+        els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
+      }
+
+      const rainToday = fmt(hass, c.rain_today, 1);
+      const rainTodayUnit = rainToday.unit || "mm";
+      if (c.rain_cumulative) {
+        const hours = clampNumber(c.rain_window_hours, 1, 168, DEFAULT_RAIN_WINDOW_HOURS);
+        const windowText = this._rainWindowValue !== null && this._rainWindowValue !== undefined ? this._rainWindowValue.toFixed(1) : "—";
+        setStat("rain_today", windowText, rainTodayUnit);
+        els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}h)`;
+      } else {
+        setStat("rain_today", rainToday.text, rainTodayUnit);
+        els.rainTodaySub.textContent = S.labels.rainToday;
+      }
+
+      const moistState = c.moisture && hass.states[c.moisture];
+      let moistTxt = S.labels.dash;
+      if (moistState && moistState.state !== undefined && moistState.state !== null) {
+        const raw = String(moistState.state).trim();
+        const s = raw.toLowerCase();
+        if (s === "wet" || s === "on" || s === "true" || s === "yes" || s === "leak" || s === "moist" || s === "humedo" || s === "húmedo") {
+          moistTxt = S.labels.raining;
+        } else if (s === "dry" || s === "off" || s === "false" || s === "no" || s === "seco") {
+          moistTxt = S.labels.noRain;
+        } else if (s === "unknown" || s === "unavailable" || s === "") {
+          moistTxt = S.labels.dash;
+        } else {
+          moistTxt = raw.charAt(0).toUpperCase() + raw.slice(1);
+        }
+      }
+      setStat("moisture", moistTxt);
+
+      // Lightning: strike count and distance follow the same generic
+      // numeric-sensor pattern as the grid/rain stats above.
+      const strikes = fmt(hass, c.lightning_strikes, 0);
+      setStat("lightning_strikes", strikes.text, strikes.unit);
+
+      // Ecowitt lightning sensors report a fixed 40 km when no strike has
+      // been detected (it's the sensor's max range, not a real reading), so
+      // treat that value as "no detection" instead of showing "40.0 km".
+      const lightningDist = fmt(hass, c.lightning_distance, 1);
+      if (lightningDist.value !== null && Math.abs(lightningDist.value - 40) < 0.05) {
+        setStat("lightning_distance", S.labels.noDetection, "");
+      } else {
+        setStat("lightning_distance", lightningDist.text, lightningDist.unit || "km");
+      }
+
+      // Last strike is a timestamp sensor, not a plain number, so it's
+      // rendered manually as a relative "X ago" string instead of via fmt().
+      const lastLightningStat = els.stats.last_lightning;
+      if (lastLightningStat) {
+        const configured = !!c.last_lightning;
+        lastLightningStat.root.style.display = configured ? "" : "none";
+        if (configured) {
+          const st = c.last_lightning && hass.states[c.last_lightning];
+          let text = S.labels.dash;
+          if (st && st.state && st.state !== "unknown" && st.state !== "unavailable") {
+            const t = new Date(st.state).getTime();
+            if (!isNaN(t)) {
+              const diff = Date.now() - t;
+              text = diff >= 0 ? this._agoStr(diff) : this._timeStr(new Date(t));
+            } else {
+              text = st.state;
+            }
+          }
+          lastLightningStat.val.textContent = text;
+        }
+      }
+
+      const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "pressure", "illuminance", "solar_radiation"];
+      els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
+
+      const rainKeys = ["rain_rate", "rain_today", "moisture"];
+      els.rainBlock.style.display = rainKeys.some((k) => !!c[k]) ? "" : "none";
+
+      const lightningKeys = ["lightning_strikes", "lightning_distance", "last_lightning"];
+      els.lightningBlock.style.display = lightningKeys.some((k) => !!c[k]) ? "" : "none";
+
+      els.dayBlock.style.display = c.show_sun_bar !== false ? "" : "none";
+      if (c.show_sun_bar !== false) {
+        this._updateSunBar();
+      }
   }
 
   _updateSunBar() {
@@ -1830,8 +2047,8 @@ class EcowittHudCard extends HTMLElement {
 
       els.dayFill.style.width = `${frac * 100}%`;
       els.dayFill.style.background = isDay
-        ? "linear-gradient(90deg,#f5a623,#ffd27a)"
-        : "linear-gradient(90deg,#2c3e63,#5a7ab8)";
+      ? "linear-gradient(90deg,#f5a623,#ffd27a)"
+      : "linear-gradient(90deg,#2c3e63,#5a7ab8)";
       els.dayMarker.style.left = `${frac * 100}%`;
       els.dayMarker.style.background = accent;
       els.dayMarker.style.boxShadow = `0 0 8px ${accent}88`;
@@ -1839,8 +2056,8 @@ class EcowittHudCard extends HTMLElement {
 
       const remainMs = segEnd.getTime() - now.getTime();
       els.dayCaption.textContent = isDay
-        ? `${S.labels.nightfallIn} ${this._durationStr(remainMs)}`
-        : `${S.labels.sunriseIn} ${this._durationStr(remainMs)}`;
+      ? `${S.labels.nightfallIn} ${this._durationStr(remainMs)}`
+      : `${S.labels.sunriseIn} ${this._durationStr(remainMs)}`;
     } else {
       els.dayMarker.style.display = "none";
       els.dayCaption.textContent = "";
@@ -1853,5 +2070,5 @@ window.customCards = window.customCards || [];
 window.customCards.push({
   type: "ecowitt-hud-card",
   name: "Weather Station Card (Ecowitt & more)",
-  description: "Instrument-panel weather card for Home Assistant — built for Ecowitt, works with any compatible weather station",
+                        description: "Instrument-panel weather card for Home Assistant — built for Ecowitt, works with any compatible weather station",
 });
