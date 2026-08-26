@@ -14,10 +14,11 @@
  *     type: module
  *
  * UI language follows Home Assistant's configured language automatically.
- * Supported languages: English (en), Spanish (es), Polish (pl), German
- * (de), French (fr), Portuguese (pt), Italian (it). Unsupported languages
- * fall back to English. de/fr/pt/it are machine-translated and not yet
- * reviewed by a native speaker — corrections welcome.
+ * Supported languages: English (en), Spanish (es), Polish (pl), Czech
+ * (cs), German (de), French (fr), Portuguese (pt), Italian (it).
+ * Unsupported languages fall back to English. de/fr/pt/it are
+ * machine-translated and not yet reviewed by a native speaker —
+ * corrections welcome.
  */
 
 const STRINGS = {
@@ -322,10 +323,107 @@ const STRINGS = {
       day: "d",
     },
   },
+  cs: {
+    editor: {
+      general: "Obecné",
+      thermalAir: "Teplota / vzduch",
+      wind: "Vítr",
+      rain: "Déšť",
+      trend: "Trend",
+      name: "Název (volitelné)",
+      timeFormat: "Formát času",
+      timeFormatAuto: "Automaticky (systémový)",
+      timeFormat12: "12hodinový (AM/PM)",
+      timeFormat24: "24hodinový",
+      temperature: "Teplota",
+      apparentTemperature: "Pocitová teplota",
+      weatherCondition: "Celkový stav (entity počasí nebo textový senzor)",
+      battery: "Baterie stanice (volitelné)",
+      dewPoint: "Rosný bod",
+      windChill: "Wind chill",
+      humidex: "Humidex",
+      heatIndex: "Index tepelné zátěže",
+      humidity: "Relativní vlhkost",
+      pressure: "Atmosférický tlak",
+      pressureTrend: "Trend tlaku (volitelné)",
+      uvIndex: "UV index",
+      illuminance: "Intenzita osvětlení (lux)",
+      solarRadiation: "Solární radiace (W/m²)",
+      windSpeed: "Rychlost větru",
+      windGust: "Rychlost nárazu větru",
+      windDirection: "Směr větru (ve stupních)",
+      rainRate: "Intenzita deště (mm/h)",
+      rainRateWindow: "Okno špičky deště (minuty, 0 = okamžitě)",
+      rainToday: "Dnešní srážky (mm)",
+      rainCumulative: "Dešťový senzor je kumulativní čítač (nikdy se neresetuje)",
+      rainWindowHours: "Dešťové okno (hodiny)",
+      moisture: "Senzor deště / vlhkosti (volitelné)",
+      showTrend: "Zobrazit graf trendu teploty",
+      trendHours: "Zobrazit historii za (hodin)",
+      showHumidityTrend: "Překrýt trend vlhkosti (vyžaduje Relativní vlhkost výše)",
+      trendChartHeight: "Výška grafu (px)",
+      showSunBar: "Zobrazit lištu polohy slunce",
+      lightning: "Blesky",
+      lightningStrikes: "Senzor počtu úderů",
+      lightningDistance: "Senzor vzdálenosti úderu",
+      lastLightningTime: "Senzor času posledního úderu",
+    },
+    conditions: {
+      "clear-night": "Jasno (noc)",
+      cloudy: "Zataženo",
+      fog: "Mlha",
+      hail: "Krupobití",
+      lightning: "Bouřka",
+      "lightning-rainy": "Bouřka s deštěm",
+      partlycloudy: "Polojasno",
+      pouring: "Slevák",
+      rainy: "Déšť",
+      snowy: "Sněžení",
+      "snowy-rainy": "Déšť se sněhem",
+      sunny: "Slunečno",
+      windy: "Větrno",
+      "windy-variant": "Větrno a zataženo",
+      exceptional: "Mimořádné podmínky",
+    },
+    risk: { low: "Nízký", moderate: "Střední", high: "Vysoký", veryHigh: "Velmi vysoký", dangerous: "Nebezpečný", extreme: "Extrémní" },
+    labels: {
+      battery: "Baterie stanice",
+      trend: "Trend teploty",
+      humidity: "Vlhkost",
+      dewPoint: "Rosný bod",
+      windChill: "Wind chill",
+      humidex: "Humidex",
+      uvIndex: "UV index",
+      heatRisk: "Tepelné riziko",
+      pressure: "Tlak",
+      illuminance: "Světlo",
+      rainToday: "Dnes celkem",
+      rainSensor: "Dešťový senzor",
+      noRain: "Neprší",
+      raining: "Prší",
+      rainPeak: "Špička",
+      feelsLike: "Pocitová",
+      windFrom: "Směr",
+      gust: "Nárazy",
+      nightfallIn: "Stmívání za",
+      sunriseIn: "Východ slunce za",
+      noHistory: "Zatím není k dispozici žádná historie recorderu",
+      lessThanMin: "méně než 1 min",
+      min: "min",
+      dash: "—",
+      strikeCount: "Údery",
+      lightningDistance: "Vzdálenost",
+      lastStrike: "Poslední úder",
+      agoFormat: "Před {0}",
+      solarRadiation: "Solární radiace",
+      noDetection: "Bez detekce",
+      day: "d",
+    },
+  },
   // The languages below (de, fr, pt, it) are machine-translated and have
   // not been reviewed by a native speaker, unlike "es" and the
-  // community-contributed "pl" — they may contain mistakes or awkward
-  // phrasing. Corrections via issue/PR are very welcome.
+  // community-contributed "pl" and "cs" — they may contain mistakes or
+  // awkward phrasing. Corrections via issue/PR are very welcome.
   de: {
     editor: {
       general: "Allgemein",

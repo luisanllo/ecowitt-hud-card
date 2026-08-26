@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## [1.5.1] - 2026-08-25
+
+### Added
+- Czech (`cs`) UI translation, contributed by Jaroslav Hýsek.
+
 ## [1.5.0] - 2026-08-25
 
 ### Added

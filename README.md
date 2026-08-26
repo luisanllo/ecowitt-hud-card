@@ -30,7 +30,7 @@ history dialog.
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
 - 🌗 Follows Home Assistant's light/dark theme automatically
-- 🌍 UI in English, Spanish, Polish, German, French, Portuguese, or Italian, auto-detected from your Home Assistant language
+- 🌍 UI in English, Spanish, Polish, Czech, German, French, Portuguese, or Italian, auto-detected from your Home Assistant language
 
 ## Installation
 
@@ -165,13 +165,13 @@ moisture: binary_sensor.my_station_rain_status
 - The card's language follows Home Assistant's configured UI language
   (`hass.locale.language`, with `hass.language` and the browser locale as
   fallbacks), normalized to its base subtag (e.g. `pl-PL` → `pl`).
-  Currently supported: English, Spanish, Polish, German, French,
+  Currently supported: English, Spanish, Polish, Czech, German, French,
   Portuguese, and Italian. Unsupported languages fall back to English. A
   language change is picked up live, without needing to reload Home
   Assistant. German, French, Portuguese, and Italian are machine-translated
   and haven't been reviewed by a native speaker (unlike Spanish and the
-  community-contributed Polish translation) — corrections are very
-  welcome via an issue or PR.
+  community-contributed Polish and Czech translations) — corrections are
+  very welcome via an issue or PR.
 
 ## Contributing
 
@@ -194,6 +194,8 @@ Contributions from [@tonyontheroad](https://github.com/tonyontheroad):
 - Solar radiation reading, lightning tracking (strike count, distance,
   time since last strike), and a toggle to hide the sun position bar
   ([#5](https://github.com/luisanllo/ecowitt-hud-card/pull/5)).
+
+Czech translation contributed by Jaroslav Hýsek.
 
 ## License
 
