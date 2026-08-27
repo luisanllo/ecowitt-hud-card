@@ -44,6 +44,7 @@ const STRINGS = {
       heatIndex: "Heat stress index",
       humidity: "Relative humidity",
       pressure: "Atmospheric pressure",
+      pressureDecimals: "Pressure decimal places (0-2, default: 2 for inHg, 0 otherwise)",
       pressureTrend: "Pressure trend (optional)",
       uvIndex: "UV index",
       illuminance: "Illuminance (lux)",
@@ -141,6 +142,7 @@ const STRINGS = {
       heatIndex: "Indeks ciepła",
       humidity: "Wilgotność względna",
       pressure: "Ciśnienie atmosferyczne",
+      pressureDecimals: "Liczba miejsc po przecinku dla ciśnienia (0-2, domyślnie: 2 dla inHg, 0 w pozostałych przypadkach)",
       pressureTrend: "Trend ciśnienia (opcjonalnie)",
       uvIndex: "Indeks UV",
       illuminance: "Natężenie oświetlenia (lux)",
@@ -248,6 +250,7 @@ const STRINGS = {
       heatIndex: "Índice de estrés por calor",
       humidity: "Humedad relativa",
       pressure: "Presión atmosférica",
+      pressureDecimals: "Decimales de presión (0-2, por defecto: 2 para inHg, 0 en el resto)",
       pressureTrend: "Tendencia de presión (opcional)",
       uvIndex: "Índice UV",
       illuminance: "Iluminancia (lux)",
@@ -345,6 +348,7 @@ const STRINGS = {
       heatIndex: "Index tepelné zátěže",
       humidity: "Relativní vlhkost",
       pressure: "Atmosférický tlak",
+      pressureDecimals: "Počet desetinných míst tlaku (0-2, výchozí: 2 pro inHg, jinak 0)",
       pressureTrend: "Trend tlaku (volitelné)",
       uvIndex: "UV index",
       illuminance: "Intenzita osvětlení (lux)",
@@ -446,6 +450,7 @@ const STRINGS = {
       heatIndex: "Hitzestress-Index",
       humidity: "Relative Luftfeuchtigkeit",
       pressure: "Luftdruck",
+      pressureDecimals: "Nachkommastellen für Druck (0-2, Standard: 2 für inHg, sonst 0)",
       pressureTrend: "Druck-Trend (optional)",
       uvIndex: "UV-Index",
       illuminance: "Beleuchtungsstärke (Lux)",
@@ -543,6 +548,7 @@ const STRINGS = {
       heatIndex: "Indice de stress thermique",
       humidity: "Humidité relative",
       pressure: "Pression atmosphérique",
+      pressureDecimals: "Décimales de pression (0-2, par défaut : 2 pour inHg, sinon 0)",
       pressureTrend: "Tendance de la pression (optionnel)",
       uvIndex: "Indice UV",
       illuminance: "Éclairement (lux)",
@@ -640,6 +646,7 @@ const STRINGS = {
       heatIndex: "Índice de estresse térmico",
       humidity: "Umidade relativa",
       pressure: "Pressão atmosférica",
+      pressureDecimals: "Casas decimais da pressão (0-2, padrão: 2 para inHg, senão 0)",
       pressureTrend: "Tendência de pressão (opcional)",
       uvIndex: "Índice UV",
       illuminance: "Iluminância (lux)",
@@ -737,6 +744,7 @@ const STRINGS = {
       heatIndex: "Indice di stress da calore",
       humidity: "Umidità relativa",
       pressure: "Pressione atmosferica",
+      pressureDecimals: "Decimali della pressione (0-2, predefinito: 2 per inHg, altrimenti 0)",
       pressureTrend: "Tendenza della pressione (opzionale)",
       uvIndex: "Indice UV",
       illuminance: "Illuminamento (lux)",
@@ -1107,6 +1115,7 @@ function getFieldGroups(lang) {
         { name: "heat_index", selector: { entity: { domain: "sensor" } }, label: E.heatIndex },
         { name: "humidity", selector: { entity: { domain: "sensor", device_class: "humidity" } }, label: E.humidity },
         { name: "pressure", selector: { entity: { domain: "sensor" } }, label: E.pressure },
+        { name: "pressure_decimals", selector: { number: { min: 0, max: 2, mode: "box" } }, label: E.pressureDecimals },
         { name: "pressure_trend", selector: { entity: {} }, label: E.pressureTrend },
         { name: "uv_index", selector: { entity: { domain: "sensor" } }, label: E.uvIndex },
         { name: "illuminance", selector: { entity: { domain: "sensor", device_class: "illuminance" } }, label: E.illuminance },
@@ -2053,7 +2062,14 @@ class EcowittHudCard extends HTMLElement {
     setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
 
     const pressure = fmt(hass, c.pressure, 0);
-    setStat("pressure", pressure.text, pressure.unit || "hPa");
+    // hPa is conventionally shown as a whole number, but inHg needs two
+    // decimal places to be meaningful at all (its whole range of typical
+    // readings spans only ~28-31) — default to whichever fits the unit,
+    // but let pressure_decimals override it either way.
+    const pressureDecimalsDefault = (pressure.unit || "").toLowerCase().includes("inhg") ? 2 : 0;
+    const pressureDecimals = clampNumber(c.pressure_decimals, 0, 2, pressureDecimalsDefault);
+    const pressureText = pressure.value !== null ? pressure.value.toFixed(pressureDecimals) : pressure.text;
+    setStat("pressure", pressureText, pressure.unit || "hPa");
     const trend = trendInfo(c.pressure_trend, hass);
     if (trend) {
       els.trendIcon.style.display = "";

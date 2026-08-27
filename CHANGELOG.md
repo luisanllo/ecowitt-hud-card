@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.6.0] - 2026-08-25
+
+### Added
+- `pressure_decimals` option to control how many decimal places the
+  pressure reading shows (0-2). Defaults to 2 when the sensor reports
+  in inHg (a whole number there hides almost all the meaningful
+  variation, since typical readings only span ~28-31), 0 otherwise.
+
+Reported by [@mikey68995](https://github.com/mikey68995)
+([#6](https://github.com/luisanllo/ecowitt-hud-card/issues/6)).
+
 ## [1.5.2] - 2026-08-25
 
 ### Fixed

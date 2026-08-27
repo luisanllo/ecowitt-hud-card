@@ -71,6 +71,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `heat_index` | No | Heat stress index (% or °, auto-detected) |
 | `humidity` | No | Relative humidity |
 | `pressure` | No | Atmospheric pressure |
+| `pressure_decimals` | No | Decimal places shown for pressure (0-2) — defaults to `2` when the sensor reports in inHg, `0` otherwise |
 | `pressure_trend` | No | Pressure trend (rising/falling/steady) |
 | `uv_index` | No | UV index |
 | `illuminance` | No | Illuminance (lux) |
@@ -144,6 +145,11 @@ moisture: binary_sensor.my_station_rain_status
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the
   sensor's unit is `%` or the value falls in that range; otherwise it's
   treated as a degree-based index.
+- `pressure` shows whole numbers by default (the usual convention for
+  hPa/mbar), except when the sensor reports in inHg, where its whole
+  typical range only spans ~28-31 and a whole number would hide almost
+  all the meaningful variation — that case defaults to 2 decimal places
+  instead. Set `pressure_decimals` to override either way.
 - `rain_rate` shows the peak value seen in the last `rain_rate_window_minutes`
   (5 minutes by default), not the instantaneous state. Rain-rate sensors
   derived from a tipping-bucket gauge report a real value for a moment after
@@ -200,6 +206,10 @@ Contributions from [@tonyontheroad](https://github.com/tonyontheroad):
   ([#5](https://github.com/luisanllo/ecowitt-hud-card/pull/5)).
 
 Czech translation contributed by Jaroslav Hýsek.
+
+Pressure decimal precision reported by
+[@mikey68995](https://github.com/mikey68995)
+([#6](https://github.com/luisanllo/ecowitt-hud-card/issues/6)).
 
 ## License
 
