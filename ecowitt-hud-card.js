@@ -62,6 +62,8 @@ const STRINGS = {
       trendHours: "Hours of history to display",
       showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
       trendChartHeight: "Chart height (px)",
+      trendTempColor: "Temperature line color (default: green)",
+      trendHumidityColor: "Humidity line color (default: blue)",
       showSunBar: "Show sun position bar",
       lightning: "Lightning",
       lightningStrikes: "Strike count sensor",
@@ -160,6 +162,8 @@ const STRINGS = {
       trendHours: "Liczba godzin historii do wyświetlenia",
       showHumidityTrend: "Nałóż trend wilgotności (wymaga ustawienia Wilgotności względnej powyżej)",
       trendChartHeight: "Wysokość wykresu (px)",
+      trendTempColor: "Kolor linii temperatury (domyślnie: zielony)",
+      trendHumidityColor: "Kolor linii wilgotności (domyślnie: niebieski)",
       showSunBar: "Wyświetl położenie paska słonecznego",
       lightning: "Wyładowania atmosferyczne",
       lightningStrikes: "Czujnik liczby wyładowań",
@@ -268,6 +272,8 @@ const STRINGS = {
       trendHours: "Horas de histórico a mostrar",
       showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
       trendChartHeight: "Altura del gráfico (px)",
+      trendTempColor: "Color de la línea de temperatura (por defecto: verde)",
+      trendHumidityColor: "Color de la línea de humedad (por defecto: azul)",
       showSunBar: "Ver la posición de la barra solar",
       lightning: "Rayos",
       lightningStrikes: "Sensor de número de rayos",
@@ -366,6 +372,8 @@ const STRINGS = {
       trendHours: "Zobrazit historii za (hodin)",
       showHumidityTrend: "Překrýt trend vlhkosti (vyžaduje Relativní vlhkost výše)",
       trendChartHeight: "Výška grafu (px)",
+      trendTempColor: "Barva čáry teploty (výchozí: zelená)",
+      trendHumidityColor: "Barva čáry vlhkosti (výchozí: modrá)",
       showSunBar: "Zobrazit lištu polohy slunce",
       lightning: "Blesky",
       lightningStrikes: "Senzor počtu úderů",
@@ -468,6 +476,8 @@ const STRINGS = {
       trendHours: "Anzuzeigende Stunden des Verlaufs",
       showHumidityTrend: "Feuchtigkeitstrend überlagern (benötigt relative Luftfeuchtigkeit oben)",
       trendChartHeight: "Diagrammhöhe (px)",
+      trendTempColor: "Farbe der Temperaturlinie (Standard: grün)",
+      trendHumidityColor: "Farbe der Feuchtigkeitslinie (Standard: blau)",
       showSunBar: "Position der Sonnenblende anzeigen",
       lightning: "Blitze",
       lightningStrikes: "Sensor Blitzanzahl",
@@ -566,6 +576,8 @@ const STRINGS = {
       trendHours: "Heures d'historique à afficher",
       showHumidityTrend: "Superposer la tendance d'humidité (nécessite l'humidité relative ci-dessus)",
       trendChartHeight: "Hauteur du graphique (px)",
+      trendTempColor: "Couleur de la ligne de température (par défaut : vert)",
+      trendHumidityColor: "Couleur de la ligne d'humidité (par défaut : bleu)",
       showSunBar: "Afficher la barre de position du soleil",
       lightning: "Foudre",
       lightningStrikes: "Capteur nombre d'éclairs",
@@ -664,6 +676,8 @@ const STRINGS = {
       trendHours: "Horas de histórico a exibir",
       showHumidityTrend: "Sobrepor tendência de umidade (requer Umidade relativa acima)",
       trendChartHeight: "Altura do gráfico (px)",
+      trendTempColor: "Cor da linha de temperatura (padrão: verde)",
+      trendHumidityColor: "Cor da linha de umidade (padrão: azul)",
       showSunBar: "Apresentar a posição da barra de proteção solar",
       lightning: "Raios",
       lightningStrikes: "Sensor de contagem de raios",
@@ -762,6 +776,8 @@ const STRINGS = {
       trendHours: "Ore di storico da visualizzare",
       showHumidityTrend: "Sovrapponi tendenza umidità (richiede Umidità relativa sopra)",
       trendChartHeight: "Altezza grafico (px)",
+      trendTempColor: "Colore della linea di temperatura (predefinito: verde)",
+      trendHumidityColor: "Colore della linea di umidità (predefinito: blu)",
       showSunBar: "Visualizza la posizione della barra parasole",
       lightning: "Fulmini",
       lightningStrikes: "Sensore conteggio fulmini",
@@ -878,11 +894,6 @@ const COLORS = {
   danger: "#d1481c", // dangerous risk, hot, low battery
   extreme: "#8a3ffc", // extreme risk
   neutral: "#8a92a3", // steady/unknown/default
-  // The temperature trend line's color changes with the current reading
-  // (info/low/high/danger, same as above) — humidity needs one fixed
-  // color distinct from *all four* of those so the two lines are never
-  // accidentally the same color depending on how warm or cold it is.
-  humidity: "#8a3ffc",
 };
 
 function detectLang(hass) {
@@ -1078,6 +1089,15 @@ function clampNumber(value, min, max, fallback) {
   return Math.min(max, Math.max(min, n));
 }
 
+// Config-driven colors get interpolated directly into SVG/CSS strings, so
+// restrict to characters that can't break out of an attribute or inject
+// markup — this covers every legitimate CSS color syntax (#hex, rgb(),
+// hsl(), named colors) while rejecting anything else.
+function sanitizeColor(value, fallback) {
+  const v = String(value || "").trim();
+  return v && /^[a-zA-Z0-9#(),.\s%]+$/.test(v) ? v : fallback;
+}
+
 function getFieldGroups(lang) {
   const E = STRINGS[lang].editor;
   return [
@@ -1148,6 +1168,8 @@ function getFieldGroups(lang) {
         { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: E.trendHours },
         { name: "show_humidity_trend", selector: { boolean: {} }, label: E.showHumidityTrend },
         { name: "trend_chart_height", selector: { number: { min: 24, max: 120, mode: "box" } }, label: E.trendChartHeight },
+        { name: "trend_temp_color", selector: { text: {} }, label: E.trendTempColor },
+        { name: "trend_humidity_color", selector: { text: {} }, label: E.trendHumidityColor },
       ],
     },
     {
@@ -1267,9 +1289,15 @@ class EcowittHudCard extends HTMLElement {
     if (trendRelevant) {
       this._fetchTrend();
       this._fetchMinMax();
-    } else if (prev && prev.trend_chart_height !== newConfig.trend_chart_height) {
+    } else if (
+      prev &&
+      (prev.trend_chart_height !== newConfig.trend_chart_height ||
+        prev.trend_temp_color !== newConfig.trend_temp_color ||
+        prev.trend_humidity_color !== newConfig.trend_humidity_color)
+    ) {
       // purely cosmetic — re-render with the already-fetched data instead
       // of hitting the history API again just to change the chart height
+      // or colors
       this._renderTrend();
     }
     const rainWindowRelevant =
@@ -1387,12 +1415,12 @@ class EcowittHudCard extends HTMLElement {
         .trend-svg-wrap { position: relative; flex: 1; min-width: 0; cursor: crosshair; }
         .trend-svg { width: 100%; display: block; }
         .trend-axis-col { flex: none; display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: var(--secondary-text-color, #8a92a3); text-align: left; padding: 1px 0; }
-        .trend-axis-col.right { text-align: right; color: ${COLORS.humidity}; }
+        .trend-axis-col.right { text-align: right; color: ${COLORS.info}; }
         .trend-crosshair { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--divider-color, rgba(0,0,0,.25)); pointer-events: none; }
         .trend-tooltip { position: absolute; top: -6px; transform: translate(-50%, -100%); background: var(--card-background-color, #fff); border: 1px solid var(--divider-color, rgba(0,0,0,.12)); border-radius: 6px; padding: 4px 8px; font-size: 10.5px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.18); pointer-events: none; z-index: 2; color: var(--primary-text-color, #1c2128); }
         .trend-tooltip .tt-time { color: var(--secondary-text-color, #8a92a3); margin-right: 5px; }
         .trend-tooltip .tt-temp { font-weight: 600; }
-        .trend-tooltip .tt-hum { color: ${COLORS.humidity}; font-weight: 600; margin-left: 5px; }
+        .trend-tooltip .tt-hum { font-weight: 600; margin-left: 5px; }
         .day { padding: 14px 0 16px; }
         .day-top { display: flex; align-items: center; gap: 8px; }
         .day-edge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--secondary-text-color, #70788a); white-space: nowrap; }
@@ -1897,11 +1925,10 @@ class EcowittHudCard extends HTMLElement {
     const yFor = (v, vmin, vrange) => h - pad - ((v - vmin) / vrange) * (h - pad * 2);
 
     const coords = pts.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, min, range).toFixed(1)}`);
-    const last = values[values.length - 1];
-    let color = COLORS.info;
-    if (last >= 32) color = COLORS.danger;
-    else if (last >= 25) color = COLORS.high;
-    else if (last >= 15) color = COLORS.low;
+    const c = this._config || {};
+    const color = sanitizeColor(c.trend_temp_color, COLORS.low);
+    const humColor = sanitizeColor(c.trend_humidity_color, COLORS.info);
+    this._trendHumColor = humColor;
     const line = coords.join(" ");
     const area = `${pad},${h - pad} ${line} ${w - pad},${h - pad}`;
 
@@ -1913,7 +1940,7 @@ class EcowittHudCard extends HTMLElement {
       const hMax = Math.max(...hValues);
       const hRange = hMax - hMin || 1;
       const hCoords = hum.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, hMin, hRange).toFixed(1)}`);
-      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="${COLORS.humidity}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
+      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="${humColor}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
       els.trendMinH.textContent = `${hMin.toFixed(0)}%`;
       els.trendMaxH.textContent = `💧 ${hMax.toFixed(0)}%`;
       els.trendAxisRight.style.display = "";
@@ -1928,11 +1955,12 @@ class EcowittHudCard extends HTMLElement {
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
     // A small marker on the top value of each axis column identifies
-    // which line it belongs to without relying on color alone — the
-    // temperature line's color already changes with the reading itself
-    // (see `color` above), so color can't be the only cue.
+    // which line it belongs to without relying on color alone — helpful
+    // since both colors are user-configurable and could end up close to
+    // each other.
     els.trendMax.textContent = `🌡️ ${max.toFixed(1)}°`;
     if (els.trendAxisLeft) els.trendAxisLeft.style.color = color;
+    if (els.trendAxisRight) els.trendAxisRight.style.color = humColor;
   }
   _nearestPoint(series, targetT) {
     if (!series || series.length === 0) return null;
@@ -1963,7 +1991,7 @@ class EcowittHudCard extends HTMLElement {
 
     const time = this._timeStr(new Date(tempPoint.t));
     let html = `<span class="tt-time">${time}</span><span class="tt-temp">${tempPoint.v.toFixed(1)}°</span>`;
-    if (humPoint) html += `<span class="tt-hum">${humPoint.v.toFixed(0)}%</span>`;
+    if (humPoint) html += `<span class="tt-hum" style="color:${this._trendHumColor || COLORS.info}">${humPoint.v.toFixed(0)}%</span>`;
     els.trendTooltip.innerHTML = html;
     els.trendTooltip.style.display = "";
     els.trendCrosshair.style.display = "";

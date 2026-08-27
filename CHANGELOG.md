@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here.
 
+## [1.7.0] - 2026-08-25
+
+### Changed
+- The trend chart's temperature line is a fixed green by default instead
+  of changing color based on how hot or cold the current reading is
+  (blue/green/orange/red). The humidity line is a fixed blue by default,
+  same as before.
+- The dynamic hot/cold temperature-line coloring is removed entirely —
+  the line is always one consistent color now.
+
+### Added
+- `trend_temp_color` and `trend_humidity_color` options to set either
+  line to any CSS color.
+
 ## [1.6.0] - 2026-08-25
 
 ### Added
