@@ -156,8 +156,12 @@ moisture: binary_sensor.my_station_rain_status
 - With `rain_cumulative` on, the rain total is calculated from recorder
   history by summing only the positive increments seen within
   `rain_window_hours`, so a counter reset partway through the window
-  (station reboot, etc.) doesn't produce a negative or bogus total. This
-  also requires `rain_today` to have recorder history.
+  (station reboot, etc.) doesn't produce a negative or bogus total. A
+  single spurious reading that drops toward 0 and then resumes right
+  where it left off — some Zigbee-connected stations do this briefly
+  during a device re-announce — is told apart from a genuine reset and
+  ignored, so it doesn't get double-counted as extra rain. This also
+  requires `rain_today` to have recorder history.
 - The humidity trend overlay uses its own independent vertical scale (shown
   on the right side of the chart, in blue) so it can be compared by shape
   against the temperature line (left side) even though the two have very

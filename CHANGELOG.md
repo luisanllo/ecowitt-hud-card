@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [1.5.2] - 2026-08-25
+
+### Fixed
+- The cumulative rain window total could be inflated when the sensor
+  briefly reported a spurious 0 and then resumed from its real,
+  unbroken value — some Zigbee-connected stations do this during a
+  device re-announce. The recovery back up was being counted as extra
+  rain on top of the real total. It's now told apart from a genuine
+  counter reset (which still adds correctly) and ignored.
+
 ## [1.5.1] - 2026-08-25
 
 ### Added

@@ -836,6 +836,15 @@ function tempOutlierMaxJump(unit) {
 // Humidity is always 0-100 regardless of unit system, so this one can be
 // a flat percentage-point threshold.
 const HUMIDITY_OUTLIER_MAX_JUMP = 40;
+// A cumulative rain counter should only ever go up. Some Zigbee-connected
+// stations occasionally report a spurious 0 for one reading (e.g. a
+// zigbee2mqtt device re-announce) and then resume from the real,
+// unbroken total right after — filterOutliers already tells that pattern
+// apart from a genuine reset (where the following readings stay near the
+// new, lower baseline instead of jumping back). This threshold is
+// generous enough to survive even a very heavy rain burst between two
+// closely-spaced samples without misreading it as a reset-glitch.
+const RAIN_OUTLIER_MAX_JUMP = 15;
 const HISTORY_REFRESH_MS = 10 * 60 * 1000;
 const SUN_REFRESH_MS = 60 * 1000;
 // The rain-rate peak window slides in real time, so a spike that happened
@@ -1801,7 +1810,7 @@ class EcowittHudCard extends HTMLElement {
     try {
       const result = await this._hass.callApi("GET", historyUrl(c.rain_today, startMs));
       if (token !== this._rainWindowFetchToken) return;
-      const points = historyPoints(result);
+      const points = filterOutliers(historyPoints(result), RAIN_OUTLIER_MAX_JUMP);
       const current = fmt(this._hass, c.rain_today, 1);
       if (current.value !== null) points.push({ t: Date.now(), v: current.value });
       let total = 0;
