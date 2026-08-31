@@ -2,6 +2,26 @@
 
 All notable changes to this project are documented here.
 
+## [1.8.0] - 2026-08-31
+
+### Added
+- `reset_daily` option: resets the 24h high/low and the trend chart at
+  midnight (local time) instead of a rolling window, growing from empty
+  through the day like the Ecowitt console or Wunderground do. Off by
+  default — the rolling window stays the default behavior.
+- Russian (`ru`) UI translation.
+- The wind direction's compass abbreviation (N, NNE, NE...) now follows
+  the card's language instead of always being in English. Spanish,
+  French, Portuguese, Italian, German, and Russian each get their own
+  cardinal-point initials; Polish and Czech keep the international
+  N/NNE/... form (their native initials clash with each other or with
+  this scheme).
+
+Calendar-day reset requested by
+[@ssweeney85](https://github.com/ssweeney85) (#7). Russian translation
+and the compass-localization idea contributed by
+[@AndreiCh74](https://github.com/AndreiCh74) (#8).
+
 ## [1.7.0] - 2026-08-25
 
 ### Changed

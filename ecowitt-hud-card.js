@@ -15,8 +15,8 @@
  *
  * UI language follows Home Assistant's configured language automatically.
  * Supported languages: English (en), Spanish (es), Polish (pl), Czech
- * (cs), German (de), French (fr), Portuguese (pt), Italian (it).
- * Unsupported languages fall back to English. de/fr/pt/it are
+ * (cs), Russian (ru), German (de), French (fr), Portuguese (pt), Italian
+ * (it). Unsupported languages fall back to English. de/fr/pt/it are
  * machine-translated and not yet reviewed by a native speaker —
  * corrections welcome.
  */
@@ -60,6 +60,7 @@ const STRINGS = {
       moisture: "Rain / moisture sensor (optional)",
       showTrend: "Show temperature trend chart",
       trendHours: "Hours of history to display",
+      resetDaily: "Reset high/low and trend chart at midnight (local time) instead of a rolling window",
       showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
       trendChartHeight: "Chart height (px)",
       trendTempColor: "Temperature line color (default: green)",
@@ -110,6 +111,7 @@ const STRINGS = {
       nightfallIn: "Nightfall in",
       sunriseIn: "Sunrise in",
       noHistory: "No recorder history available yet",
+      today: "Today",
       lessThanMin: "less than 1 min",
       min: "min",
       dash: "—",
@@ -160,6 +162,7 @@ const STRINGS = {
       moisture: "Czujnik deszczu / wilgoci (opcjonalnie)",
       showTrend: "Pokaż wykres trendu temperatury",
       trendHours: "Liczba godzin historii do wyświetlenia",
+      resetDaily: "Resetuj maks./min. i wykres trendu o północy (czas lokalny) zamiast okna kroczącego",
       showHumidityTrend: "Nałóż trend wilgotności (wymaga ustawienia Wilgotności względnej powyżej)",
       trendChartHeight: "Wysokość wykresu (px)",
       trendTempColor: "Kolor linii temperatury (domyślnie: zielony)",
@@ -220,6 +223,7 @@ const STRINGS = {
       nightfallIn: "Zmrok za",
       sunriseIn: "Wschód słońca za",
       noHistory: "Brak dostępnej historii z rejestratora",
+      today: "Dzisiaj",
       lessThanMin: "mniej niż 1 min",
       min: "min",
       dash: "—",
@@ -233,6 +237,9 @@ const STRINGS = {
     },
   },
   es: {
+    // Spanish cardinal points: Norte(N), Este(E), Sur(S), Oeste(O) -- only
+    // the W root differs from English, so only the W-derived points change.
+    compass: ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"],
     editor: {
       general: "General",
       thermalAir: "Térmico / aire",
@@ -270,6 +277,7 @@ const STRINGS = {
       moisture: "Estado de lluvia / humedad sensor (opcional)",
       showTrend: "Mostrar gráfico de tendencia de temperatura",
       trendHours: "Horas de histórico a mostrar",
+      resetDaily: "Reiniciar máx./mín. y gráfico de tendencia a medianoche (hora local) en vez de ventana móvil",
       showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
       trendChartHeight: "Altura del gráfico (px)",
       trendTempColor: "Color de la línea de temperatura (por defecto: verde)",
@@ -320,6 +328,7 @@ const STRINGS = {
       nightfallIn: "Anochece en",
       sunriseIn: "Amanece en",
       noHistory: "Aún no hay histórico disponible",
+      today: "Hoy",
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
@@ -370,6 +379,7 @@ const STRINGS = {
       moisture: "Senzor deště / vlhkosti (volitelné)",
       showTrend: "Zobrazit graf trendu teploty",
       trendHours: "Zobrazit historii za (hodin)",
+      resetDaily: "Resetovat max/min a graf trendu o půlnoci (místní čas) místo klouzavého okna",
       showHumidityTrend: "Překrýt trend vlhkosti (vyžaduje Relativní vlhkost výše)",
       trendChartHeight: "Výška grafu (px)",
       trendTempColor: "Barva čáry teploty (výchozí: zelená)",
@@ -420,6 +430,7 @@ const STRINGS = {
       nightfallIn: "Stmívání za",
       sunriseIn: "Východ slunce za",
       noHistory: "Zatím není k dispozici žádná historie recorderu",
+      today: "Dnes",
       lessThanMin: "méně než 1 min",
       min: "min",
       dash: "—",
@@ -432,11 +443,117 @@ const STRINGS = {
       day: "d",
     },
   },
+  ru: {
+    compass: ["С", "ССВ", "СВ", "ВСВ", "В", "ВЮВ", "ЮВ", "ЮЮВ", "Ю", "ЮЮЗ", "ЮЗ", "ЗЮЗ", "З", "ЗСЗ", "СЗ", "ССЗ"],
+    editor: {
+      general: "Главная",
+      thermalAir: "Температура / воздух",
+      wind: "Ветер",
+      rain: "Дождь",
+      trend: "Тренд",
+      name: "Имя (опцион.)",
+      timeFormat: "Формат времени",
+      timeFormatAuto: "Автомат. (по умолч.)",
+      timeFormat12: "12-ч (AM/PM)",
+      timeFormat24: "24-ч",
+      temperature: "Температура",
+      apparentTemperature: "Ощущаемая температура",
+      weatherCondition: "Общее состояние (сущность погоды или текстовый датчик)",
+      battery: "Батарея станции (необязательно)",
+      dewPoint: "Точка росы",
+      windChill: "Охлаждающий эффект ветра",
+      humidex: "Индекс влажности",
+      heatIndex: "Индекс тепловой нагрузки",
+      humidity: "Относительная влажность",
+      pressure: "Атмосферное давление",
+      pressureDecimals: "Давление: число знаков после запятой (0–2; по умолчанию: 2 для inHg, 0 — в остальных случаях)",
+      pressureTrend: "Тенденция изменения давления (необязательно)",
+      uvIndex: "УФ‑индекс",
+      illuminance: "Освещённость (люкс)",
+      solarRadiation: "Солнечная радиация (Вт/м²)",
+      windSpeed: "Скорость ветра",
+      windGust: "Скорость порывов ветра",
+      windDirection: "Направление ветра (в градусах)",
+      rainRate: "Интенсивность осадков (мм/ч)",
+      rainRateWindow: "Окно для пика интенсивности осадков (минуты; 0 = мгновенное значение)",
+      rainToday: "Осадки за сегодня (мм)",
+      rainCumulative: "Датчик осадков: накопительный счётчик (без сброса)",
+      rainWindowHours: "Окно учёта осадков (часы)",
+      moisture: "Датчик дождя/влажности (необязательно)",
+      showTrend: "Показывать график изменения температуры",
+      trendHours: "Длительность отображаемой истории (часы)",
+      resetDaily: "Сбрасывать макс./мин. и график тренда в полночь (по местному времени) вместо скользящего окна",
+      showHumidityTrend: "Наложить график влажности (требуется параметр «Относительная влажность» выше)",
+      trendChartHeight: "Высота графика (px)",
+      trendTempColor: "Цвет линии температуры (по умолчанию: зелёный)",
+      trendHumidityColor: "Цвет линии влажности (по умолчанию: синий)",
+      showSunBar: "Показывать шкалу положения солнца",
+      lightning: "Молния",
+      lightningStrikes: "Счётчик ударов молнии",
+      lightningDistance: "Расстояние до удара молнии (датчик)",
+      lastLightningTime: "Время последнего удара молнии (датчик)",
+    },
+    conditions: {
+      "clear-night": "Ясно (ночью)",
+      cloudy: "Облачно",
+      fog: "Туман",
+      hail: "Град",
+      lightning: "Гроза",
+      "lightning-rainy": "Гроза с дождём",
+      partlycloudy: "Переменная облачность",
+      pouring: "Ливень",
+      rainy: "Дождь",
+      snowy: "Снег",
+      "snowy-rainy": "Мокрый снег",
+      sunny: "Солнечно",
+      windy: "Ветрено",
+      "windy-variant": "Ветрено и облачно",
+      exceptional: "Необычные условия",
+    },
+    risk: { low: "Низкий", moderate: "Умеренный", high: "Высокий", veryHigh: "Очень высокий", dangerous: "Опасный", extreme: "Экстремальный" },
+    labels: {
+      battery: "Батарея станции",
+      trend: "Тенденция температуры",
+      humidity: "Влажность",
+      dewPoint: "Точка росы",
+      windChill: "Охлаждающий эффект ветра",
+      humidex: "Индекс влажности",
+      uvIndex: "УФ‑индекс",
+      heatRisk: "Риск перегрева",
+      pressure: "Давление",
+      illuminance: "Освещённость",
+      rainToday: "Общее количество осадков за сегодня",
+      rainSensor: "Датчик дождя",
+      noRain: "Нет осадков",
+      raining: "Идёт дождь",
+      rainPeak: "Пик осадков",
+      feelsLike: "Ощущается как",
+      windFrom: "Откуда дует ветер",
+      gust: "Порыв ветра",
+      nightfallIn: "До заката осталось",
+      sunriseIn: "До восхода осталось",
+      noHistory: "История записей пока недоступна",
+      today: "Сегодня",
+      lessThanMin: "менее 1 минуты",
+      min: "мин",
+      dash: "—",
+      strikeCount: "Количество ударов",
+      lightningDistance: "Расстояние",
+      lastStrike: "Последний удар",
+      agoFormat: "{0} назад",
+      solarRadiation: "Солнечная радиация",
+      noDetection: "Обнаружений нет",
+      day: "д",
+    },
+  },
   // The languages below (de, fr, pt, it) are machine-translated and have
   // not been reviewed by a native speaker, unlike "es" and the
-  // community-contributed "pl" and "cs" — they may contain mistakes or
-  // awkward phrasing. Corrections via issue/PR are very welcome.
+  // community-contributed "pl", "cs", and "ru" — they may contain mistakes
+  // or awkward phrasing. Corrections via issue/PR are very welcome.
   de: {
+    // German cardinal points: Nord(N), Ost(O), Süd(S), West(W) -- only
+    // the E root differs from English, so only the E-derived points change.
+    compass: ["N", "NNO", "NO", "ONO", "O", "OSO", "SO", "SSO", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"],
     editor: {
       general: "Allgemein",
       thermalAir: "Temperatur / Luft",
@@ -474,6 +591,7 @@ const STRINGS = {
       moisture: "Regen-/Feuchtigkeitssensor (optional)",
       showTrend: "Temperaturtrend-Diagramm anzeigen",
       trendHours: "Anzuzeigende Stunden des Verlaufs",
+      resetDaily: "Max./Min. und Trenddiagramm um Mitternacht (Ortszeit) zurücksetzen statt gleitendem Fenster",
       showHumidityTrend: "Feuchtigkeitstrend überlagern (benötigt relative Luftfeuchtigkeit oben)",
       trendChartHeight: "Diagrammhöhe (px)",
       trendTempColor: "Farbe der Temperaturlinie (Standard: grün)",
@@ -524,6 +642,7 @@ const STRINGS = {
       nightfallIn: "Dämmerung in",
       sunriseIn: "Sonnenaufgang in",
       noHistory: "Noch kein Recorder-Verlauf verfügbar",
+      today: "Heute",
       lessThanMin: "weniger als 1 Min",
       min: "Min",
       dash: "—",
@@ -537,6 +656,9 @@ const STRINGS = {
     },
   },
   fr: {
+    // French cardinal points: Nord(N), Est(E), Sud(S), Ouest(O) -- only
+    // the W root differs from English, so only the W-derived points change.
+    compass: ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"],
     editor: {
       general: "Général",
       thermalAir: "Thermique / air",
@@ -574,6 +696,7 @@ const STRINGS = {
       moisture: "Capteur de pluie/humidité (optionnel)",
       showTrend: "Afficher le graphique de tendance de température",
       trendHours: "Heures d'historique à afficher",
+      resetDaily: "Réinitialiser max/min et le graphique de tendance à minuit (heure locale) au lieu d'une fenêtre glissante",
       showHumidityTrend: "Superposer la tendance d'humidité (nécessite l'humidité relative ci-dessus)",
       trendChartHeight: "Hauteur du graphique (px)",
       trendTempColor: "Couleur de la ligne de température (par défaut : vert)",
@@ -624,6 +747,7 @@ const STRINGS = {
       nightfallIn: "Nuit dans",
       sunriseIn: "Lever du soleil dans",
       noHistory: "Aucun historique disponible pour le moment",
+      today: "Aujourd'hui",
       lessThanMin: "moins d'1 min",
       min: "min",
       dash: "—",
@@ -637,6 +761,9 @@ const STRINGS = {
     },
   },
   pt: {
+    // Portuguese cardinal points: Norte(N), Este/Leste(E), Sul(S), Oeste(O)
+    // -- only the W root differs from English, so only those points change.
+    compass: ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"],
     editor: {
       general: "Geral",
       thermalAir: "Térmico / ar",
@@ -674,6 +801,7 @@ const STRINGS = {
       moisture: "Sensor de chuva/umidade (opcional)",
       showTrend: "Mostrar gráfico de tendência de temperatura",
       trendHours: "Horas de histórico a exibir",
+      resetDaily: "Reiniciar máx./mín. e o gráfico de tendência à meia-noite (hora local) em vez de uma janela móvel",
       showHumidityTrend: "Sobrepor tendência de umidade (requer Umidade relativa acima)",
       trendChartHeight: "Altura do gráfico (px)",
       trendTempColor: "Cor da linha de temperatura (padrão: verde)",
@@ -724,6 +852,7 @@ const STRINGS = {
       nightfallIn: "Anoitecer em",
       sunriseIn: "Nascer do sol em",
       noHistory: "Ainda não há histórico disponível",
+      today: "Hoje",
       lessThanMin: "menos de 1 min",
       min: "min",
       dash: "—",
@@ -737,6 +866,9 @@ const STRINGS = {
     },
   },
   it: {
+    // Italian cardinal points: Nord(N), Est(E), Sud(S), Ovest(O) -- only
+    // the W root differs from English, so only the W-derived points change.
+    compass: ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"],
     editor: {
       general: "Generale",
       thermalAir: "Termico / aria",
@@ -774,6 +906,7 @@ const STRINGS = {
       moisture: "Sensore pioggia/umidità (opzionale)",
       showTrend: "Mostra grafico tendenza temperatura",
       trendHours: "Ore di storico da visualizzare",
+      resetDaily: "Azzera max/min e il grafico di tendenza a mezzanotte (ora locale) invece di una finestra mobile",
       showHumidityTrend: "Sovrapponi tendenza umidità (richiede Umidità relativa sopra)",
       trendChartHeight: "Altezza grafico (px)",
       trendTempColor: "Colore della linea di temperatura (predefinito: verde)",
@@ -824,6 +957,7 @@ const STRINGS = {
       nightfallIn: "Tramonto tra",
       sunriseIn: "Alba tra",
       noHistory: "Nessuno storico disponibile ancora",
+      today: "Oggi",
       lessThanMin: "meno di 1 min",
       min: "min",
       dash: "—",
@@ -917,12 +1051,18 @@ function detectLang(hass) {
   return Object.prototype.hasOwnProperty.call(STRINGS, lang) ? lang : "en";
 }
 
+// Default 16-point compass abbreviations, used as-is for languages that
+// don't define their own STRINGS[lang].compass (English; Polish and Czech
+// deliberately too, since their native cardinal-direction initials either
+// clash with each other or with this scheme, and this international
+// N/NNE/... form is what's actually commonly used in practice there).
 const COMPASS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 
-function compassLabel(deg) {
+function compassLabel(deg, lang) {
   if (deg === null || deg === undefined || isNaN(deg)) return "—";
   const idx = Math.round(((deg % 360) / 22.5)) % 16;
-  return COMPASS[(idx + 16) % 16];
+  const arr = (STRINGS[lang] && STRINGS[lang].compass) || COMPASS;
+  return arr[(idx + 16) % 16];
 }
 
 function conditionLabel(condition, lang) {
@@ -1080,6 +1220,13 @@ function historyUrl(entityId, startMs) {
   return `history/period/${start}?filter_entity_id=${encodeURIComponent(entityId)}&minimal_response&no_attributes`;
 }
 
+// Midnight in the browser's local time zone, for reset_daily mode.
+function startOfTodayMs() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d.getTime();
+}
+
 // Clamps a possibly-invalid config value (hand-written YAML isn't bound by
 // the visual editor's min/max) to a sane range, falling back when it's not
 // a finite number at all.
@@ -1166,6 +1313,7 @@ function getFieldGroups(lang) {
       schema: [
         { name: "show_trend", selector: { boolean: {} }, label: E.showTrend },
         { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: E.trendHours },
+        { name: "reset_daily", selector: { boolean: {} }, label: E.resetDaily },
         { name: "show_humidity_trend", selector: { boolean: {} }, label: E.showHumidityTrend },
         { name: "trend_chart_height", selector: { number: { min: 24, max: 120, mode: "box" } }, label: E.trendChartHeight },
         { name: "trend_temp_color", selector: { text: {} }, label: E.trendTempColor },
@@ -1285,7 +1433,8 @@ class EcowittHudCard extends HTMLElement {
       prev.trend_hours !== newConfig.trend_hours ||
       prev.show_trend !== newConfig.show_trend ||
       prev.show_humidity_trend !== newConfig.show_humidity_trend ||
-      prev.humidity !== newConfig.humidity;
+      prev.humidity !== newConfig.humidity ||
+      prev.reset_daily !== newConfig.reset_daily;
     if (trendRelevant) {
       this._fetchTrend();
       this._fetchMinMax();
@@ -1740,7 +1889,7 @@ class EcowittHudCard extends HTMLElement {
       return;
     }
     const hours = clampNumber(c.trend_hours, 1, 24, DEFAULT_TREND_HOURS);
-    const startMs = Date.now() - hours * 3600 * 1000;
+    const startMs = c.reset_daily ? startOfTodayMs() : Date.now() - hours * 3600 * 1000;
     this._trendFetchToken = (this._trendFetchToken || 0) + 1;
     const token = this._trendFetchToken;
 
@@ -1755,8 +1904,9 @@ class EcowittHudCard extends HTMLElement {
       points = [];
     }
 
+    const S = STRINGS[this._lang()].labels;
     this._els.trendBlock.style.display = "";
-    this._els.trendHoursLbl.textContent = `(${hours}h)`;
+    this._els.trendHoursLbl.textContent = c.reset_daily ? `(${S.today})` : `(${hours}h)`;
 
     if (points.length <= 1) {
       this._showTrendMessage(true);
@@ -1791,7 +1941,7 @@ class EcowittHudCard extends HTMLElement {
     }
     const c = this._config;
     if (!c.temperature || !this._hass || !this._els || !this._els.heroMinMax) return;
-    const startMs = Date.now() - DEFAULT_MINMAX_HOURS * 3600 * 1000;
+    const startMs = c.reset_daily ? startOfTodayMs() : Date.now() - DEFAULT_MINMAX_HOURS * 3600 * 1000;
     this._minMaxFetchToken = (this._minMaxFetchToken || 0) + 1;
     const token = this._minMaxFetchToken;
     let ok = false;
@@ -2056,10 +2206,10 @@ class EcowittHudCard extends HTMLElement {
     els.windBlock.style.display = c.wind_speed ? "" : "none";
     els.windSpeedVal.textContent = windSpeed.text;
     els.windSpeedUnit.textContent = windSpeed.unit || "km/h";
-    els.windDir.textContent = windDirVal.value !== null ? `${S.labels.windFrom} ${compassLabel(windDirVal.value)} (${windDirVal.text}°)` : S.labels.dash;
+    els.windDir.textContent = windDirVal.value !== null ? `${S.labels.windFrom} ${compassLabel(windDirVal.value, lang)} (${windDirVal.text}°)` : S.labels.dash;
     els.windGust.textContent = windGust.value !== null ? `${S.labels.gust} ${windGust.text} ${windGust.unit || "km/h"}` : "";
     els.windArrow.style.transform = windDirVal.value !== null ? `rotate(${windDirVal.value}deg) translateY(-29px) rotate(180deg)` : "none";
-    els.windDirLabel.textContent = windDirVal.value !== null ? compassLabel(windDirVal.value) : "";
+    els.windDirLabel.textContent = windDirVal.value !== null ? compassLabel(windDirVal.value, lang) : "";
 
     const setStat = (key, val, unit, color) => {
       const s = els.stats[key];

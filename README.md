@@ -30,7 +30,7 @@ history dialog.
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
 - 🌗 Follows Home Assistant's light/dark theme automatically
-- 🌍 UI in English, Spanish, Polish, Czech, German, French, Portuguese, or Italian, auto-detected from your Home Assistant language
+- 🌍 UI in English, Spanish, Polish, Czech, Russian, German, French, Portuguese, or Italian, auto-detected from your Home Assistant language
 
 ## Installation
 
@@ -87,6 +87,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `moisture` | No | Rain/moisture sensor (binary_sensor or sensor) |
 | `show_trend` | No | Show the trend chart (`true` by default) |
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
+| `reset_daily` | No | Reset the 24h high/low and the trend chart at midnight (local time), growing from empty through the day, instead of a rolling window (`false` by default) |
 | `show_humidity_trend` | No | Overlay a humidity line on the trend chart (needs `humidity` set above) |
 | `trend_chart_height` | No | Chart height in pixels (`48` by default) |
 | `trend_temp_color` | No | Temperature line color — any CSS color (`green` by default) |
@@ -125,6 +126,11 @@ moisture: binary_sensor.my_station_rain_status
 
 - The trend chart and 24h high/low require `temperature` to have recorder
   history in Home Assistant.
+- With `reset_daily` on, both the 24h high/low and the trend chart use
+  midnight-to-now (local time) as their window instead of a fixed rolling
+  duration, so `trend_hours` is ignored. The trade-off: right after
+  midnight there's very little data yet, since the window is genuinely
+  starting from empty rather than always showing a full trailing window.
 - A single implausible reading in the temperature or humidity history (a
   decode glitch that reads as 0, or some other garbage value, then
   recovers on the very next reading) is dropped instead of showing up as
@@ -183,13 +189,19 @@ moisture: binary_sensor.my_station_rain_status
 - The card's language follows Home Assistant's configured UI language
   (`hass.locale.language`, with `hass.language` and the browser locale as
   fallbacks), normalized to its base subtag (e.g. `pl-PL` → `pl`).
-  Currently supported: English, Spanish, Polish, Czech, German, French,
-  Portuguese, and Italian. Unsupported languages fall back to English. A
-  language change is picked up live, without needing to reload Home
-  Assistant. German, French, Portuguese, and Italian are machine-translated
-  and haven't been reviewed by a native speaker (unlike Spanish and the
-  community-contributed Polish and Czech translations) — corrections are
-  very welcome via an issue or PR.
+  Currently supported: English, Spanish, Polish, Czech, Russian, German,
+  French, Portuguese, and Italian. Unsupported languages fall back to
+  English. A language change is picked up live, without needing to reload
+  Home Assistant. German, French, Portuguese, and Italian are
+  machine-translated and haven't been reviewed by a native speaker (unlike
+  Spanish and the community-contributed Polish, Czech, and Russian
+  translations) — corrections are very welcome via an issue or PR.
+- The wind direction's compass abbreviation (N, NNE, NE...) follows the
+  card's language too, using each language's own cardinal-point initials
+  where they differ from English (e.g. Spanish/French/Portuguese/Italian
+  use O for Oeste/Ouest, German uses O for Ost). Polish and Czech
+  deliberately keep the international N/NNE/... form, since their native
+  initials either clash with each other or with this scheme.
 
 ## Contributing
 
@@ -218,6 +230,14 @@ Czech translation contributed by Jaroslav Hýsek.
 Pressure decimal precision reported by
 [@mikey68995](https://github.com/mikey68995)
 ([#6](https://github.com/luisanllo/ecowitt-hud-card/issues/6)).
+
+Calendar-day reset option (`reset_daily`) requested by
+[@ssweeney85](https://github.com/ssweeney85)
+([#7](https://github.com/luisanllo/ecowitt-hud-card/issues/7)).
+
+Russian translation and localized wind-compass abbreviations contributed
+by [@AndreiCh74](https://github.com/AndreiCh74)
+([#8](https://github.com/luisanllo/ecowitt-hud-card/issues/8)).
 
 ## License
 
