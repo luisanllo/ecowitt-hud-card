@@ -16,9 +16,9 @@
  * UI language follows Home Assistant's configured language automatically.
  * Supported languages: English (en), Spanish (es), Polish (pl), Czech
  * (cs), Russian (ru), German (de), French (fr), Portuguese (pt), Italian
- * (it). Unsupported languages fall back to English. de/fr/pt/it are
- * machine-translated and not yet reviewed by a native speaker —
- * corrections welcome.
+ * (it), Danish (da). Unsupported languages fall back to English.
+ * de/fr/pt/it/da are machine-translated and not yet reviewed by a native
+ * speaker — corrections welcome.
  */
 
 const STRINGS = {
@@ -114,6 +114,7 @@ const STRINGS = {
       today: "Today",
       lessThanMin: "less than 1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Strikes",
       lightningDistance: "Distance",
@@ -226,6 +227,7 @@ const STRINGS = {
       today: "Dzisiaj",
       lessThanMin: "mniej niż 1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Wyładowania",
       lightningDistance: "Odległość",
@@ -331,6 +333,7 @@ const STRINGS = {
       today: "Hoy",
       lessThanMin: "menos de 1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Rayos",
       lightningDistance: "Distancia",
@@ -433,6 +436,7 @@ const STRINGS = {
       today: "Dnes",
       lessThanMin: "méně než 1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Údery",
       lightningDistance: "Vzdálenost",
@@ -536,6 +540,7 @@ const STRINGS = {
       today: "Сегодня",
       lessThanMin: "менее 1 минуты",
       min: "мин",
+      hour: "ч",
       dash: "—",
       strikeCount: "Количество ударов",
       lightningDistance: "Расстояние",
@@ -546,7 +551,7 @@ const STRINGS = {
       day: "д",
     },
   },
-  // The languages below (de, fr, pt, it) are machine-translated and have
+  // The languages below (de, fr, pt, it, da) are machine-translated and have
   // not been reviewed by a native speaker, unlike "es" and the
   // community-contributed "pl", "cs", and "ru" — they may contain mistakes
   // or awkward phrasing. Corrections via issue/PR are very welcome.
@@ -645,6 +650,7 @@ const STRINGS = {
       today: "Heute",
       lessThanMin: "weniger als 1 Min",
       min: "Min",
+      hour: "Std.",
       dash: "—",
       strikeCount: "Blitze",
       lightningDistance: "Entfernung",
@@ -750,6 +756,7 @@ const STRINGS = {
       today: "Aujourd'hui",
       lessThanMin: "moins d'1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Éclairs",
       lightningDistance: "Distance",
@@ -855,6 +862,7 @@ const STRINGS = {
       today: "Hoje",
       lessThanMin: "menos de 1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Raios",
       lightningDistance: "Distância",
@@ -960,6 +968,7 @@ const STRINGS = {
       today: "Oggi",
       lessThanMin: "meno di 1 min",
       min: "min",
+      hour: "h",
       dash: "—",
       strikeCount: "Fulmini",
       lightningDistance: "Distanza",
@@ -968,6 +977,112 @@ const STRINGS = {
       solarRadiation: "Radiazione solare",
       noDetection: "Nessun rilevamento",
       day: "g",
+    },
+  },
+  da: {
+    // Danish cardinal points: Nord(N), Øst(Ø), Syd(S), Vest(V) -- all four
+    // roots differ from English, so every point changes.
+    compass: ["N", "NNØ", "NØ", "ØNØ", "Ø", "ØSØ", "SØ", "SSØ", "S", "SSV", "SV", "VSV", "V", "VNV", "NV", "NNV"],
+    editor: {
+      general: "Generelt",
+      thermalAir: "Temperatur / luft",
+      wind: "Vind",
+      rain: "Regn",
+      trend: "Trend",
+      name: "Navn (valgfrit)",
+      timeFormat: "Tidsformat",
+      timeFormatAuto: "Automatisk (systemstandard)",
+      timeFormat12: "12-timers (AM/PM)",
+      timeFormat24: "24-timers",
+      temperature: "Temperatur",
+      apparentTemperature: "Følt temperatur",
+      weatherCondition: "Generel tilstand (vejrenhed eller tekstsensor)",
+      battery: "Stationsbatteri (valgfrit)",
+      dewPoint: "Dugpunkt",
+      windChill: "Vindafkøling",
+      humidex: "Humidex",
+      heatIndex: "Varmestressindeks",
+      humidity: "Relativ luftfugtighed",
+      pressure: "Atmosfærisk tryk",
+      pressureDecimals: "Antal decimaler for tryk (0-2, standard: 2 for inHg, ellers 0)",
+      pressureTrend: "Tryktendens (valgfrit)",
+      uvIndex: "UV-indeks",
+      illuminance: "Belysningsstyrke (lux)",
+      solarRadiation: "Solindstråling (W/m²)",
+      windSpeed: "Vindhastighed",
+      windGust: "Vindstødshastighed",
+      windDirection: "Vindretning (grader)",
+      rainRate: "Regnintensitet (mm/t)",
+      rainRateWindow: "Vindue for regnintensitetstop (minutter, 0 = øjeblikkelig)",
+      rainToday: "Dagens nedbør (mm)",
+      rainCumulative: "Regnsensoren er en kumulativ tæller (nulstilles aldrig)",
+      rainWindowHours: "Regnvindue (timer)",
+      moisture: "Regn-/fugtsensor (valgfrit)",
+      showTrend: "Vis temperaturtrendgraf",
+      trendHours: "Antal timers historik at vise",
+      resetDaily: "Nulstil maks./min. og trendgraf ved midnat (lokal tid) i stedet for et glidende vindue",
+      showHumidityTrend: "Overlejr fugtighedstrend (kræver Relativ luftfugtighed ovenfor)",
+      trendChartHeight: "Grafhøjde (px)",
+      trendTempColor: "Farve på temperaturlinje (standard: grøn)",
+      trendHumidityColor: "Farve på fugtighedslinje (standard: blå)",
+      showSunBar: "Vis solpositionslinje",
+      lightning: "Lyn",
+      lightningStrikes: "Sensor for antal lynnedslag",
+      lightningDistance: "Sensor for afstand til lynnedslag",
+      lastLightningTime: "Sensor for seneste lynnedslag",
+    },
+    conditions: {
+      "clear-night": "Klart (nat)",
+      cloudy: "Skyet",
+      fog: "Tåge",
+      hail: "Hagl",
+      lightning: "Tordenvejr",
+      "lightning-rainy": "Tordenvejr med regn",
+      partlycloudy: "Halvskyet",
+      pouring: "Kraftig regn",
+      rainy: "Regnvejr",
+      snowy: "Snedække",
+      "snowy-rainy": "Slud",
+      sunny: "Solrigt vejr",
+      windy: "Blæsende",
+      "windy-variant": "Blæsende og skyet",
+      exceptional: "Ekstraordinære forhold",
+    },
+    risk: { low: "Lav", moderate: "Moderat", high: "Høj", veryHigh: "Meget høj", dangerous: "Farlig", extreme: "Ekstrem" },
+    labels: {
+      battery: "Stationsbatteri",
+      trend: "Temperaturtrend",
+      humidity: "Luftfugtighed",
+      dewPoint: "Dugpunkt",
+      windChill: "Vindafkøling",
+      humidex: "Humidex",
+      uvIndex: "UV-indeks",
+      heatRisk: "Varmerisiko",
+      pressure: "Tryk",
+      illuminance: "Belysning",
+      rainToday: "I dag i alt",
+      rainSensor: "Regnsensor",
+      noRain: "Ingen regn",
+      raining: "Regner",
+      rainPeak: "Maks.",
+      feelsLike: "Føles som",
+      windFrom: "Vind fra",
+      gust: "Vindstød",
+      nightfallIn: "Mørke om",
+      sunriseIn: "Solopgang om",
+      noHistory: "Ingen recorder-historik tilgængelig endnu",
+      today: "I dag",
+      lessThanMin: "mindre end 1 min",
+      min: "min",
+      hour: "t",
+      dash: "—",
+      strikeCount: "Lynnedslag",
+      lightningDistance: "Afstand",
+      lastStrike: "Seneste lynnedslag",
+      agoFormat: "{0} siden",
+      solarRadiation: "Solindstråling",
+      noDetection: "Ingen registrering",
+      day: "d",
     },
   },
 };
@@ -1851,7 +1966,7 @@ class EcowittHudCard extends HTMLElement {
     const h = Math.floor(totalMin / 60);
     const m = totalMin % 60;
     if (h <= 0) return `${m} ${L.min}`;
-    return `${h}h ${m}${L.min}`;
+    return `${h}${L.hour} ${m}${L.min}`;
   }
   // Wraps a duration with the language's "X ago" phrasing (word order
   // varies: English trails "ago", French/Spanish/Portuguese lead with it).
@@ -1866,7 +1981,7 @@ class EcowittHudCard extends HTMLElement {
     if (totalMin >= 1440) {
       const days = Math.floor(totalMin / 1440);
       const remHours = Math.floor((totalMin % 1440) / 60);
-      const dur = remHours > 0 ? `${days}${L.day} ${remHours}h` : `${days}${L.day}`;
+      const dur = remHours > 0 ? `${days}${L.day} ${remHours}${L.hour}` : `${days}${L.day}`;
       return (L.agoFormat || "{0}").replace("{0}", dur);
     }
     const dur = this._durationStr(ms);
@@ -1906,7 +2021,7 @@ class EcowittHudCard extends HTMLElement {
 
     const S = STRINGS[this._lang()].labels;
     this._els.trendBlock.style.display = "";
-    this._els.trendHoursLbl.textContent = c.reset_daily ? `(${S.today})` : `(${hours}h)`;
+    this._els.trendHoursLbl.textContent = c.reset_daily ? `(${S.today})` : `(${hours}${S.hour})`;
 
     if (points.length <= 1) {
       this._showTrendMessage(true);
@@ -2275,7 +2390,7 @@ class EcowittHudCard extends HTMLElement {
     if (peakMinutes > 0) {
       const peakText = this._rainRatePeakValue !== null && this._rainRatePeakValue !== undefined ? this._rainRatePeakValue.toFixed(1) : "—";
       setStat("rain_rate", peakText, rainRate.unit || "mm/h");
-      els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes}min)`;
+      els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes}${S.labels.min})`;
     } else {
       setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
       els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
@@ -2287,7 +2402,7 @@ class EcowittHudCard extends HTMLElement {
       const hours = clampNumber(c.rain_window_hours, 1, 168, DEFAULT_RAIN_WINDOW_HOURS);
       const windowText = this._rainWindowValue !== null && this._rainWindowValue !== undefined ? this._rainWindowValue.toFixed(1) : "—";
       setStat("rain_today", windowText, rainTodayUnit);
-      els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}h)`;
+      els.rainTodaySub.textContent = `${S.labels.rainToday} (${hours}${S.labels.hour})`;
     } else {
       setStat("rain_today", rainToday.text, rainTodayUnit);
       els.rainTodaySub.textContent = S.labels.rainToday;

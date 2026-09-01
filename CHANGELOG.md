@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented here.
 
+## [1.9.0] - 2026-08-31
+
+### Added
+- Danish (`da`) UI translation.
+- Durations (trend chart header, high/low times, "X ago" lightning
+  timestamps) now use each language's own hour/minute/day abbreviations
+  instead of a hardcoded "h" — e.g. Danish shows "2t 14min", Russian
+  shows "2ч 14мин".
+
+Danish compass and weather-condition translations, plus the localized
+duration-units idea, contributed by
+[@ohaue](https://github.com/ohaue) (#9).
+
 ## [1.8.0] - 2026-08-31
 
 ### Added
