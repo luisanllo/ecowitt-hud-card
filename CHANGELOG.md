@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [1.9.1] - 2026-08-31
+
+### Fixed
+- Russian `humidex` label was a literal "humidity index" translation that
+  didn't convey what the value actually represents. Changed to "Ощущается
+  как (Humidex)" ("Feels like (Humidex)"). Reported by
+  [@AndreiCh74](https://github.com/AndreiCh74) (#10).
+
 ## [1.9.0] - 2026-08-31
 
 ### Added
