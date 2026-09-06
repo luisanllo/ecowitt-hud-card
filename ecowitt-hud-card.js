@@ -1835,6 +1835,7 @@ class EcowittHudCard extends HTMLElement {
 
     this._els = {
       title: root.querySelector(".title"),
+      heroRow: root.querySelector(".row.hero"),
       heroIcon: root.querySelector(".hero-icon"),
       heroTempVal: root.querySelector(".hero-temp-val"),
       heroUnit: root.querySelector(".hero-unit"),
@@ -2001,6 +2002,7 @@ class EcowittHudCard extends HTMLElement {
     if (!this._hass || !this._els || !this._els.trendBlock) return;
     if (c.show_trend === false || !c.temperature) {
       this._els.trendBlock.style.display = "none";
+      this._updateDividers();
       return;
     }
     const hours = clampNumber(c.trend_hours, 1, 24, DEFAULT_TREND_HOURS);
@@ -2021,6 +2023,7 @@ class EcowittHudCard extends HTMLElement {
 
     const S = STRINGS[this._lang()].labels;
     this._els.trendBlock.style.display = "";
+    this._updateDividers();
     this._els.trendHoursLbl.textContent = c.reset_daily ? `(${S.today})` : `(${hours}${S.hour})`;
 
     if (points.length <= 1) {
@@ -2475,8 +2478,28 @@ class EcowittHudCard extends HTMLElement {
     if (c.show_sun_bar !== false) {
       this._updateSunBar();
     }
+    this._updateDividers();
   }
-
+  // Whichever row ends up last in the visible sequence shouldn't show its
+  // own bottom-border divider — with enough optional fields turned off,
+  // that divider would just trail into the empty padding at the bottom of
+  // the card instead of separating it from something below it. Rain and
+  // lightning never carry the divider class (nothing optional follows
+  // them), so only the other five rows need checking.
+  _updateDividers() {
+    const els = this._els;
+    if (!els) return;
+    const rows = [els.heroRow, els.trendBlock, els.dayBlock, els.windBlock, els.gridBlock, els.rainBlock, els.lightningBlock];
+    let lastVisible = null;
+    for (const el of rows) {
+      if (el && el.style.display !== "none") lastVisible = el;
+    }
+    const dividerRows = [els.heroRow, els.trendBlock, els.dayBlock, els.windBlock, els.gridBlock];
+    for (const el of dividerRows) {
+      if (!el) continue;
+      el.classList.toggle("divider", el.style.display !== "none" && el !== lastVisible);
+    }
+  }
   _updateSunBar() {
     if (!this._els || !this._hass) return;
     const els = this._els;

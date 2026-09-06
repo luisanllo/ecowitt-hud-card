@@ -124,6 +124,10 @@ moisture: binary_sensor.my_station_rain_status
 
 ## Technical notes
 
+- The divider line below a section is hidden when nothing visible follows
+  it, so turning off enough optional sections (e.g. `show_trend: false`
+  and `show_sun_bar: false` with no wind/grid/rain fields configured)
+  doesn't leave a trailing line with empty space under it.
 - The trend chart and 24h high/low require `temperature` to have recorder
   history in Home Assistant.
 - With `reset_daily` on, both the 24h high/low and the trend chart use

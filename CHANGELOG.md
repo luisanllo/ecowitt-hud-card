@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.9.2] - 2026-08-31
+
+### Fixed
+- With enough optional sections turned off (e.g. `show_trend: false` and
+  `show_sun_bar: false` with no wind/grid/rain fields configured), the
+  last remaining visible section kept its divider line, trailing into
+  empty padding at the bottom of the card. Whichever section ends up
+  last in the visible sequence no longer shows its own divider.
+
+Reported by [@uetz0815](https://github.com/uetz0815) (#11).
+
 ## [1.9.1] - 2026-08-31
 
 ### Fixed
