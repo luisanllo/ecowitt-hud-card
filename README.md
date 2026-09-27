@@ -247,6 +247,8 @@ Contributions from [@ohaue](https://github.com/ohaue):
 
 - Danish compass and weather-condition translations, plus the idea for
   localized duration units ([#9](https://github.com/luisanllo/ecowitt-hud-card/issues/9)).
+- Review and correction of several Danish strings
+  ([#12](https://github.com/luisanllo/ecowitt-hud-card/pull/12)).
 
 ## License
 

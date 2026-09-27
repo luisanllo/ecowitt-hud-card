@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here.
 
+## [1.9.3] - 2026-09-27
+
+### Fixed
+- Corrected 8 Danish strings that read awkwardly or didn't quite match
+  what they describe (e.g. "nightfall in" was more accurately "sunset
+  in" for what the sun bar actually counts down to).
+
+Reviewed and corrected by [@ohaue](https://github.com/ohaue) (#12).
+
 ## [1.9.2] - 2026-08-31
 
 ### Fixed
