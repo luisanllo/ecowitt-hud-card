@@ -2,6 +2,26 @@
 
 All notable changes to this project are documented here.
 
+## [1.10.0] - 2026-09-28
+
+### Added
+- `max_daily_gust`: today's peak gust, shown alongside the current gust
+  reading.
+- `show_dusk_time`: adds civil dusk time next to the "nightfall in"
+  countdown on the sun bar.
+- `separate_rain_rate_label`: shows a "Rain rate" sub-label instead of
+  the wet/dry status text when the rain-rate stat is showing the raw
+  instantaneous value (`rain_rate_window_minutes: 0`).
+- `last_wet_timestamp` / `last_dry_timestamp`: optional helper entities
+  (e.g. `input_datetime`) that let the moisture reading show "Since
+  HH:MM" (or the day/date, if older) instead of only the current
+  wet/dry state.
+
+All four are opt-in and off by default — existing configs are
+unaffected.
+
+Contributed by [@ohaue](https://github.com/ohaue) (#13).
+
 ## [1.9.3] - 2026-09-27
 
 ### Fixed

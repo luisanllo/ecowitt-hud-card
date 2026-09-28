@@ -65,6 +65,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `weather_condition` | No | Condition entity (text like `sunny`, `cloudy`...) |
 | `battery` | No | Station battery level |
 | `show_sun_bar` | No | Show the sun position bar (`true` by default) |
+| `show_dusk_time` | No | Also show civil dusk time next to the "nightfall in" countdown (`false` by default) |
 | `dew_point` | No | Dew point |
 | `wind_chill` | No | Wind chill |
 | `humidex` | No | Humidex |
@@ -78,13 +79,17 @@ optional, and the card automatically hides whatever you don't fill in.
 | `solar_radiation` | No | Solar radiation (W/m²) |
 | `wind_speed` | No | Wind speed |
 | `wind_gust` | No | Gust speed |
+| `max_daily_gust` | No | Today's peak gust, shown alongside the current gust |
 | `wind_direction` | No | Wind direction (degrees) |
 | `rain_rate` | No | Rain intensity (mm/h) |
 | `rain_rate_window_minutes` | No | Show the peak rain rate over the last N minutes instead of the instantaneous reading (`5` by default) — set to `0` for the raw instantaneous value |
+| `separate_rain_rate_label` | No | When `rain_rate_window_minutes: 0`, show a "Rain rate" sub-label instead of the wet/dry status text (`false` by default) |
 | `rain_today` | No | Today's accumulated rain (mm), or a cumulative counter if `rain_cumulative` is on |
 | `rain_cumulative` | No | Set if `rain_today` is a counter that never resets (e.g. a Zigbee2MQTT lifetime `precipitation` total) — the card then shows the total rain within `rain_window_hours` instead of the raw value |
 | `rain_window_hours` | No | Window size in hours used when `rain_cumulative` is on (`24` by default) |
 | `moisture` | No | Rain/moisture sensor (binary_sensor or sensor) |
+| `last_wet_timestamp` | No | Helper entity (e.g. `input_datetime`) holding when `moisture` last turned wet — shown as "Since HH:MM" under the moisture reading |
+| `last_dry_timestamp` | No | Helper entity holding when `moisture` last turned dry — same as above, for the dry state |
 | `show_trend` | No | Show the trend chart (`true` by default) |
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
 | `reset_daily` | No | Reset the 24h high/low and the trend chart at midnight (local time), growing from empty through the day, instead of a rolling window (`false` by default) |
@@ -249,6 +254,9 @@ Contributions from [@ohaue](https://github.com/ohaue):
   localized duration units ([#9](https://github.com/luisanllo/ecowitt-hud-card/issues/9)).
 - Review and correction of several Danish strings
   ([#12](https://github.com/luisanllo/ecowitt-hud-card/pull/12)).
+- Optional max daily gust, dusk time, separate rain-rate label, and
+  persistent wet/dry timestamps via helper entities
+  ([#13](https://github.com/luisanllo/ecowitt-hud-card/pull/13)).
 
 ## License
 

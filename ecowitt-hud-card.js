@@ -17,7 +17,7 @@
  * Supported languages: English (en), Spanish (es), Polish (pl), Czech
  * (cs), Russian (ru), German (de), French (fr), Portuguese (pt), Italian
  * (it), Danish (da). Unsupported languages fall back to English.
- * de/fr/pt/it/da are machine-translated and not yet reviewed by a native
+ * de/fr/pt/it are machine-translated and not yet reviewed by a native
  * speaker — corrections welcome.
  */
 
@@ -51,13 +51,17 @@ const STRINGS = {
       solarRadiation: "Solar radiation (W/m²)",
       windSpeed: "Wind speed",
       windGust: "Gust speed",
+      maxDailyGust: "Maximum gust today",
       windDirection: "Wind direction (degrees)",
       rainRate: "Rain rate (mm/h)",
       rainRateWindow: "Rain rate peak window (minutes, 0 = instantaneous)",
+      separateRainRateLabel: "Show rain-rate label instead of wet/dry status",
       rainToday: "Today's rainfall (mm)",
       rainCumulative: "Rain sensor is a cumulative counter (never resets)",
       rainWindowHours: "Rain window (hours)",
       moisture: "Rain / moisture sensor (optional)",
+      lastWetTimestamp: "Last wet timestamp helper (optional)",
+      lastDryTimestamp: "Last dry timestamp helper (optional)",
       showTrend: "Show temperature trend chart",
       trendHours: "Hours of history to display",
       resetDaily: "Reset high/low and trend chart at midnight (local time) instead of a rolling window",
@@ -66,6 +70,7 @@ const STRINGS = {
       trendTempColor: "Temperature line color (default: green)",
       trendHumidityColor: "Humidity line color (default: blue)",
       showSunBar: "Show sun position bar",
+      showDuskTime: "Show dusk time in sun bar",
       lightning: "Lightning",
       lightningStrikes: "Strike count sensor",
       lightningDistance: "Strike distance sensor",
@@ -101,6 +106,8 @@ const STRINGS = {
       pressure: "Pressure",
       illuminance: "Illuminance",
       rainToday: "Today's total",
+      rainRateUnit: "mm/h",
+      rainRateLabel: "Rain rate",
       rainSensor: "Rain sensor",
       noRain: "No rain",
       raining: "Raining",
@@ -108,13 +115,16 @@ const STRINGS = {
       feelsLike: "Feels like",
       windFrom: "Wind from",
       gust: "Gust",
+      maxDailyGust: "Today's max",
       nightfallIn: "Nightfall in",
+      duskAt: "Dusk",
       sunriseIn: "Sunrise in",
       noHistory: "No recorder history available yet",
       today: "Today",
       lessThanMin: "less than 1 min",
       min: "min",
       hour: "h",
+      since: "Since",
       dash: "—",
       strikeCount: "Strikes",
       lightningDistance: "Distance",
@@ -551,10 +561,11 @@ const STRINGS = {
       day: "д",
     },
   },
-  // The languages below (de, fr, pt, it, da) are machine-translated and have
-  // not been reviewed by a native speaker, unlike "es" and the
-  // community-contributed "pl", "cs", and "ru" — they may contain mistakes
-  // or awkward phrasing. Corrections via issue/PR are very welcome.
+  // The languages below (de, fr, pt, it) are machine-translated and have
+  // not been reviewed by a native speaker, unlike "es", the
+  // community-contributed "pl", "cs", and "ru", and the native-reviewed
+  // Danish translation — they may contain mistakes or awkward phrasing.
+  // Corrections via issue/PR are very welcome.
   de: {
     // German cardinal points: Nord(N), Ost(O), Süd(S), West(W) -- only
     // the E root differs from English, so only the E-derived points change.
@@ -1011,13 +1022,17 @@ const STRINGS = {
       solarRadiation: "Solindstråling (W/m²)",
       windSpeed: "Vindhastighed",
       windGust: "Vindstød",
+      maxDailyGust: "Højeste vindstød i dag",
       windDirection: "Vindretning (grader)",
       rainRate: "Regnintensitet (mm/t)",
       rainRateWindow: "Vindue for regnintensitetstop (minutter, 0 = øjeblikkelig)",
+      separateRainRateLabel: "Vis regnintensitet i stedet for tør/regner-status",
       rainToday: "Dagens nedbør (mm)",
       rainCumulative: "Regnsensoren er en kumulativ tæller (nulstilles aldrig)",
       rainWindowHours: "Regnvindue (timer)",
       moisture: "Regn-/fugtsensor (valgfrit)",
+      lastWetTimestamp: "Hjælper for seneste våde tidspunkt (valgfri)",
+      lastDryTimestamp: "Hjælper for seneste tørre tidspunkt (valgfri)",
       showTrend: "Vis temperaturtrendgraf",
       trendHours: "Antal timers historik at vise",
       resetDaily: "Nulstil maks./min. og trendgraf ved midnat (lokal tid) i stedet for et glidende vindue",
@@ -1026,6 +1041,7 @@ const STRINGS = {
       trendTempColor: "Farve på temperaturlinje (standard: grøn)",
       trendHumidityColor: "Farve på fugtighedslinje (standard: blå)",
       showSunBar: "Vis solpositionslinje",
+      showDuskTime: "Vis skumringstid på solpositionslinjen",
       lightning: "Lyn",
       lightningStrikes: "Sensor for antal lynnedslag",
       lightningDistance: "Sensor for afstand til lynnedslag",
@@ -1061,6 +1077,8 @@ const STRINGS = {
       pressure: "Tryk",
       illuminance: "Lysstyrke",
       rainToday: "I dag i alt",
+      rainRateUnit: "mm/t",
+      rainRateLabel: "Regnintensitet",
       rainSensor: "Regnsensor",
       noRain: "Tør",
       raining: "Regner",
@@ -1068,13 +1086,16 @@ const STRINGS = {
       feelsLike: "Føles som",
       windFrom: "Vind fra",
       gust: "Vindstød",
+      maxDailyGust: "Maks. i dag",
       nightfallIn: "Solnedgang om",
+      duskAt: "Skumring",
       sunriseIn: "Solopgang om",
       noHistory: "Ingen recorder-historik tilgængelig endnu",
       today: "I dag",
       lessThanMin: "mindre end 1 min",
       min: "min",
       hour: "t",
+      since: "Siden",
       dash: "—",
       strikeCount: "Lynnedslag",
       lightningDistance: "Afstand",
@@ -1386,6 +1407,7 @@ function getFieldGroups(lang) {
         { name: "weather_condition", selector: { entity: {} }, label: E.weatherCondition },
         { name: "battery", selector: { entity: { domain: "sensor", device_class: "battery" } }, label: E.battery },
         { name: "show_sun_bar", selector: { boolean: {} }, label: E.showSunBar },
+        { name: "show_dusk_time", selector: { boolean: {} }, label: E.showDuskTime || STRINGS.en.editor.showDuskTime },
       ],
     },
     {
@@ -1409,6 +1431,7 @@ function getFieldGroups(lang) {
       schema: [
         { name: "wind_speed", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windSpeed },
         { name: "wind_gust", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windGust },
+        { name: "max_daily_gust", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.maxDailyGust || STRINGS.en.editor.maxDailyGust },
         { name: "wind_direction", selector: { entity: { domain: "sensor" } }, label: E.windDirection },
       ],
     },
@@ -1417,10 +1440,13 @@ function getFieldGroups(lang) {
       schema: [
         { name: "rain_rate", selector: { entity: { domain: "sensor", device_class: "precipitation_intensity" } }, label: E.rainRate },
         { name: "rain_rate_window_minutes", selector: { number: { min: 0, max: 60, mode: "box" } }, label: E.rainRateWindow },
+        { name: "separate_rain_rate_label", selector: { boolean: {} }, label: E.separateRainRateLabel || STRINGS.en.editor.separateRainRateLabel },
         { name: "rain_today", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainToday },
         { name: "rain_cumulative", selector: { boolean: {} }, label: E.rainCumulative },
         { name: "rain_window_hours", selector: { number: { min: 1, max: 168, mode: "box" } }, label: E.rainWindowHours },
         { name: "moisture", selector: { entity: {} }, label: E.moisture },
+        { name: "last_wet_timestamp", selector: { entity: {} }, label: E.lastWetTimestamp || STRINGS.en.editor.lastWetTimestamp },
+        { name: "last_dry_timestamp", selector: { entity: {} }, label: E.lastDryTimestamp || STRINGS.en.editor.lastDryTimestamp },
       ],
     },
     {
@@ -1528,7 +1554,10 @@ class EcowittHudCard extends HTMLElement {
       return;
     }
     this._update();
-    const sunBarRelevant = !prev || prev.show_sun_bar !== newConfig.show_sun_bar;
+    const sunBarRelevant =
+      !prev ||
+      prev.show_sun_bar !== newConfig.show_sun_bar ||
+      prev.show_dusk_time !== newConfig.show_dusk_time;
     if (sunBarRelevant) {
       const showSunBar = newConfig.show_sun_bar !== false;
       this._els.dayBlock.style.display = showSunBar ? "" : "none";
@@ -1792,7 +1821,7 @@ class EcowittHudCard extends HTMLElement {
           </div>
           <div class="stat clickable" data-k="moisture">
             <div class="rain-val"><span class="v"></span></div>
-            <div class="rain-sub">${S.labels.rainSensor}</div>
+            <div class="rain-sub moisture-state-sub">${S.labels.rainSensor}</div>
           </div>
         </div>
         <div class="row rain lightning-row" style="display:none;">
@@ -1854,6 +1883,7 @@ class EcowittHudCard extends HTMLElement {
       trendIcon: root.querySelector(".trend-icon"),
       rainIcon: root.querySelector(".rain-icon"),
       moistureSub: root.querySelector(".moisture-sub"),
+      moistureStateSub: root.querySelector(".moisture-state-sub"),
       rainTodaySub: root.querySelector(".rain-today-sub"),
       dayBlock: root.querySelector(".day"),
       dayFill: root.querySelector(".day-fill"),
@@ -2320,12 +2350,19 @@ class EcowittHudCard extends HTMLElement {
 
     const windSpeed = fmt(hass, c.wind_speed, 1);
     const windGust = fmt(hass, c.wind_gust, 1);
+    const maxDailyGust = fmt(hass, c.max_daily_gust, 1);
     const windDirVal = fmt(hass, c.wind_direction, 0);
     els.windBlock.style.display = c.wind_speed ? "" : "none";
     els.windSpeedVal.textContent = windSpeed.text;
     els.windSpeedUnit.textContent = windSpeed.unit || "km/h";
     els.windDir.textContent = windDirVal.value !== null ? `${S.labels.windFrom} ${compassLabel(windDirVal.value, lang)} (${windDirVal.text}°)` : S.labels.dash;
-    els.windGust.textContent = windGust.value !== null ? `${S.labels.gust} ${windGust.text} ${windGust.unit || "km/h"}` : "";
+    const gustParts = [];
+    if (windGust.value !== null) gustParts.push(`${S.labels.gust} ${windGust.text} ${windGust.unit || "km/h"}`);
+    if (maxDailyGust.value !== null) {
+      const maxGustLabel = S.labels.maxDailyGust || STRINGS.en.labels.maxDailyGust;
+      gustParts.push(`${maxGustLabel} ${maxDailyGust.text} ${maxDailyGust.unit || windGust.unit || "km/h"}`);
+    }
+    els.windGust.textContent = gustParts.join("  •  ");
     els.windArrow.style.transform = windDirVal.value !== null ? `rotate(${windDirVal.value}deg) translateY(-29px) rotate(180deg)` : "none";
     els.windDirLabel.textContent = windDirVal.value !== null ? compassLabel(windDirVal.value, lang) : "";
 
@@ -2390,13 +2427,19 @@ class EcowittHudCard extends HTMLElement {
     els.rainIcon.setAttribute("icon", raining ? "mdi:weather-pouring" : "mdi:water-outline");
     els.rainIcon.style.color = raining ? COLORS.info : COLORS.neutral;
     const peakMinutes = clampNumber(c.rain_rate_window_minutes, 0, 60, DEFAULT_RAIN_RATE_WINDOW_MINUTES);
+    // The sensor's own reported unit always wins (it reflects the user's
+    // actual unit system, e.g. in/h); the translated string is only a
+    // fallback for when the entity doesn't report a unit at all.
+    const displayedRainRateUnit = rainRate.unit || S.labels.rainRateUnit || STRINGS.en.labels.rainRateUnit;
     if (peakMinutes > 0) {
       const peakText = this._rainRatePeakValue !== null && this._rainRatePeakValue !== undefined ? this._rainRatePeakValue.toFixed(1) : "—";
-      setStat("rain_rate", peakText, rainRate.unit || "mm/h");
-      els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes}${S.labels.min})`;
+      setStat("rain_rate", peakText, displayedRainRateUnit);
+      els.moistureSub.textContent = `${S.labels.rainPeak} (${peakMinutes} ${S.labels.min})`;
     } else {
-      setStat("rain_rate", rainRate.text, rainRate.unit || "mm/h");
-      els.moistureSub.textContent = raining ? S.labels.raining : S.labels.noRain;
+      setStat("rain_rate", rainRate.text, displayedRainRateUnit);
+      els.moistureSub.textContent = c.separate_rain_rate_label === true
+        ? (S.labels.rainRateLabel || STRINGS.en.labels.rainRateLabel)
+        : (raining ? S.labels.raining : S.labels.noRain);
     }
 
     const rainToday = fmt(hass, c.rain_today, 1);
@@ -2411,22 +2454,52 @@ class EcowittHudCard extends HTMLElement {
       els.rainTodaySub.textContent = S.labels.rainToday;
     }
 
-    const moistState = c.moisture && hass.states[c.moisture];
+    // Moisture state, with optional "since HH:MM" sub-label sourced from a
+    // last-wet/last-dry timestamp helper entity (e.g. an input_datetime
+    // updated by an automation), since the raw sensor only exposes the
+    // current wet/dry state, not when it last changed.
+    const moistureState = c.moisture ? hass.states[c.moisture] : null;
     let moistTxt = S.labels.dash;
-    if (moistState && moistState.state !== undefined && moistState.state !== null) {
-      const raw = String(moistState.state).trim();
-      const s = raw.toLowerCase();
-      if (s === "wet" || s === "on" || s === "true" || s === "yes" || s === "leak" || s === "moist" || s === "humedo" || s === "húmedo") {
-        moistTxt = S.labels.raining;
-      } else if (s === "dry" || s === "off" || s === "false" || s === "no" || s === "seco") {
-        moistTxt = S.labels.noRain;
-      } else if (s === "unknown" || s === "unavailable" || s === "") {
-        moistTxt = S.labels.dash;
-      } else {
+    let moistSubTxt = S.labels.rainSensor;
+    const formatTransitionTime = (changed) => {
+      if (!changed || isNaN(changed.getTime())) return null;
+      const now = new Date();
+      const timeText = this._timeStr(changed);
+      if (changed.toDateString() === now.toDateString()) return timeText;
+      const startOfWeek = new Date(now);
+      const day = (now.getDay() + 6) % 7;
+      startOfWeek.setDate(now.getDate() - day);
+      startOfWeek.setHours(0, 0, 0, 0);
+      if (changed >= startOfWeek) {
+        return `${changed.toLocaleDateString(this._lang(), { weekday: "long" })} ${timeText}`;
+      }
+      const dateOptions = { day: "numeric", month: "numeric" };
+      if (changed.getFullYear() !== now.getFullYear()) dateOptions.year = "numeric";
+      return `${changed.toLocaleDateString(this._lang(), dateOptions)} ${timeText}`;
+    };
+    const helperTransitionTime = (entityId) => {
+      const helper = entityId ? hass.states[entityId] : null;
+      if (!helper || ["unknown", "unavailable", ""].includes(String(helper.state || "").toLowerCase())) return null;
+      return formatTransitionTime(new Date(helper.state));
+    };
+    if (moistureState) {
+      const raw = String(moistureState.state || "").trim();
+      const state = raw.toLowerCase();
+      const wet = ["wet", "on", "true", "yes", "leak", "moist", "humedo", "húmedo"].includes(state);
+      const dry = ["dry", "off", "false", "no", "seco"].includes(state);
+      if (wet || dry) {
+        moistTxt = wet ? S.labels.raining : S.labels.noRain;
+        const helperId = wet ? c.last_wet_timestamp : c.last_dry_timestamp;
+        if (helperId) {
+          const since = helperTransitionTime(helperId);
+          if (since) moistSubTxt = `${S.labels.since || STRINGS.en.labels.since} ${since}`;
+        }
+      } else if (!["unknown", "unavailable", ""].includes(state)) {
         moistTxt = raw.charAt(0).toUpperCase() + raw.slice(1);
       }
     }
     setStat("moisture", moistTxt);
+    if (els.moistureStateSub) els.moistureStateSub.textContent = moistSubTxt;
 
     // Lightning: strike count and distance follow the same generic
     // numeric-sensor pattern as the grid/rain stats above.
@@ -2504,6 +2577,7 @@ class EcowittHudCard extends HTMLElement {
     if (!this._els || !this._hass) return;
     const els = this._els;
     const hass = this._hass;
+    const c = this._config || {};
     const S = STRINGS[this._lang()];
     const sunEnt = hass.states["sun.sun"];
     if (sunEnt && sunEnt.attributes.next_rising && sunEnt.attributes.next_setting) {
@@ -2549,8 +2623,16 @@ class EcowittHudCard extends HTMLElement {
       els.dayMarker.style.display = "";
 
       const remainMs = segEnd.getTime() - now.getTime();
+      let duskText = "";
+      if (c.show_dusk_time === true && isDay && sunEnt.attributes.next_dusk) {
+        const duskDate = new Date(sunEnt.attributes.next_dusk);
+        if (!isNaN(duskDate.getTime())) {
+          const duskLabel = S.labels.duskAt || STRINGS.en.labels.duskAt;
+          duskText = `  •  ${duskLabel} ${this._timeStr(duskDate)}`;
+        }
+      }
       els.dayCaption.textContent = isDay
-        ? `${S.labels.nightfallIn} ${this._durationStr(remainMs)}`
+        ? `${S.labels.nightfallIn} ${this._durationStr(remainMs)}${duskText}`
         : `${S.labels.sunriseIn} ${this._durationStr(remainMs)}`;
     } else {
       els.dayMarker.style.display = "none";
