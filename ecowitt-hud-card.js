@@ -2294,10 +2294,12 @@ class EcowittHudCard extends HTMLElement {
     els.trendTooltip.style.display = "";
     els.trendCrosshair.style.display = "";
 
-    const xPx = frac * rect.width;
+    // Position in local CSS px (offsetWidth), not on-screen px: they differ when the card is zoomed.
+    const localWidth = els.trendSvgWrap.offsetWidth;
+    const xPx = frac * localWidth;
     els.trendCrosshair.style.left = `${xPx}px`;
     const tooltipWidth = els.trendTooltip.offsetWidth || 60;
-    const clampedX = Math.max(tooltipWidth / 2, Math.min(rect.width - tooltipWidth / 2, xPx));
+    const clampedX = Math.max(tooltipWidth / 2, Math.min(localWidth - tooltipWidth / 2, xPx));
     els.trendTooltip.style.left = `${clampedX}px`;
   }
   _hideTrendTooltip() {

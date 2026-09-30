@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.10.1] - 2026-09-30
+
+### Fixed
+- The trend chart's hover line and tooltip were drawn in the wrong spot
+  when the card was scaled with CSS `zoom` (e.g. via card_mod to make it
+  bigger on a wall tablet) — at `zoom: 1.5`, hovering the middle of the
+  chart drew them three-quarters of the way across. They now follow the
+  pointer at any zoom level.
+
+Found while looking into card scaling (#14).
+
 ## [1.10.0] - 2026-09-28
 
 ### Added
