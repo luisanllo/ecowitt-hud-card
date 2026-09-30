@@ -13,7 +13,7 @@ Temperature, wind, pressure, rain, and heat/UV risk indices in a single
 readable panel — every value is tappable and opens Home Assistant's native
 history dialog.
 
-![Light mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-light.svg?v=3) ![Dark mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-dark.svg?v=3)
+![Light mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-light.svg?v=4) ![Dark mode preview](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/preview-dark.svg?v=4)
 
 *Light and dark mode — follows your active Home Assistant theme automatically.*
 
@@ -86,13 +86,13 @@ optional, and the card automatically hides whatever you don't fill in.
 | `separate_rain_rate_label` | No | When `rain_rate_window_minutes: 0`, show a "Rain rate" sub-label instead of the wet/dry status text (`false` by default) |
 | `rain_today` | No | Today's accumulated rain (mm), or a cumulative counter if `rain_cumulative` is on |
 | `rain_cumulative` | No | Set if `rain_today` is a counter that never resets (e.g. a Zigbee2MQTT lifetime `precipitation` total) — the card then shows the total rain within `rain_window_hours` instead of the raw value |
-| `rain_window_hours` | No | Window size in hours used when `rain_cumulative` is on (`24` by default) |
+| `rain_window_hours` | No | Window size in hours used when `rain_cumulative` is on (`24` by default; ignored with `reset_daily`, which counts from midnight instead) |
 | `moisture` | No | Rain/moisture sensor (binary_sensor or sensor) |
 | `last_wet_timestamp` | No | Helper entity (e.g. `input_datetime`) holding when `moisture` last turned wet — shown as "Since HH:MM" under the moisture reading |
 | `last_dry_timestamp` | No | Helper entity holding when `moisture` last turned dry — same as above, for the dry state |
 | `show_trend` | No | Show the trend chart (`true` by default) |
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
-| `reset_daily` | No | Reset the 24h high/low and the trend chart at midnight (local time), growing from empty through the day, instead of a rolling window (`false` by default) |
+| `reset_daily` | No | Reset the 24h high/low, the trend chart, and the `rain_cumulative` rain total at midnight (local time), growing from empty through the day, instead of a rolling window (`false` by default) |
 | `show_humidity_trend` | No | Overlay a humidity line on the trend chart (needs `humidity` set above) |
 | `trend_chart_height` | No | Chart height in pixels (`48` by default) |
 | `trend_temp_color` | No | Temperature line color — any CSS color (`green` by default) |
@@ -135,9 +135,10 @@ moisture: binary_sensor.my_station_rain_status
   doesn't leave a trailing line with empty space under it.
 - The trend chart and 24h high/low require `temperature` to have recorder
   history in Home Assistant.
-- With `reset_daily` on, both the 24h high/low and the trend chart use
-  midnight-to-now (local time) as their window instead of a fixed rolling
-  duration, so `trend_hours` is ignored. The trade-off: right after
+- With `reset_daily` on, the 24h high/low, the trend chart, and the
+  `rain_cumulative` rain total all use midnight-to-now (local time) as
+  their window instead of a fixed rolling duration, so `trend_hours` and
+  `rain_window_hours` are ignored. The trade-off: right after
   midnight there's very little data yet, since the window is genuinely
   starting from empty rather than always showing a full trailing window.
 - A single implausible reading in the temperature or humidity history (a
@@ -148,10 +149,9 @@ moisture: binary_sensor.my_station_rain_status
   0 — a real 0°C or a genuinely fast, sustained change are never
   affected. The plausible-jump threshold adapts to whether `temperature`
   reports in °C or °F.
-- The humidity trend line always uses its own fixed color, distinct from
-  every color the temperature line can take (which changes with how hot
-  or cold the current reading is) — the two are never visually
-  indistinguishable, and the top value on each axis carries a small
+- The temperature and humidity trend lines use fixed colors (green and
+  blue by default, configurable with `trend_temp_color` /
+  `trend_humidity_color`), and the top value on each axis carries a small
   🌡️/💧 marker as a second, color-independent cue.
 - The sun bar uses Home Assistant's `sun.sun` entity; no extra configuration
   needed. Set `show_sun_bar: false` to hide it.

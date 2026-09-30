@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## [1.10.2] - 2026-10-01
+
+### Fixed
+- The options added in 1.10.0 (max daily gust, dusk time, rain-rate label,
+  wet/dry timestamp helpers) were only translated into English and
+  Danish; they're now translated into every supported language.
+- The "show sun position bar" option was mistranslated in German,
+  Portuguese, and Italian (it read as "sun visor" / "sunshade").
+- `reset_daily` now also applies to the `rain_cumulative` rain total,
+  which kept using the rolling `rain_window_hours` window even with the
+  option on. With both enabled, the total now counts from local midnight.
+- README: the trend color note and the preview images still reflected the
+  pre-1.7.0 behavior (humidity line in purple instead of the current blue
+  default).
+
 ## [1.10.1] - 2026-09-30
 
 ### Fixed
