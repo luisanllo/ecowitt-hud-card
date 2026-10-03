@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented here.
 
+## [1.11.0] - 2026-10-03
+
+### Added
+- `wbgt`: optional wet bulb globe temperature sensor (e.g. Ecowitt WN38),
+  shown in the grid with a heat-stress risk level based on the US Army
+  TB MED 507 heat categories (78 / 82 / 85 / 88 / 90 °F, converted for
+  sensors that report in °C). Experimental — feedback from WN38 owners
+  welcome. Requested by [@johnesher708](https://github.com/johnesher708) (#15).
+- README: how to scale the card with card-mod `zoom` (e.g. to make it
+  bigger on a wall tablet), confirmed working by
+  [@rocketproto](https://github.com/rocketproto) (#14).
+
+### Fixed
+- A temperature-based `heat_index` sensor reporting in °F was checked
+  against the °C thresholds, so anything above 51 °F showed as "Extreme".
+
 ## [1.10.2] - 2026-10-01
 
 ### Fixed

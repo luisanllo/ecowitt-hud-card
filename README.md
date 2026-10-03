@@ -26,7 +26,7 @@ history dialog.
 - ☔ Rain block: peak intensity over a short recent window (avoids the "always reads 0" problem of spiky instantaneous rain-rate sensors), today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status
 - ⛈️ Optional lightning block: strike count, distance (with automatic "no detection" handling for sensors that report a fixed max-range value when idle), and time since the last strike
 - ☀️ Optional solar radiation reading with an automatic color scale
-- ⚠️ Automatic color scales for heat risk and UV index
+- ⚠️ Automatic color scales for heat risk, WBGT, and UV index
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
 - 🌗 Follows Home Assistant's light/dark theme automatically
@@ -70,6 +70,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `wind_chill` | No | Wind chill |
 | `humidex` | No | Humidex |
 | `heat_index` | No | Heat stress index (% or °, auto-detected) |
+| `wbgt` | No | Wet bulb globe temperature (WBGT), e.g. from an Ecowitt WN38 — shown with a heat-stress risk level (experimental) |
 | `humidity` | No | Relative humidity |
 | `pressure` | No | Atmospheric pressure |
 | `pressure_decimals` | No | Decimal places shown for pressure (0-2) — defaults to `2` when the sensor reports in inHg, `0` otherwise |
@@ -161,7 +162,27 @@ moisture: binary_sensor.my_station_rain_status
   a real distance.
 - `heat_index` is interpreted as a percentage risk score (0-100%) if the
   sensor's unit is `%` or the value falls in that range; otherwise it's
-  treated as a degree-based index.
+  treated as a degree-based index (°C or °F, per the sensor's unit).
+- `wbgt` risk levels follow the US Army TB MED 507 heat categories
+  (78 / 82 / 85 / 88 / 90 °F, converted for sensors that report in °C):
+  below 78 °F is Low, then Moderate, High, Very high, Dangerous, and
+  Extreme from 90 °F up. WBGT thresholds vary between standards and
+  regions; this is one widely used reference, not the only one.
+- To make the card bigger or smaller (e.g. on a wall tablet), use
+  [card-mod](https://github.com/thomasloven/lovelace-card-mod) with
+  `zoom` rather than `transform: scale()` — `zoom` scales the layout too,
+  so the card grows in place instead of spilling over its neighbors:
+
+  ```yaml
+  card_mod:
+    style: |
+      ha-card {
+        zoom: 1.5;
+      }
+  ```
+
+  Values below 1 shrink it. To apply it only on touchscreen tablets, wrap
+  the rule in `@media (pointer: coarse) and (min-width: 768px) { ... }`.
 - `pressure` shows whole numbers by default (the usual convention for
   hPa/mbar), except when the sensor reports in inHg, where its whole
   typical range only spans ~28-31 and a whole number would hide almost

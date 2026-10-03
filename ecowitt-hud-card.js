@@ -42,6 +42,7 @@ const STRINGS = {
       windChill: "Wind chill",
       humidex: "Humidex",
       heatIndex: "Heat stress index",
+      wbgt: "Wet bulb globe temperature (WBGT)",
       humidity: "Relative humidity",
       pressure: "Atmospheric pressure",
       pressureDecimals: "Pressure decimal places (0-2, default: 2 for inHg, 0 otherwise)",
@@ -103,6 +104,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "UV index",
       heatRisk: "Heat risk",
+      wbgt: "WBGT",
       pressure: "Pressure",
       illuminance: "Illuminance",
       rainToday: "Today's total",
@@ -155,6 +157,7 @@ const STRINGS = {
       windChill: "Temperatura odczuwalna przez wiatr",
       humidex: "Humidex",
       heatIndex: "Indeks ciepła",
+      wbgt: "Wskaźnik WBGT (temperatura wilgotna i czarnej kuli)",
       humidity: "Wilgotność względna",
       pressure: "Ciśnienie atmosferyczne",
       pressureDecimals: "Liczba miejsc po przecinku dla ciśnienia (0-2, domyślnie: 2 dla inHg, 0 w pozostałych przypadkach)",
@@ -226,6 +229,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Indeks UV",
       heatRisk: "Ryzyko upału",
+      wbgt: "WBGT",
       pressure: "Ciśnienie",
       illuminance: "Natężenie światła",
       rainToday: "Suma dzisiaj",
@@ -281,6 +285,7 @@ const STRINGS = {
       windChill: "Sensación de viento",
       humidex: "Humidex",
       heatIndex: "Índice de estrés por calor",
+      wbgt: "Temperatura de globo y bulbo húmedo (WBGT)",
       humidity: "Humedad relativa",
       pressure: "Presión atmosférica",
       pressureDecimals: "Decimales de presión (0-2, por defecto: 2 para inHg, 0 en el resto)",
@@ -342,6 +347,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Índice UV",
       heatRisk: "Riesgo calor",
+      wbgt: "WBGT",
       pressure: "Presión",
       illuminance: "Iluminancia",
       rainToday: "Acumulada hoy",
@@ -394,6 +400,7 @@ const STRINGS = {
       windChill: "Wind chill",
       humidex: "Humidex",
       heatIndex: "Index tepelné zátěže",
+      wbgt: "Index WBGT (teplota vlhkého a kulového teploměru)",
       humidity: "Relativní vlhkost",
       pressure: "Atmosférický tlak",
       pressureDecimals: "Počet desetinných míst tlaku (0-2, výchozí: 2 pro inHg, jinak 0)",
@@ -455,6 +462,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "UV index",
       heatRisk: "Tepelné riziko",
+      wbgt: "WBGT",
       pressure: "Tlak",
       illuminance: "Světlo",
       rainToday: "Dnes celkem",
@@ -508,6 +516,7 @@ const STRINGS = {
       windChill: "Охлаждающий эффект ветра",
       humidex: "Ощущается как (Humidex)",
       heatIndex: "Индекс тепловой нагрузки",
+      wbgt: "Индекс WBGT (температура влажного шарового термометра)",
       humidity: "Относительная влажность",
       pressure: "Атмосферное давление",
       pressureDecimals: "Давление: число знаков после запятой (0–2; по умолчанию: 2 для inHg, 0 — в остальных случаях)",
@@ -569,6 +578,7 @@ const STRINGS = {
       humidex: "Ощущается как (Humidex)",
       uvIndex: "УФ‑индекс",
       heatRisk: "Риск перегрева",
+      wbgt: "WBGT",
       pressure: "Давление",
       illuminance: "Освещённость",
       rainToday: "Общее количество осадков за сегодня",
@@ -629,6 +639,7 @@ const STRINGS = {
       windChill: "Windchill",
       humidex: "Humidex",
       heatIndex: "Hitzestress-Index",
+      wbgt: "Feuchtkugel-Globetemperatur (WBGT)",
       humidity: "Relative Luftfeuchtigkeit",
       pressure: "Luftdruck",
       pressureDecimals: "Nachkommastellen für Druck (0-2, Standard: 2 für inHg, sonst 0)",
@@ -690,6 +701,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "UV-Index",
       heatRisk: "Hitzerisiko",
+      wbgt: "WBGT",
       pressure: "Druck",
       illuminance: "Beleuchtungsstärke",
       rainToday: "Heutige Summe",
@@ -745,6 +757,7 @@ const STRINGS = {
       windChill: "Refroidissement éolien",
       humidex: "Humidex",
       heatIndex: "Indice de stress thermique",
+      wbgt: "Température au thermomètre-globe mouillé (WBGT)",
       humidity: "Humidité relative",
       pressure: "Pression atmosphérique",
       pressureDecimals: "Décimales de pression (0-2, par défaut : 2 pour inHg, sinon 0)",
@@ -806,6 +819,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Indice UV",
       heatRisk: "Risque de chaleur",
+      wbgt: "WBGT",
       pressure: "Pression",
       illuminance: "Éclairement",
       rainToday: "Total du jour",
@@ -861,6 +875,7 @@ const STRINGS = {
       windChill: "Sensação de vento",
       humidex: "Humidex",
       heatIndex: "Índice de estresse térmico",
+      wbgt: "Temperatura de globo e bulbo úmido (WBGT)",
       humidity: "Umidade relativa",
       pressure: "Pressão atmosférica",
       pressureDecimals: "Casas decimais da pressão (0-2, padrão: 2 para inHg, senão 0)",
@@ -922,6 +937,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Índice UV",
       heatRisk: "Risco de calor",
+      wbgt: "WBGT",
       pressure: "Pressão",
       illuminance: "Iluminância",
       rainToday: "Total de hoje",
@@ -977,6 +993,7 @@ const STRINGS = {
       windChill: "Percepita dal vento",
       humidex: "Humidex",
       heatIndex: "Indice di stress da calore",
+      wbgt: "Temperatura di globo e bulbo umido (WBGT)",
       humidity: "Umidità relativa",
       pressure: "Pressione atmosferica",
       pressureDecimals: "Decimali della pressione (0-2, predefinito: 2 per inHg, altrimenti 0)",
@@ -1038,6 +1055,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "Indice UV",
       heatRisk: "Rischio caldo",
+      wbgt: "WBGT",
       pressure: "Pressione",
       illuminance: "Illuminamento",
       rainToday: "Totale odierno",
@@ -1093,6 +1111,7 @@ const STRINGS = {
       windChill: "Vindafkøling",
       humidex: "Humidex",
       heatIndex: "Varmestressindeks",
+      wbgt: "WBGT-indeks (vådtermometer- og globetemperatur)",
       humidity: "Relativ luftfugtighed",
       pressure: "Atmosfærisk tryk",
       pressureDecimals: "Antal decimaler for tryk (0-2, standard: 2 for inHg, ellers 0)",
@@ -1154,6 +1173,7 @@ const STRINGS = {
       humidex: "Humidex",
       uvIndex: "UV-indeks",
       heatRisk: "Risiko for hede",
+      wbgt: "WBGT",
       pressure: "Tryk",
       illuminance: "Lysstyrke",
       rainToday: "I dag i alt",
@@ -1335,10 +1355,25 @@ function heatRisk(v, unit, lang) {
     return { label: R.low, color: COLORS.low };
   }
   // fallback: temperature-equivalent heat index scale (°C)
-  if (v >= 51) return { label: R.extreme, color: COLORS.extreme };
-  if (v >= 39) return { label: R.dangerous, color: COLORS.danger };
-  if (v >= 32) return { label: R.high, color: COLORS.high };
-  if (v >= 27) return { label: R.moderate, color: COLORS.moderate };
+  const celsius = unit === "°F" ? ((v - 32) * 5) / 9 : v;
+  if (celsius >= 51) return { label: R.extreme, color: COLORS.extreme };
+  if (celsius >= 39) return { label: R.dangerous, color: COLORS.danger };
+  if (celsius >= 32) return { label: R.high, color: COLORS.high };
+  if (celsius >= 27) return { label: R.moderate, color: COLORS.moderate };
+  return { label: R.low, color: COLORS.low };
+}
+
+// WBGT heat categories from US Army TB MED 507, defined in °F: 1 = 78,
+// 2 = 82, 3 = 85, 4 = 88, 5 = 90 and above.
+function wbgtRisk(v, unit, lang) {
+  const R = STRINGS[lang].risk;
+  if (v === null || isNaN(v)) return { label: STRINGS[lang].labels.dash, color: "var(--primary-text-color, #1c2128)" };
+  const f = unit === "°F" ? v : (v * 9) / 5 + 32;
+  if (f >= 90) return { label: R.extreme, color: COLORS.extreme };
+  if (f >= 88) return { label: R.dangerous, color: COLORS.danger };
+  if (f >= 85) return { label: R.veryHigh, color: COLORS.danger };
+  if (f >= 82) return { label: R.high, color: COLORS.high };
+  if (f >= 78) return { label: R.moderate, color: COLORS.moderate };
   return { label: R.low, color: COLORS.low };
 }
 
@@ -1497,6 +1532,7 @@ function getFieldGroups(lang) {
         { name: "wind_chill", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.windChill },
         { name: "humidex", selector: { entity: { domain: "sensor" } }, label: E.humidex },
         { name: "heat_index", selector: { entity: { domain: "sensor" } }, label: E.heatIndex },
+        { name: "wbgt", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.wbgt },
         { name: "humidity", selector: { entity: { domain: "sensor", device_class: "humidity" } }, label: E.humidity },
         { name: "pressure", selector: { entity: { domain: "sensor" } }, label: E.pressure },
         { name: "pressure_decimals", selector: { number: { min: 0, max: 2, mode: "box" } }, label: E.pressureDecimals },
@@ -1887,6 +1923,7 @@ class EcowittHudCard extends HTMLElement {
           <div class="stat clickable" data-k="humidex"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.humidex}</div></div>
           <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.uvIndex}</div></div>
           <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
+          <div class="stat clickable" data-k="wbgt"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.wbgt}</div></div>
           <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
           <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
           <div class="stat clickable" data-k="solar_radiation"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.solarRadiation}</div></div>
@@ -2477,6 +2514,10 @@ class EcowittHudCard extends HTMLElement {
     const heatR = heatRisk(heat.value, heat.unit, lang);
     setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
 
+    const wbgt = fmt(hass, c.wbgt, 1);
+    const wbgtR = wbgtRisk(wbgt.value, wbgt.unit, lang);
+    setStat("wbgt", wbgt.value !== null ? `${wbgtR.label} (${wbgt.text}°)` : S.labels.dash, "", wbgtR.color);
+
     const pressure = fmt(hass, c.pressure, 0);
     // hPa is conventionally shown as a whole number, but inHg needs two
     // decimal places to be meaningful at all (its whole range of typical
@@ -2621,7 +2662,7 @@ class EcowittHudCard extends HTMLElement {
       }
     }
 
-    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "pressure", "illuminance", "solar_radiation"];
+    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "wbgt", "pressure", "illuminance", "solar_radiation"];
     els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
 
     const rainKeys = ["rain_rate", "rain_today", "moisture"];
