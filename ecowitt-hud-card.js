@@ -2707,7 +2707,8 @@ class EcowittHudCard extends HTMLElement {
     if (sunEnt && sunEnt.attributes.next_rising && sunEnt.attributes.next_setting) {
       const nextRising = new Date(sunEnt.attributes.next_rising);
       const nextSetting = new Date(sunEnt.attributes.next_setting);
-      const isDay = sunEnt.state === "above_horizon";
+      // Not sunEnt.state: HA flips it a few minutes after next_setting/next_rising roll over.
+      const isDay = nextSetting.getTime() < nextRising.getTime();
       const now = new Date();
       const DAY_MS = 24 * 3600 * 1000;
 

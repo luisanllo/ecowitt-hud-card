@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.11.1] - 2026-10-07
+
+### Fixed
+- For a few minutes around sunset and sunrise, the sun bar showed a
+  countdown of almost 24 hours (e.g. "Nightfall in 23h 56min"). Home
+  Assistant flips the `sun.sun` state a few minutes after `next_setting` /
+  `next_rising` have already moved on to the next day, so the card now
+  works out day or night from those two times instead of the state.
+
+Reported, along with the fix, by [@diedvdyk](https://github.com/diedvdyk) (#16).
+
 ## [1.11.0] - 2026-10-03
 
 ### Added
