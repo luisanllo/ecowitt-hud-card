@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [1.12.0] - 2026-10-10
+
+### Added
+- Wind speed, gust, and max gust sensors set to Beaufort in Home
+  Assistant (entity settings → unit of measurement) are now shown as a
+  whole force number, e.g. "4 Bft", instead of "4.0 Beaufort". Home
+  Assistant does the conversion from km/h, m/s, mph or knots on its own.
+
+Requested by [@4nuts](https://github.com/4nuts) (#17).
+
 ## [1.11.1] - 2026-10-07
 
 ### Fixed

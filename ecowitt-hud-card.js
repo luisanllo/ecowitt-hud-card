@@ -1418,6 +1418,13 @@ function fmt(hass, entityId, decimals) {
   return { text: num.toFixed(decimals === undefined ? 1 : decimals), unit, value: num, exists: true };
 }
 
+// HA can convert any wind_speed sensor to Beaufort (entity settings), which is a whole-number scale.
+function fmtWind(hass, entityId) {
+  const r = fmt(hass, entityId, 1);
+  if (r.value !== null && r.unit === "Beaufort") return { ...r, text: String(Math.round(r.value)), unit: "Bft" };
+  return r;
+}
+
 // Shared parser for HA's history/period response: turns the raw
 // minimal_response payload into a clean, time-sorted { t, v } list.
 function historyPoints(result) {
@@ -2468,9 +2475,9 @@ class EcowittHudCard extends HTMLElement {
       els.batteryBlock.style.display = "none";
     }
 
-    const windSpeed = fmt(hass, c.wind_speed, 1);
-    const windGust = fmt(hass, c.wind_gust, 1);
-    const maxDailyGust = fmt(hass, c.max_daily_gust, 1);
+    const windSpeed = fmtWind(hass, c.wind_speed);
+    const windGust = fmtWind(hass, c.wind_gust);
+    const maxDailyGust = fmtWind(hass, c.max_daily_gust);
     const windDirVal = fmt(hass, c.wind_direction, 0);
     els.windBlock.style.display = c.wind_speed ? "" : "none";
     els.windSpeedVal.textContent = windSpeed.text;

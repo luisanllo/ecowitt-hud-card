@@ -78,7 +78,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `uv_index` | No | UV index |
 | `illuminance` | No | Illuminance (lux) |
 | `solar_radiation` | No | Solar radiation (W/m²) |
-| `wind_speed` | No | Wind speed |
+| `wind_speed` | No | Wind speed (shown as Beaufort force, e.g. `4 Bft`, if the entity's unit is set to Beaufort in Home Assistant) |
 | `wind_gust` | No | Gust speed |
 | `max_daily_gust` | No | Today's peak gust, shown alongside the current gust |
 | `wind_direction` | No | Wind direction (degrees) |
@@ -168,6 +168,13 @@ moisture: binary_sensor.my_station_rain_status
   below 78 °F is Low, then Moderate, High, Very high, Dangerous, and
   Extreme from 90 °F up. WBGT thresholds vary between standards and
   regions; this is one widely used reference, not the only one.
+- To show wind in Beaufort, change the unit of measurement of the wind
+  speed entity (and the gust entities, if you want those too) to
+  Beaufort in Home Assistant: open the entity, click the gear icon, and
+  pick it under "Unit of measurement". Home Assistant converts from km/h,
+  m/s, mph or knots on its own, and the card shows it as a whole force
+  number (e.g. `4 Bft`). The unit change applies to that entity
+  everywhere in Home Assistant, not just this card.
 - To make the card bigger or smaller (e.g. on a wall tablet), use
   [card-mod](https://github.com/thomasloven/lovelace-card-mod) with
   `zoom` rather than `transform: scale()` — `zoom` scales the layout too,
