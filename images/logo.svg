@@ -1,37 +1,38 @@
 <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f5a623"/>
-      <stop offset="45%" stop-color="#e0722c"/>
-      <stop offset="100%" stop-color="#2c3e63"/>
+      <stop offset="0%" stop-color="#3b5a8f"/>
+      <stop offset="100%" stop-color="#16233b"/>
     </linearGradient>
-    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffe7ad"/>
-      <stop offset="100%" stop-color="#ffd27a"/>
-    </radialGradient>
+    <clipPath id="tile"><rect width="128" height="128" rx="28"/></clipPath>
   </defs>
-
-  <rect x="0" y="0" width="128" height="128" rx="28" fill="url(#bg)"/>
-
-  <!-- sun peeking from top-left, echoes the card's day/night sun bar -->
-  <circle cx="30" cy="32" r="16" fill="url(#sunGlow)"/>
-  <g stroke="#ffe7ad" stroke-width="2.4" stroke-linecap="round">
-    <line x1="30" y1="8" x2="30" y2="2"/>
-    <line x1="30" y1="56" x2="30" y2="62"/>
-    <line x1="6" y1="32" x2="0" y2="32"/>
-    <line x1="54" y1="32" x2="60" y2="32"/>
-    <line x1="13" y1="15" x2="9" y2="11"/>
-    <line x1="47" y1="49" x2="51" y2="53"/>
-    <line x1="13" y1="49" x2="9" y2="53"/>
-    <line x1="47" y1="15" x2="51" y2="11"/>
+  <g clip-path="url(#tile)">
+    <rect width="128" height="128" fill="url(#bg)"/>
+    <circle cx="64" cy="70" r="32" fill="#ffffff" opacity="0.07"/>
+    <path d="M0 114Q64 102 128 114V128H0Z" fill="#ffffff" opacity="0.12"/>
   </g>
-
-  <!-- instrument dial, echoes the wind compass in the card -->
-  <circle cx="76" cy="80" r="40" fill="rgba(15,20,30,0.28)"/>
-  <circle cx="76" cy="80" r="40" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.9"/>
-  <circle cx="76" cy="80" r="31" fill="none" stroke="#ffffff" stroke-width="1.4" opacity="0.45"/>
-  <g transform="translate(76,80) rotate(-35)">
-    <path d="M0,-27 L9,10 L0,2 L-9,10 Z" fill="#ffffff"/>
+  <g stroke="#ffffff" stroke-opacity="0.35" stroke-width="2.4" stroke-linecap="round">
+    <path d="M90 42h18M96 50h14M92 58h10"/>
   </g>
-  <circle cx="76" cy="80" r="4.5" fill="#ffffff"/>
+  <g fill="#ffffff">
+    <rect x="40" y="22.5" width="48" height="3" rx="1.5"/>
+    <circle cx="64" cy="24" r="6"/>
+    <rect x="61" y="24" width="6" height="88" rx="2"/>
+    <rect x="34" y="50" width="29" height="3" rx="1.5"/>
+    <rect x="36.5" y="39" width="3" height="12"/>
+    <rect x="25" y="36.5" width="27" height="3" rx="1.5"/>
+    <path d="M45 35l8-3v15l-8-3z"/>
+    <path d="M43 65Q64 55 85 65V67.5H43Z"/>
+    <rect x="56.5" y="65" width="15" height="25" rx="2"/>
+    <rect x="46" y="70" width="36" height="3.8" rx="1.9"/>
+    <rect x="46" y="75.8" width="36" height="3.8" rx="1.9"/>
+    <rect x="46" y="81.6" width="36" height="3.8" rx="1.9"/>
+    <rect x="46" y="87.4" width="36" height="3.8" rx="1.9"/>
+  </g>
+  <g fill="#f5a623">
+    <path d="M40 16.5a7.5 7.5 0 0 0 0 15z"/>
+    <path d="M88 16.5a7.5 7.5 0 0 1 0 15z"/>
+    <path d="M17 38l10-6.5v13z"/>
+  </g>
+  <path d="M64 94L47.5 110.5M64 94l16.5 16.5" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/>
 </svg>

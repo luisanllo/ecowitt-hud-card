@@ -1,4 +1,4 @@
-![Weather Station Card logo](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/logo.svg)
+![Weather Station Card logo](https://cdn.jsdelivr.net/gh/luisanllo/ecowitt-hud-card@main/images/logo.svg?v=2)
 
 # Weather Station Card (Ecowitt & more)
 
