@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented here.
 
+## [1.13.0] - 2026-10-18
+
+### Added
+- `wbgt_thresholds`: optional custom WBGT thresholds — 5 ascending values,
+  in the sensor's unit, where Moderate, High, Very high, Dangerous, and
+  Extreme begin. The US Army TB MED 507 categories remain the default.
+- `black_globe_temperature`: optional black globe temperature reading
+  (e.g. from an Ecowitt WN38) in the grid; tap it for its history.
+
+### Changed
+- WBGT support is no longer marked experimental, now that it's been
+  confirmed with a real WN38.
+
+Suggested by [@johnesher708](https://github.com/johnesher708) (#15).
+
 ## [1.12.0] - 2026-10-10
 
 ### Added

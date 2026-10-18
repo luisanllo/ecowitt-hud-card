@@ -70,7 +70,9 @@ optional, and the card automatically hides whatever you don't fill in.
 | `wind_chill` | No | Wind chill |
 | `humidex` | No | Humidex |
 | `heat_index` | No | Heat stress index (% or °, auto-detected) |
-| `wbgt` | No | Wet bulb globe temperature (WBGT), e.g. from an Ecowitt WN38 — shown with a heat-stress risk level (experimental) |
+| `wbgt` | No | Wet bulb globe temperature (WBGT), e.g. from an Ecowitt WN38 — shown with a heat-stress risk level |
+| `wbgt_thresholds` | No | Custom WBGT thresholds: 5 ascending values, in the `wbgt` sensor's unit, where Moderate, High, Very high, Dangerous, and Extreme begin — as a list or e.g. `"21, 25, 28, 31, 35"` (US Army TB MED 507 by default) |
+| `black_globe_temperature` | No | Black globe temperature (e.g. from an Ecowitt WN38) — tap it for its history |
 | `humidity` | No | Relative humidity |
 | `pressure` | No | Atmospheric pressure |
 | `pressure_decimals` | No | Decimal places shown for pressure (0-2) — defaults to `2` when the sensor reports in inHg, `0` otherwise |
@@ -167,7 +169,9 @@ moisture: binary_sensor.my_station_rain_status
   (78 / 82 / 85 / 88 / 90 °F, converted for sensors that report in °C):
   below 78 °F is Low, then Moderate, High, Very high, Dangerous, and
   Extreme from 90 °F up. WBGT thresholds vary between standards and
-  regions; this is one widely used reference, not the only one.
+  regions; this is one widely used reference, not the only one. To use
+  another one, set `wbgt_thresholds` to 5 values in the sensor's unit
+  (decimals with a dot); invalid values fall back to the default.
 - To show wind in Beaufort, change the unit of measurement of the wind
   speed entity (and the gust entities, if you want those too) to
   Beaufort in Home Assistant: open the entity, click the gear icon, and

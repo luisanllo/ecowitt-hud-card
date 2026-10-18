@@ -43,6 +43,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Heat stress index",
       wbgt: "Wet bulb globe temperature (WBGT)",
+      wbgtThresholds: "WBGT thresholds (5 values in the sensor's unit, e.g. 78, 82, 85, 88, 90; empty = US Army TB MED 507)",
+      blackGlobe: "Black globe temperature",
       humidity: "Relative humidity",
       pressure: "Atmospheric pressure",
       pressureDecimals: "Pressure decimal places (0-2, default: 2 for inHg, 0 otherwise)",
@@ -105,6 +107,7 @@ const STRINGS = {
       uvIndex: "UV index",
       heatRisk: "Heat risk",
       wbgt: "WBGT",
+      blackGlobe: "Black globe",
       pressure: "Pressure",
       illuminance: "Illuminance",
       rainToday: "Today's total",
@@ -158,6 +161,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Indeks ciepła",
       wbgt: "Wskaźnik WBGT (temperatura wilgotna i czarnej kuli)",
+      wbgtThresholds: "Progi WBGT (5 wartości w jednostce czujnika, np. 78, 82, 85, 88, 90; puste = TB MED 507 armii USA)",
+      blackGlobe: "Temperatura czarnej kuli",
       humidity: "Wilgotność względna",
       pressure: "Ciśnienie atmosferyczne",
       pressureDecimals: "Liczba miejsc po przecinku dla ciśnienia (0-2, domyślnie: 2 dla inHg, 0 w pozostałych przypadkach)",
@@ -230,6 +235,7 @@ const STRINGS = {
       uvIndex: "Indeks UV",
       heatRisk: "Ryzyko upału",
       wbgt: "WBGT",
+      blackGlobe: "Czarna kula",
       pressure: "Ciśnienie",
       illuminance: "Natężenie światła",
       rainToday: "Suma dzisiaj",
@@ -286,6 +292,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Índice de estrés por calor",
       wbgt: "Temperatura de globo y bulbo húmedo (WBGT)",
+      wbgtThresholds: "Umbrales de WBGT (5 valores en la unidad del sensor, p. ej. 78, 82, 85, 88, 90; vacío = TB MED 507 del Ejército de EE. UU.)",
+      blackGlobe: "Temperatura de globo negro",
       humidity: "Humedad relativa",
       pressure: "Presión atmosférica",
       pressureDecimals: "Decimales de presión (0-2, por defecto: 2 para inHg, 0 en el resto)",
@@ -348,6 +356,7 @@ const STRINGS = {
       uvIndex: "Índice UV",
       heatRisk: "Riesgo calor",
       wbgt: "WBGT",
+      blackGlobe: "Globo negro",
       pressure: "Presión",
       illuminance: "Iluminancia",
       rainToday: "Acumulada hoy",
@@ -401,6 +410,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Index tepelné zátěže",
       wbgt: "Index WBGT (teplota vlhkého a kulového teploměru)",
+      wbgtThresholds: "Prahy WBGT (5 hodnot v jednotce senzoru, např. 78, 82, 85, 88, 90; prázdné = TB MED 507 armády USA)",
+      blackGlobe: "Teplota černé koule",
       humidity: "Relativní vlhkost",
       pressure: "Atmosférický tlak",
       pressureDecimals: "Počet desetinných míst tlaku (0-2, výchozí: 2 pro inHg, jinak 0)",
@@ -463,6 +474,7 @@ const STRINGS = {
       uvIndex: "UV index",
       heatRisk: "Tepelné riziko",
       wbgt: "WBGT",
+      blackGlobe: "Černá koule",
       pressure: "Tlak",
       illuminance: "Světlo",
       rainToday: "Dnes celkem",
@@ -517,6 +529,8 @@ const STRINGS = {
       humidex: "Ощущается как (Humidex)",
       heatIndex: "Индекс тепловой нагрузки",
       wbgt: "Индекс WBGT (температура влажного шарового термометра)",
+      wbgtThresholds: "Пороги WBGT (5 значений в единицах датчика, напр. 78, 82, 85, 88, 90; пусто = TB MED 507 армии США)",
+      blackGlobe: "Температура чёрного шара",
       humidity: "Относительная влажность",
       pressure: "Атмосферное давление",
       pressureDecimals: "Давление: число знаков после запятой (0–2; по умолчанию: 2 для inHg, 0 — в остальных случаях)",
@@ -579,6 +593,7 @@ const STRINGS = {
       uvIndex: "УФ‑индекс",
       heatRisk: "Риск перегрева",
       wbgt: "WBGT",
+      blackGlobe: "Чёрный шар",
       pressure: "Давление",
       illuminance: "Освещённость",
       rainToday: "Общее количество осадков за сегодня",
@@ -640,6 +655,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Hitzestress-Index",
       wbgt: "Feuchtkugel-Globetemperatur (WBGT)",
+      wbgtThresholds: "WBGT-Schwellenwerte (5 Werte in der Einheit des Sensors, z. B. 78, 82, 85, 88, 90; leer = TB MED 507 der US-Armee)",
+      blackGlobe: "Schwarzkugeltemperatur",
       humidity: "Relative Luftfeuchtigkeit",
       pressure: "Luftdruck",
       pressureDecimals: "Nachkommastellen für Druck (0-2, Standard: 2 für inHg, sonst 0)",
@@ -702,6 +719,7 @@ const STRINGS = {
       uvIndex: "UV-Index",
       heatRisk: "Hitzerisiko",
       wbgt: "WBGT",
+      blackGlobe: "Schwarzkugel",
       pressure: "Druck",
       illuminance: "Beleuchtungsstärke",
       rainToday: "Heutige Summe",
@@ -758,6 +776,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Indice de stress thermique",
       wbgt: "Température au thermomètre-globe mouillé (WBGT)",
+      wbgtThresholds: "Seuils WBGT (5 valeurs dans l'unité du capteur, p. ex. 78, 82, 85, 88, 90 ; vide = TB MED 507 de l'armée américaine)",
+      blackGlobe: "Température de globe noir",
       humidity: "Humidité relative",
       pressure: "Pression atmosphérique",
       pressureDecimals: "Décimales de pression (0-2, par défaut : 2 pour inHg, sinon 0)",
@@ -820,6 +840,7 @@ const STRINGS = {
       uvIndex: "Indice UV",
       heatRisk: "Risque de chaleur",
       wbgt: "WBGT",
+      blackGlobe: "Globe noir",
       pressure: "Pression",
       illuminance: "Éclairement",
       rainToday: "Total du jour",
@@ -876,6 +897,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Índice de estresse térmico",
       wbgt: "Temperatura de globo e bulbo úmido (WBGT)",
+      wbgtThresholds: "Limites de WBGT (5 valores na unidade do sensor, ex.: 78, 82, 85, 88, 90; vazio = TB MED 507 do Exército dos EUA)",
+      blackGlobe: "Temperatura de globo negro",
       humidity: "Umidade relativa",
       pressure: "Pressão atmosférica",
       pressureDecimals: "Casas decimais da pressão (0-2, padrão: 2 para inHg, senão 0)",
@@ -938,6 +961,7 @@ const STRINGS = {
       uvIndex: "Índice UV",
       heatRisk: "Risco de calor",
       wbgt: "WBGT",
+      blackGlobe: "Globo negro",
       pressure: "Pressão",
       illuminance: "Iluminância",
       rainToday: "Total de hoje",
@@ -994,6 +1018,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Indice di stress da calore",
       wbgt: "Temperatura di globo e bulbo umido (WBGT)",
+      wbgtThresholds: "Soglie WBGT (5 valori nell'unità del sensore, es. 78, 82, 85, 88, 90; vuoto = TB MED 507 dell'esercito USA)",
+      blackGlobe: "Temperatura del globo nero",
       humidity: "Umidità relativa",
       pressure: "Pressione atmosferica",
       pressureDecimals: "Decimali della pressione (0-2, predefinito: 2 per inHg, altrimenti 0)",
@@ -1056,6 +1082,7 @@ const STRINGS = {
       uvIndex: "Indice UV",
       heatRisk: "Rischio caldo",
       wbgt: "WBGT",
+      blackGlobe: "Globo nero",
       pressure: "Pressione",
       illuminance: "Illuminamento",
       rainToday: "Totale odierno",
@@ -1112,6 +1139,8 @@ const STRINGS = {
       humidex: "Humidex",
       heatIndex: "Varmestressindeks",
       wbgt: "WBGT-indeks (vådtermometer- og globetemperatur)",
+      wbgtThresholds: "WBGT-tærskler (5 værdier i sensorens enhed, f.eks. 78, 82, 85, 88, 90; tom = den amerikanske hærs TB MED 507)",
+      blackGlobe: "Sort globetemperatur",
       humidity: "Relativ luftfugtighed",
       pressure: "Atmosfærisk tryk",
       pressureDecimals: "Antal decimaler for tryk (0-2, standard: 2 for inHg, ellers 0)",
@@ -1174,6 +1203,7 @@ const STRINGS = {
       uvIndex: "UV-indeks",
       heatRisk: "Risiko for hede",
       wbgt: "WBGT",
+      blackGlobe: "Sort globe",
       pressure: "Tryk",
       illuminance: "Lysstyrke",
       rainToday: "I dag i alt",
@@ -1365,16 +1395,34 @@ function heatRisk(v, unit, lang) {
 
 // WBGT heat categories from US Army TB MED 507, defined in °F: 1 = 78,
 // 2 = 82, 3 = 85, 4 = 88, 5 = 90 and above.
-function wbgtRisk(v, unit, lang) {
+const WBGT_DEFAULT_THRESHOLDS_F = [78, 82, 85, 88, 90];
+
+// wbgt_thresholds: 5 ascending values in the sensor's own unit, as a YAML
+// list or a "78, 82, 85, 88, 90" string. Anything else falls back to the default.
+function parseWbgtThresholds(raw) {
+  if (raw === undefined || raw === null || raw === "") return null;
+  const parts = Array.isArray(raw) ? raw : String(raw).split(/[\s,;]+/).filter((s) => s !== "");
+  const nums = parts.map(Number);
+  if (nums.length !== 5 || nums.some((n) => !isFinite(n))) return null;
+  for (let i = 1; i < nums.length; i++) if (nums[i] <= nums[i - 1]) return null;
+  return nums;
+}
+
+function wbgtRisk(v, unit, lang, customThresholds) {
   const R = STRINGS[lang].risk;
   if (v === null || isNaN(v)) return { label: STRINGS[lang].labels.dash, color: "var(--primary-text-color, #1c2128)" };
-  const f = unit === "°F" ? v : (v * 9) / 5 + 32;
-  if (f >= 90) return { label: R.extreme, color: COLORS.extreme };
-  if (f >= 88) return { label: R.dangerous, color: COLORS.danger };
-  if (f >= 85) return { label: R.veryHigh, color: COLORS.danger };
-  if (f >= 82) return { label: R.high, color: COLORS.high };
-  if (f >= 78) return { label: R.moderate, color: COLORS.moderate };
-  return { label: R.low, color: COLORS.low };
+  const thresholds = customThresholds || WBGT_DEFAULT_THRESHOLDS_F;
+  // Custom thresholds are in the sensor's unit; the defaults are in °F.
+  const x = (customThresholds || unit === "°F") ? v : (v * 9) / 5 + 32;
+  const levels = [
+    { label: R.low, color: COLORS.low },
+    { label: R.moderate, color: COLORS.moderate },
+    { label: R.high, color: COLORS.high },
+    { label: R.veryHigh, color: COLORS.danger },
+    { label: R.dangerous, color: COLORS.danger },
+    { label: R.extreme, color: COLORS.extreme },
+  ];
+  return levels[thresholds.filter((t) => x >= t).length];
 }
 
 // Solar radiation color ladder (W/m²): blue while low, green in the
@@ -1540,6 +1588,8 @@ function getFieldGroups(lang) {
         { name: "humidex", selector: { entity: { domain: "sensor" } }, label: E.humidex },
         { name: "heat_index", selector: { entity: { domain: "sensor" } }, label: E.heatIndex },
         { name: "wbgt", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.wbgt },
+        { name: "wbgt_thresholds", selector: { text: {} }, label: E.wbgtThresholds },
+        { name: "black_globe_temperature", selector: { entity: { domain: "sensor", device_class: "temperature" } }, label: E.blackGlobe },
         { name: "humidity", selector: { entity: { domain: "sensor", device_class: "humidity" } }, label: E.humidity },
         { name: "pressure", selector: { entity: { domain: "sensor" } }, label: E.pressure },
         { name: "pressure_decimals", selector: { number: { min: 0, max: 2, mode: "box" } }, label: E.pressureDecimals },
@@ -1931,6 +1981,7 @@ class EcowittHudCard extends HTMLElement {
           <div class="stat clickable" data-k="uv_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.uvIndex}</div></div>
           <div class="stat clickable" data-k="heat_index"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.heatRisk}</div></div>
           <div class="stat clickable" data-k="wbgt"><div class="stat-val"><span class="v"></span></div><div class="stat-label">${S.labels.wbgt}</div></div>
+          <div class="stat clickable" data-k="black_globe_temperature"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.blackGlobe}</div></div>
           <div class="stat clickable" data-k="pressure"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span> <ha-icon class="trend-icon" style="--mdc-icon-size:14px;vertical-align:-2px;"></ha-icon></div><div class="stat-label">${S.labels.pressure}</div></div>
           <div class="stat clickable" data-k="illuminance"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.illuminance}</div></div>
           <div class="stat clickable" data-k="solar_radiation"><div class="stat-val"><span class="v"></span><span class="stat-unit u"></span></div><div class="stat-label">${S.labels.solarRadiation}</div></div>
@@ -2522,8 +2573,10 @@ class EcowittHudCard extends HTMLElement {
     setStat("heat_index", heat.value !== null ? `${heatR.label} (${heat.text}${heat.unit || "%"})` : S.labels.dash, "", heatR.color);
 
     const wbgt = fmt(hass, c.wbgt, 1);
-    const wbgtR = wbgtRisk(wbgt.value, wbgt.unit, lang);
+    const wbgtR = wbgtRisk(wbgt.value, wbgt.unit, lang, parseWbgtThresholds(c.wbgt_thresholds));
     setStat("wbgt", wbgt.value !== null ? `${wbgtR.label} (${wbgt.text}°)` : S.labels.dash, "", wbgtR.color);
+    const blackGlobe = fmt(hass, c.black_globe_temperature, 1);
+    setStat("black_globe_temperature", blackGlobe.text, "°");
 
     const pressure = fmt(hass, c.pressure, 0);
     // hPa is conventionally shown as a whole number, but inHg needs two
@@ -2669,7 +2722,7 @@ class EcowittHudCard extends HTMLElement {
       }
     }
 
-    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "wbgt", "pressure", "illuminance", "solar_radiation"];
+    const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "wbgt", "black_globe_temperature", "pressure", "illuminance", "solar_radiation"];
     els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
 
     const rainKeys = ["rain_rate", "rain_today", "moisture"];
