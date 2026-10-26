@@ -30,7 +30,7 @@ history dialog.
 - 👆 Every value opens Home Assistant's native history dialog when tapped
 - 🎨 Visual editor — no YAML required
 - 🌗 Follows Home Assistant's light/dark theme automatically
-- 🌍 UI in English, Spanish, Polish, Czech, Russian, German, French, Portuguese, Italian, or Danish, auto-detected from your Home Assistant language
+- 🌍 UI in English, Spanish, Polish, Czech, Russian, German, French, Portuguese, Italian, Danish, or Dutch, auto-detected from your Home Assistant language
 
 ## Installation
 
@@ -231,20 +231,21 @@ moisture: binary_sensor.my_station_rain_status
   (`hass.locale.language`, with `hass.language` and the browser locale as
   fallbacks), normalized to its base subtag (e.g. `pl-PL` → `pl`).
   Currently supported: English, Spanish, Polish, Czech, Russian, German,
-  French, Portuguese, Italian, and Danish. Unsupported languages fall back
-  to English. A language change is picked up live, without needing to
-  reload Home Assistant. German, French, Portuguese, Italian, and Danish
-  are machine-translated and haven't been reviewed by a native speaker
-  (unlike Spanish and the community-contributed Polish, Czech, and
-  Russian translations) — corrections are very welcome via an issue or
-  PR.
+  French, Portuguese, Italian, Danish, and Dutch. Unsupported languages
+  fall back to English. A language change is picked up live, without
+  needing to reload Home Assistant. German, French, Portuguese, and
+  Italian are machine-translated and haven't been reviewed by a native
+  speaker (unlike Spanish, the community-contributed Polish, Czech,
+  Russian, and Dutch translations, and the native-reviewed Danish one) —
+  corrections are very welcome via an issue or PR.
 - Durations (trend chart header, high/low times, "X ago" lightning
   timestamps) use each language's own hour/minute/day abbreviations
   instead of a hardcoded "h".
 - The wind direction's compass abbreviation (N, NNE, NE...) follows the
   card's language too, using each language's own cardinal-point initials
   where they differ from English (e.g. Spanish/French/Portuguese/Italian
-  use O for Oeste/Ouest, German uses O for Ost, Danish uses Ø for Øst).
+  use O for Oeste/Ouest, German uses O for Ost, Danish uses Ø for Øst,
+  Dutch uses O for Oost and Z for Zuid).
   Polish and Czech deliberately keep the international N/NNE/... form,
   since their native
   initials either clash with each other or with this scheme.
@@ -289,6 +290,11 @@ Contributions from [@ohaue](https://github.com/ohaue):
 - Optional max daily gust, dusk time, separate rain-rate label, and
   persistent wet/dry timestamps via helper entities
   ([#13](https://github.com/luisanllo/ecowitt-hud-card/pull/13)).
+
+Contributions from [@douternitou](https://github.com/douternitou):
+
+- Dutch translation
+  ([#18](https://github.com/luisanllo/ecowitt-hud-card/issues/18)).
 
 ## License
 

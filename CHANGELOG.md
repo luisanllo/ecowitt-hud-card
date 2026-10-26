@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.14.0] - 2026-10-26
+
+### Added
+- Dutch (nl) translation, including Dutch compass abbreviations (O for
+  Oost, Z for Zuid). Contributed by
+  [@douternitou](https://github.com/douternitou) (#18).
+
+### Fixed
+- README: Danish was still listed as machine-translated, although it was
+  reviewed by a native speaker in 1.9.3.
+
 ## [1.13.0] - 2026-10-18
 
 ### Added
