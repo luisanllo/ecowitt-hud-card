@@ -2,7 +2,7 @@
 
 # Weather Station Card (Ecowitt & more)
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/luisanllo/ecowitt-hud-card/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/luisanllo/ecowitt-hud-card)](https://github.com/luisanllo/ecowitt-hud-card/releases)
 
@@ -34,14 +34,15 @@ history dialog.
 
 ## Installation
 
-### Via HACS (recommended)
+### Via Marketplace / HACS (recommended)
 
-1. HACS → **⋮** menu (top right) → **Custom repositories**
-2. URL: `https://github.com/luisanllo/ecowitt-hud-card`, category **Dashboard**
-3. Search for **"Weather Station Card"** (or "Ecowitt") in HACS → Download
-4. Add the resource if HACS doesn't do it automatically:
-   - URL: `/hacsfiles/ecowitt-hud-card/ecowitt-hud-card.js`
-   - Type: JavaScript Module
+The card is in the default HACS catalog, which Home Assistant 2026.11 and
+later include as the **Marketplace**, so there's no custom repository to add.
+
+1. **Settings → Marketplace** (Home Assistant 2026.11 or later), or
+   **HACS** on older versions
+2. Search for **"Weather Station Card"** (or "Ecowitt") → Download
+3. Reload the browser, then add the card to a dashboard
 
 ### Manual
 

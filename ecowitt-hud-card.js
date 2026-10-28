@@ -3,10 +3,10 @@
  * with any station whose Home Assistant integration exposes comparable
  * sensors (temperature, wind, rain, UV...).
  *
- * Install via HACS (recommended):
- *   HACS -> three-dot menu -> Custom repositories -> add this repository
- *   with category "Dashboard", install, then add a card with
- *   type: custom:ecowitt-hud-card
+ * Install via the Marketplace (recommended):
+ *   Settings -> Marketplace (Home Assistant 2026.11+), or HACS on older
+ *   versions -> search for "Weather Station Card" -> download, then add a
+ *   card with type: custom:ecowitt-hud-card
  *
  * Manual install (alternative):
  *   copy this file to config/www/, add as a Lovelace resource:
