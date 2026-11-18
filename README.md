@@ -20,7 +20,7 @@ history dialog.
 ## Features
 
 - 🌡️ Current temperature, feels-like, and **last 24h high/low with the time each occurred**
-- 📈 Temperature trend chart for the last few hours, with an optional humidity overlay (dual axis, customizable colors) and a hover tooltip showing time/temperature/humidity
+- 📈 Temperature trend chart for the last few hours, with an optional humidity or pressure overlay (dual axis, customizable colors) and a hover tooltip showing both values
 - 🌅 Sun position bar (sunrise/sunset) with a live marker and countdown — can be hidden
 - 🧭 Wind compass with speed, gust, and direction
 - ☔ Rain block: peak intensity over a short recent window (avoids the "always reads 0" problem of spiky instantaneous rain-rate sensors), today's total (or a rolling window total for cumulative-counter sensors), and rain sensor status
@@ -82,6 +82,7 @@ optional, and the card automatically hides whatever you don't fill in.
 | `illuminance` | No | Illuminance (lux) |
 | `solar_radiation` | No | Solar radiation (W/m²) |
 | `wind_speed` | No | Wind speed (shown as Beaufort force, e.g. `4 Bft`, if the entity's unit is set to Beaufort in Home Assistant) |
+| `wind_speed_avg` | No | Average wind speed (e.g. Ecowitt's 10-minute average), shown before the gust |
 | `wind_gust` | No | Gust speed |
 | `max_daily_gust` | No | Today's peak gust, shown alongside the current gust |
 | `wind_direction` | No | Wind direction (degrees) |
@@ -89,6 +90,8 @@ optional, and the card automatically hides whatever you don't fill in.
 | `rain_rate_window_minutes` | No | Show the peak rain rate over the last N minutes instead of the instantaneous reading (`5` by default) — set to `0` for the raw instantaneous value |
 | `separate_rain_rate_label` | No | When `rain_rate_window_minutes: 0`, show a "Rain rate" sub-label instead of the wet/dry status text (`false` by default) |
 | `rain_today` | No | Today's accumulated rain (mm), or a cumulative counter if `rain_cumulative` is on |
+| `rain_event` | No | Rain of the current rain event (e.g. Ecowitt's Event Rain) |
+| `rain_month` | No | Rain this month (e.g. Ecowitt's Monthly Rain) |
 | `rain_cumulative` | No | Set if `rain_today` is a counter that never resets (e.g. a Zigbee2MQTT lifetime `precipitation` total) — the card then shows the total rain within `rain_window_hours` instead of the raw value |
 | `rain_window_hours` | No | Window size in hours used when `rain_cumulative` is on (`24` by default; ignored with `reset_daily`, which counts from midnight instead) |
 | `moisture` | No | Rain/moisture sensor (binary_sensor or sensor) |
@@ -97,10 +100,11 @@ optional, and the card automatically hides whatever you don't fill in.
 | `show_trend` | No | Show the trend chart (`true` by default) |
 | `trend_hours` | No | Hours of history in the chart (`6` by default) |
 | `reset_daily` | No | Reset the 24h high/low, the trend chart, and the `rain_cumulative` rain total at midnight (local time), growing from empty through the day, instead of a rolling window (`false` by default) |
-| `show_humidity_trend` | No | Overlay a humidity line on the trend chart (needs `humidity` set above) |
+| `trend_overlay` | No | Second line on the trend chart: `humidity` or `pressure` (needs that sensor set above), or `none` (`none` by default; the older `show_humidity_trend: true` still works as `humidity`) |
 | `trend_chart_height` | No | Chart height in pixels (`48` by default) |
 | `trend_temp_color` | No | Temperature line color — any CSS color (`green` by default) |
 | `trend_humidity_color` | No | Humidity line color — any CSS color (`blue` by default) |
+| `trend_pressure_color` | No | Pressure line color — any CSS color (`purple` by default) |
 | `lightning_strikes` | No | Lightning strike count sensor |
 | `lightning_distance` | No | Distance to the last detected strike |
 | `last_lightning` | No | Timestamp sensor for the last detected strike (shown as a relative "X ago" time) |
@@ -153,10 +157,11 @@ moisture: binary_sensor.my_station_rain_status
   0 — a real 0°C or a genuinely fast, sustained change are never
   affected. The plausible-jump threshold adapts to whether `temperature`
   reports in °C or °F.
-- The temperature and humidity trend lines use fixed colors (green and
-  blue by default, configurable with `trend_temp_color` /
-  `trend_humidity_color`), and the top value on each axis carries a small
-  🌡️/💧 marker as a second, color-independent cue.
+- The trend lines use fixed colors (green for temperature, blue for
+  humidity, purple for pressure by default, configurable with
+  `trend_temp_color` / `trend_humidity_color` / `trend_pressure_color`),
+  and the top value on each axis carries a small 🌡️/💧 marker (or the
+  pressure unit) as a second, color-independent cue.
 - The sun bar uses Home Assistant's `sun.sun` entity; no extra configuration
   needed. Set `show_sun_bar: false` to hide it.
 - `lightning_distance` treats a reading of exactly 40 km as "no detection"
@@ -218,16 +223,12 @@ moisture: binary_sensor.my_station_rain_status
   during a device re-announce — is told apart from a genuine reset and
   ignored, so it doesn't get double-counted as extra rain. This also
   requires `rain_today` to have recorder history.
-- The humidity trend overlay uses its own independent vertical scale (shown
-  on the right side of the chart) so it can be compared by shape against
-  the temperature line (left side) even though the two have very
-  different numeric ranges.
-- The trend chart's two lines are green (temperature) and blue (humidity)
-  by default — a fixed color each, not tied to the current reading.
-  Earlier versions colored the temperature line by how hot or cold it
-  currently was; that's gone now in favor of a color you can actually
-  rely on being the same line every time. Set `trend_temp_color` /
-  `trend_humidity_color` to use different colors.
+- The humidity or pressure overlay uses its own independent vertical scale
+  (shown on the right side of the chart) so it can be compared by shape
+  against the temperature line (left side) even though the two have very
+  different numeric ranges. Pressure uses the same decimals as the
+  pressure reading (`pressure_decimals`), and a single implausible jump
+  (e.g. a glitch reading of 0) is dropped like for temperature.
 - The card's language follows Home Assistant's configured UI language
   (`hass.locale.language`, with `hass.language` and the browser locale as
   fallbacks), normalized to its base subtag (e.g. `pl-PL` → `pl`).

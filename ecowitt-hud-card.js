@@ -54,6 +54,7 @@ const STRINGS = {
       illuminance: "Illuminance (lux)",
       solarRadiation: "Solar radiation (W/m²)",
       windSpeed: "Wind speed",
+      windSpeedAvg: "Average wind speed (e.g. 10-minute average)",
       windGust: "Gust speed",
       maxDailyGust: "Maximum gust today",
       windDirection: "Wind direction (degrees)",
@@ -61,6 +62,8 @@ const STRINGS = {
       rainRateWindow: "Rain rate peak window (minutes, 0 = instantaneous)",
       separateRainRateLabel: "Show rain-rate label instead of wet/dry status",
       rainToday: "Today's rainfall (mm)",
+      rainEvent: "Rain event total (mm)",
+      rainMonth: "Monthly rainfall (mm)",
       rainCumulative: "Rain sensor is a cumulative counter (never resets)",
       rainWindowHours: "Rain window (hours)",
       moisture: "Rain / moisture sensor (optional)",
@@ -69,10 +72,12 @@ const STRINGS = {
       showTrend: "Show temperature trend chart",
       trendHours: "Hours of history to display",
       resetDaily: "Reset high/low and trend chart at midnight (local time) instead of a rolling window",
-      showHumidityTrend: "Overlay humidity trend (needs Relative humidity above)",
+      trendOverlay: "Second line on the trend chart (needs the matching sensor above)",
+      trendOverlayNone: "None",
       trendChartHeight: "Chart height (px)",
       trendTempColor: "Temperature line color (default: green)",
       trendHumidityColor: "Humidity line color (default: blue)",
+      trendPressureColor: "Pressure line color (default: purple)",
       showSunBar: "Show sun position bar",
       showDuskTime: "Show dusk time in sun bar",
       lightning: "Lightning",
@@ -112,6 +117,8 @@ const STRINGS = {
       pressure: "Pressure",
       illuminance: "Illuminance",
       rainToday: "Today's total",
+      rainEvent: "Event",
+      rainMonth: "This month",
       rainRateUnit: "mm/h",
       rainRateLabel: "Rain rate",
       rainSensor: "Rain sensor",
@@ -121,6 +128,7 @@ const STRINGS = {
       feelsLike: "Feels like",
       windFrom: "Wind from",
       gust: "Gust",
+      windAvg: "Avg",
       maxDailyGust: "Today's max",
       nightfallIn: "Nightfall in",
       duskAt: "Dusk",
@@ -172,6 +180,7 @@ const STRINGS = {
       illuminance: "Natężenie oświetlenia (lux)",
       solarRadiation: "Promieniowanie słoneczne (W/m²)",
       windSpeed: "Prędkość wiatru",
+      windSpeedAvg: "Średnia prędkość wiatru (np. średnia 10-minutowa)",
       windGust: "Prędkość porywów",
       maxDailyGust: "Maksymalny poryw dzisiaj",
       windDirection: "Kierunek wiatru (stopnie)",
@@ -179,6 +188,8 @@ const STRINGS = {
       rainRateWindow: "Okno szczytu intensywności (minuty, 0 = wartość chwilowa)",
       separateRainRateLabel: "Pokaż etykietę intensywności zamiast stanu opadów",
       rainToday: "Dzisiejsze opady (mm)",
+      rainEvent: "Opady bieżącego zdarzenia (mm)",
+      rainMonth: "Opady w miesiącu (mm)",
       rainCumulative: "Czujnik opadów jest licznikiem całkowitym (nigdy się nie resetuje)",
       rainWindowHours: "Okres zliczania opadów (godziny)",
       moisture: "Czujnik deszczu / wilgoci (opcjonalnie)",
@@ -187,10 +198,12 @@ const STRINGS = {
       showTrend: "Pokaż wykres trendu temperatury",
       trendHours: "Liczba godzin historii do wyświetlenia",
       resetDaily: "Resetuj maks./min. i wykres trendu o północy (czas lokalny) zamiast okna kroczącego",
-      showHumidityTrend: "Nałóż trend wilgotności (wymaga ustawienia Wilgotności względnej powyżej)",
+      trendOverlay: "Druga linia na wykresie trendu (wymaga odpowiedniego czujnika powyżej)",
+      trendOverlayNone: "Brak",
       trendChartHeight: "Wysokość wykresu (px)",
       trendTempColor: "Kolor linii temperatury (domyślnie: zielony)",
       trendHumidityColor: "Kolor linii wilgotności (domyślnie: niebieski)",
+      trendPressureColor: "Kolor linii ciśnienia (domyślnie: fioletowy)",
       showSunBar: "Wyświetl położenie paska słonecznego",
       showDuskTime: "Pokaż godzinę zmierzchu na pasku słonecznym",
       lightning: "Wyładowania atmosferyczne",
@@ -240,6 +253,8 @@ const STRINGS = {
       pressure: "Ciśnienie",
       illuminance: "Natężenie światła",
       rainToday: "Suma dzisiaj",
+      rainEvent: "Zdarzenie",
+      rainMonth: "Ten miesiąc",
       rainRateUnit: "mm/h",
       rainRateLabel: "Intensywność opadów",
       rainSensor: "Czujnik deszczu",
@@ -249,6 +264,7 @@ const STRINGS = {
       feelsLike: "Odczuwalna",
       windFrom: "Wiatr z kierunku",
       gust: "Porywy",
+      windAvg: "Średnio",
       maxDailyGust: "Maks. dziś",
       nightfallIn: "Zmrok za",
       duskAt: "Zmierzch",
@@ -303,6 +319,7 @@ const STRINGS = {
       illuminance: "Iluminancia (lux)",
       solarRadiation: "Radiación solar (W/m²)",
       windSpeed: "Velocidad del viento",
+      windSpeedAvg: "Velocidad media del viento (p. ej. media de 10 minutos)",
       windGust: "Velocidad de racha",
       maxDailyGust: "Racha máxima de hoy",
       windDirection: "Dirección del viento (grados)",
@@ -310,6 +327,8 @@ const STRINGS = {
       rainRateWindow: "Ventana de pico de intensidad (minutos, 0 = instantáneo)",
       separateRainRateLabel: "Mostrar etiqueta de intensidad en vez del estado de lluvia",
       rainToday: "Lluvia acumulada hoy (mm)",
+      rainEvent: "Lluvia del episodio (mm)",
+      rainMonth: "Lluvia del mes (mm)",
       rainCumulative: "El sensor de lluvia es un contador acumulado (no se resetea)",
       rainWindowHours: "Ventana de lluvia (horas)",
       moisture: "Estado de lluvia / humedad sensor (opcional)",
@@ -318,10 +337,12 @@ const STRINGS = {
       showTrend: "Mostrar gráfico de tendencia de temperatura",
       trendHours: "Horas de histórico a mostrar",
       resetDaily: "Reiniciar máx./mín. y gráfico de tendencia a medianoche (hora local) en vez de ventana móvil",
-      showHumidityTrend: "Superponer tendencia de humedad (necesita Humedad relativa arriba)",
+      trendOverlay: "Segunda línea en el gráfico de tendencia (requiere el sensor correspondiente arriba)",
+      trendOverlayNone: "Ninguna",
       trendChartHeight: "Altura del gráfico (px)",
       trendTempColor: "Color de la línea de temperatura (por defecto: verde)",
       trendHumidityColor: "Color de la línea de humedad (por defecto: azul)",
+      trendPressureColor: "Color de la línea de presión (por defecto: morado)",
       showSunBar: "Ver la posición de la barra solar",
       showDuskTime: "Mostrar la hora del crepúsculo en la barra solar",
       lightning: "Rayos",
@@ -361,6 +382,8 @@ const STRINGS = {
       pressure: "Presión",
       illuminance: "Iluminancia",
       rainToday: "Acumulada hoy",
+      rainEvent: "Episodio",
+      rainMonth: "Este mes",
       rainRateUnit: "mm/h",
       rainRateLabel: "Intensidad de lluvia",
       rainSensor: "Sensor lluvia",
@@ -370,6 +393,7 @@ const STRINGS = {
       feelsLike: "Sensación",
       windFrom: "Viento del",
       gust: "Racha",
+      windAvg: "Media",
       maxDailyGust: "Máx. hoy",
       nightfallIn: "Anochece en",
       duskAt: "Crepúsculo",
@@ -421,6 +445,7 @@ const STRINGS = {
       illuminance: "Intenzita osvětlení (lux)",
       solarRadiation: "Solární radiace (W/m²)",
       windSpeed: "Rychlost větru",
+      windSpeedAvg: "Průměrná rychlost větru (např. 10minutový průměr)",
       windGust: "Rychlost nárazu větru",
       maxDailyGust: "Maximální náraz větru dnes",
       windDirection: "Směr větru (ve stupních)",
@@ -428,6 +453,8 @@ const STRINGS = {
       rainRateWindow: "Okno špičky deště (minuty, 0 = okamžitě)",
       separateRainRateLabel: "Zobrazit popisek intenzity místo stavu deště",
       rainToday: "Dnešní srážky (mm)",
+      rainEvent: "Srážky aktuální události (mm)",
+      rainMonth: "Měsíční srážky (mm)",
       rainCumulative: "Dešťový senzor je kumulativní čítač (nikdy se neresetuje)",
       rainWindowHours: "Dešťové okno (hodiny)",
       moisture: "Senzor deště / vlhkosti (volitelné)",
@@ -436,10 +463,12 @@ const STRINGS = {
       showTrend: "Zobrazit graf trendu teploty",
       trendHours: "Zobrazit historii za (hodin)",
       resetDaily: "Resetovat max/min a graf trendu o půlnoci (místní čas) místo klouzavého okna",
-      showHumidityTrend: "Překrýt trend vlhkosti (vyžaduje Relativní vlhkost výše)",
+      trendOverlay: "Druhá čára v grafu trendu (vyžaduje odpovídající senzor výše)",
+      trendOverlayNone: "Žádná",
       trendChartHeight: "Výška grafu (px)",
       trendTempColor: "Barva čáry teploty (výchozí: zelená)",
       trendHumidityColor: "Barva čáry vlhkosti (výchozí: modrá)",
+      trendPressureColor: "Barva čáry tlaku (výchozí: fialová)",
       showSunBar: "Zobrazit lištu polohy slunce",
       showDuskTime: "Zobrazit čas soumraku na liště polohy slunce",
       lightning: "Blesky",
@@ -479,6 +508,8 @@ const STRINGS = {
       pressure: "Tlak",
       illuminance: "Světlo",
       rainToday: "Dnes celkem",
+      rainEvent: "Událost",
+      rainMonth: "Tento měsíc",
       rainRateUnit: "mm/h",
       rainRateLabel: "Intenzita deště",
       rainSensor: "Dešťový senzor",
@@ -488,6 +519,7 @@ const STRINGS = {
       feelsLike: "Pocitová",
       windFrom: "Směr",
       gust: "Nárazy",
+      windAvg: "Průměr",
       maxDailyGust: "Max. dnes",
       nightfallIn: "Stmívání za",
       duskAt: "Soumrak",
@@ -540,6 +572,7 @@ const STRINGS = {
       illuminance: "Освещённость (люкс)",
       solarRadiation: "Солнечная радиация (Вт/м²)",
       windSpeed: "Скорость ветра",
+      windSpeedAvg: "Средняя скорость ветра (например, среднее за 10 минут)",
       windGust: "Скорость порывов ветра",
       maxDailyGust: "Максимальный порыв ветра за сегодня",
       windDirection: "Направление ветра (в градусах)",
@@ -547,6 +580,8 @@ const STRINGS = {
       rainRateWindow: "Окно для пика интенсивности осадков (минуты; 0 = мгновенное значение)",
       separateRainRateLabel: "Показывать подпись интенсивности вместо состояния осадков",
       rainToday: "Осадки за сегодня (мм)",
+      rainEvent: "Осадки за текущий дождь (мм)",
+      rainMonth: "Осадки за месяц (мм)",
       rainCumulative: "Датчик осадков: накопительный счётчик (без сброса)",
       rainWindowHours: "Окно учёта осадков (часы)",
       moisture: "Датчик дождя/влажности (необязательно)",
@@ -555,10 +590,12 @@ const STRINGS = {
       showTrend: "Показывать график изменения температуры",
       trendHours: "Длительность отображаемой истории (часы)",
       resetDaily: "Сбрасывать макс./мин. и график тренда в полночь (по местному времени) вместо скользящего окна",
-      showHumidityTrend: "Наложить график влажности (требуется параметр «Относительная влажность» выше)",
+      trendOverlay: "Вторая линия на графике тренда (нужен соответствующий датчик выше)",
+      trendOverlayNone: "Нет",
       trendChartHeight: "Высота графика (px)",
       trendTempColor: "Цвет линии температуры (по умолчанию: зелёный)",
       trendHumidityColor: "Цвет линии влажности (по умолчанию: синий)",
+      trendPressureColor: "Цвет линии давления (по умолчанию: фиолетовый)",
       showSunBar: "Показывать шкалу положения солнца",
       showDuskTime: "Показывать время сумерек на шкале положения солнца",
       lightning: "Молния",
@@ -598,6 +635,8 @@ const STRINGS = {
       pressure: "Давление",
       illuminance: "Освещённость",
       rainToday: "Общее количество осадков за сегодня",
+      rainEvent: "За дождь",
+      rainMonth: "За месяц",
       rainRateUnit: "мм/ч",
       rainRateLabel: "Интенсивность осадков",
       rainSensor: "Датчик дождя",
@@ -607,6 +646,7 @@ const STRINGS = {
       feelsLike: "Ощущается как",
       windFrom: "Откуда дует ветер",
       gust: "Порыв ветра",
+      windAvg: "Среднее",
       maxDailyGust: "Макс. за сегодня",
       nightfallIn: "До заката осталось",
       duskAt: "Сумерки",
@@ -666,6 +706,7 @@ const STRINGS = {
       illuminance: "Beleuchtungsstärke (Lux)",
       solarRadiation: "Sonneneinstrahlung (W/m²)",
       windSpeed: "Windgeschwindigkeit",
+      windSpeedAvg: "Durchschnittliche Windgeschwindigkeit (z. B. 10-Minuten-Mittel)",
       windGust: "Böengeschwindigkeit",
       maxDailyGust: "Stärkste Böe heute",
       windDirection: "Windrichtung (Grad)",
@@ -673,6 +714,8 @@ const STRINGS = {
       rainRateWindow: "Spitzenfenster Regenintensität (Minuten, 0 = Momentanwert)",
       separateRainRateLabel: "Intensitäts-Beschriftung statt Regenstatus anzeigen",
       rainToday: "Heutiger Niederschlag (mm)",
+      rainEvent: "Niederschlag des Regenereignisses (mm)",
+      rainMonth: "Monatlicher Niederschlag (mm)",
       rainCumulative: "Regensensor ist ein kumulativer Zähler (setzt sich nie zurück)",
       rainWindowHours: "Regenfenster (Stunden)",
       moisture: "Regen-/Feuchtigkeitssensor (optional)",
@@ -681,10 +724,12 @@ const STRINGS = {
       showTrend: "Temperaturtrend-Diagramm anzeigen",
       trendHours: "Anzuzeigende Stunden des Verlaufs",
       resetDaily: "Max./Min. und Trenddiagramm um Mitternacht (Ortszeit) zurücksetzen statt gleitendem Fenster",
-      showHumidityTrend: "Feuchtigkeitstrend überlagern (benötigt relative Luftfeuchtigkeit oben)",
+      trendOverlay: "Zweite Linie im Trenddiagramm (erfordert den passenden Sensor oben)",
+      trendOverlayNone: "Keine",
       trendChartHeight: "Diagrammhöhe (px)",
       trendTempColor: "Farbe der Temperaturlinie (Standard: grün)",
       trendHumidityColor: "Farbe der Feuchtigkeitslinie (Standard: blau)",
+      trendPressureColor: "Farbe der Drucklinie (Standard: lila)",
       showSunBar: "Sonnenstandsleiste anzeigen",
       showDuskTime: "Uhrzeit der Abenddämmerung in der Sonnenstandsleiste anzeigen",
       lightning: "Blitze",
@@ -724,6 +769,8 @@ const STRINGS = {
       pressure: "Druck",
       illuminance: "Beleuchtungsstärke",
       rainToday: "Heutige Summe",
+      rainEvent: "Ereignis",
+      rainMonth: "Dieser Monat",
       rainRateUnit: "mm/h",
       rainRateLabel: "Regenintensität",
       rainSensor: "Regensensor",
@@ -733,6 +780,7 @@ const STRINGS = {
       feelsLike: "Gefühlt wie",
       windFrom: "Wind aus",
       gust: "Böe",
+      windAvg: "Mittel",
       maxDailyGust: "Max. heute",
       nightfallIn: "Dämmerung in",
       duskAt: "Abenddämmerung",
@@ -787,6 +835,7 @@ const STRINGS = {
       illuminance: "Éclairement (lux)",
       solarRadiation: "Radiation solaire (W/m²)",
       windSpeed: "Vitesse du vent",
+      windSpeedAvg: "Vitesse moyenne du vent (p. ex. moyenne sur 10 minutes)",
       windGust: "Vitesse des rafales",
       maxDailyGust: "Rafale maximale du jour",
       windDirection: "Direction du vent (degrés)",
@@ -794,6 +843,8 @@ const STRINGS = {
       rainRateWindow: "Fenêtre de pic d'intensité (minutes, 0 = instantané)",
       separateRainRateLabel: "Afficher le libellé d'intensité au lieu de l'état de pluie",
       rainToday: "Pluie du jour (mm)",
+      rainEvent: "Pluie de l'épisode (mm)",
+      rainMonth: "Pluie du mois (mm)",
       rainCumulative: "Le capteur de pluie est un compteur cumulatif (ne se réinitialise jamais)",
       rainWindowHours: "Fenêtre de pluie (heures)",
       moisture: "Capteur de pluie/humidité (optionnel)",
@@ -802,10 +853,12 @@ const STRINGS = {
       showTrend: "Afficher le graphique de tendance de température",
       trendHours: "Heures d'historique à afficher",
       resetDaily: "Réinitialiser max/min et le graphique de tendance à minuit (heure locale) au lieu d'une fenêtre glissante",
-      showHumidityTrend: "Superposer la tendance d'humidité (nécessite l'humidité relative ci-dessus)",
+      trendOverlay: "Deuxième courbe du graphique de tendance (nécessite le capteur correspondant ci-dessus)",
+      trendOverlayNone: "Aucune",
       trendChartHeight: "Hauteur du graphique (px)",
       trendTempColor: "Couleur de la ligne de température (par défaut : vert)",
       trendHumidityColor: "Couleur de la ligne d'humidité (par défaut : bleu)",
+      trendPressureColor: "Couleur de la courbe de pression (par défaut : violet)",
       showSunBar: "Afficher la barre de position du soleil",
       showDuskTime: "Afficher l'heure du crépuscule dans la barre de position du soleil",
       lightning: "Foudre",
@@ -845,6 +898,8 @@ const STRINGS = {
       pressure: "Pression",
       illuminance: "Éclairement",
       rainToday: "Total du jour",
+      rainEvent: "Épisode",
+      rainMonth: "Ce mois",
       rainRateUnit: "mm/h",
       rainRateLabel: "Intensité de la pluie",
       rainSensor: "Capteur de pluie",
@@ -854,6 +909,7 @@ const STRINGS = {
       feelsLike: "Ressenti",
       windFrom: "Vent de",
       gust: "Rafale",
+      windAvg: "Moy.",
       maxDailyGust: "Max. du jour",
       nightfallIn: "Nuit dans",
       duskAt: "Crépuscule",
@@ -908,6 +964,7 @@ const STRINGS = {
       illuminance: "Iluminância (lux)",
       solarRadiation: "Radiação solar (W/m²)",
       windSpeed: "Velocidade do vento",
+      windSpeedAvg: "Velocidade média do vento (ex.: média de 10 minutos)",
       windGust: "Velocidade de rajada",
       maxDailyGust: "Rajada máxima de hoje",
       windDirection: "Direção do vento (graus)",
@@ -915,6 +972,8 @@ const STRINGS = {
       rainRateWindow: "Janela de pico de intensidade (minutos, 0 = instantâneo)",
       separateRainRateLabel: "Mostrar a etiqueta de intensidade em vez do estado da chuva",
       rainToday: "Chuva de hoje (mm)",
+      rainEvent: "Chuva do episódio (mm)",
+      rainMonth: "Chuva do mês (mm)",
       rainCumulative: "O sensor de chuva é um contador cumulativo (nunca reinicia)",
       rainWindowHours: "Janela de chuva (horas)",
       moisture: "Sensor de chuva/umidade (opcional)",
@@ -923,10 +982,12 @@ const STRINGS = {
       showTrend: "Mostrar gráfico de tendência de temperatura",
       trendHours: "Horas de histórico a exibir",
       resetDaily: "Reiniciar máx./mín. e o gráfico de tendência à meia-noite (hora local) em vez de uma janela móvel",
-      showHumidityTrend: "Sobrepor tendência de umidade (requer Umidade relativa acima)",
+      trendOverlay: "Segunda linha no gráfico de tendência (requer o sensor correspondente acima)",
+      trendOverlayNone: "Nenhuma",
       trendChartHeight: "Altura do gráfico (px)",
       trendTempColor: "Cor da linha de temperatura (padrão: verde)",
       trendHumidityColor: "Cor da linha de umidade (padrão: azul)",
+      trendPressureColor: "Cor da linha de pressão (padrão: roxo)",
       showSunBar: "Mostrar a barra de posição do sol",
       showDuskTime: "Mostrar o horário do crepúsculo na barra de posição do sol",
       lightning: "Raios",
@@ -966,6 +1027,8 @@ const STRINGS = {
       pressure: "Pressão",
       illuminance: "Iluminância",
       rainToday: "Total de hoje",
+      rainEvent: "Episódio",
+      rainMonth: "Este mês",
       rainRateUnit: "mm/h",
       rainRateLabel: "Intensidade da chuva",
       rainSensor: "Sensor de chuva",
@@ -975,6 +1038,7 @@ const STRINGS = {
       feelsLike: "Sensação",
       windFrom: "Vento de",
       gust: "Rajada",
+      windAvg: "Média",
       maxDailyGust: "Máx. hoje",
       nightfallIn: "Anoitecer em",
       duskAt: "Crepúsculo",
@@ -1029,6 +1093,7 @@ const STRINGS = {
       illuminance: "Illuminamento (lux)",
       solarRadiation: "Radiazione solare (W/m²)",
       windSpeed: "Velocità del vento",
+      windSpeedAvg: "Velocità media del vento (es. media di 10 minuti)",
       windGust: "Velocità raffica",
       maxDailyGust: "Raffica massima di oggi",
       windDirection: "Direzione del vento (gradi)",
@@ -1036,6 +1101,8 @@ const STRINGS = {
       rainRateWindow: "Finestra di picco intensità (minuti, 0 = istantaneo)",
       separateRainRateLabel: "Mostra l'etichetta dell'intensità invece dello stato della pioggia",
       rainToday: "Pioggia di oggi (mm)",
+      rainEvent: "Pioggia dell'evento (mm)",
+      rainMonth: "Pioggia del mese (mm)",
       rainCumulative: "Il sensore di pioggia è un contatore cumulativo (non si azzera mai)",
       rainWindowHours: "Finestra pioggia (ore)",
       moisture: "Sensore pioggia/umidità (opzionale)",
@@ -1044,10 +1111,12 @@ const STRINGS = {
       showTrend: "Mostra grafico tendenza temperatura",
       trendHours: "Ore di storico da visualizzare",
       resetDaily: "Azzera max/min e il grafico di tendenza a mezzanotte (ora locale) invece di una finestra mobile",
-      showHumidityTrend: "Sovrapponi tendenza umidità (richiede Umidità relativa sopra)",
+      trendOverlay: "Seconda linea nel grafico di tendenza (richiede il sensore corrispondente sopra)",
+      trendOverlayNone: "Nessuna",
       trendChartHeight: "Altezza grafico (px)",
       trendTempColor: "Colore della linea di temperatura (predefinito: verde)",
       trendHumidityColor: "Colore della linea di umidità (predefinito: blu)",
+      trendPressureColor: "Colore della linea della pressione (predefinito: viola)",
       showSunBar: "Mostra la barra della posizione del sole",
       showDuskTime: "Mostra l'ora del crepuscolo nella barra della posizione del sole",
       lightning: "Fulmini",
@@ -1087,6 +1156,8 @@ const STRINGS = {
       pressure: "Pressione",
       illuminance: "Illuminamento",
       rainToday: "Totale odierno",
+      rainEvent: "Evento",
+      rainMonth: "Questo mese",
       rainRateUnit: "mm/h",
       rainRateLabel: "Intensità pioggia",
       rainSensor: "Sensore pioggia",
@@ -1096,6 +1167,7 @@ const STRINGS = {
       feelsLike: "Percepita",
       windFrom: "Vento da",
       gust: "Raffica",
+      windAvg: "Media",
       maxDailyGust: "Max oggi",
       nightfallIn: "Tramonto tra",
       duskAt: "Crepuscolo",
@@ -1150,6 +1222,7 @@ const STRINGS = {
       illuminance: "Lysstyrke (lux)",
       solarRadiation: "Solindstråling (W/m²)",
       windSpeed: "Vindhastighed",
+      windSpeedAvg: "Gennemsnitlig vindhastighed (f.eks. 10-minutters gennemsnit)",
       windGust: "Vindstød",
       maxDailyGust: "Højeste vindstød i dag",
       windDirection: "Vindretning (grader)",
@@ -1157,6 +1230,8 @@ const STRINGS = {
       rainRateWindow: "Vindue for regnintensitetstop (minutter, 0 = øjeblikkelig)",
       separateRainRateLabel: "Vis regnintensitet i stedet for tør/regner-status",
       rainToday: "Dagens nedbør (mm)",
+      rainEvent: "Nedbør i aktuel regnhændelse (mm)",
+      rainMonth: "Månedens nedbør (mm)",
       rainCumulative: "Regnsensoren er en kumulativ tæller (nulstilles aldrig)",
       rainWindowHours: "Regnvindue (timer)",
       moisture: "Regn-/fugtsensor (valgfrit)",
@@ -1165,10 +1240,12 @@ const STRINGS = {
       showTrend: "Vis temperaturtrendgraf",
       trendHours: "Antal timers historik at vise",
       resetDaily: "Nulstil maks./min. og trendgraf ved midnat (lokal tid) i stedet for et glidende vindue",
-      showHumidityTrend: "Overlejr fugtighedstrend (kræver Relativ luftfugtighed ovenfor)",
+      trendOverlay: "Anden linje i trendgrafen (kræver den tilsvarende sensor ovenfor)",
+      trendOverlayNone: "Ingen",
       trendChartHeight: "Grafhøjde (px)",
       trendTempColor: "Farve på temperaturlinje (standard: grøn)",
       trendHumidityColor: "Farve på fugtighedslinje (standard: blå)",
+      trendPressureColor: "Farve på tryklinje (standard: lilla)",
       showSunBar: "Vis solpositionslinje",
       showDuskTime: "Vis skumringstid på solpositionslinjen",
       lightning: "Lyn",
@@ -1208,6 +1285,8 @@ const STRINGS = {
       pressure: "Tryk",
       illuminance: "Lysstyrke",
       rainToday: "I dag i alt",
+      rainEvent: "Hændelse",
+      rainMonth: "Denne måned",
       rainRateUnit: "mm/t",
       rainRateLabel: "Regnintensitet",
       rainSensor: "Regnsensor",
@@ -1217,6 +1296,7 @@ const STRINGS = {
       feelsLike: "Føles som",
       windFrom: "Vind fra",
       gust: "Vindstød",
+      windAvg: "Gns.",
       maxDailyGust: "Maks. i dag",
       nightfallIn: "Solnedgang om",
       duskAt: "Skumring",
@@ -1269,6 +1349,7 @@ const STRINGS = {
       illuminance: "Verlichtingssterkte (lux)",
       solarRadiation: "Zonnestraling (W/m²)",
       windSpeed: "Windsnelheid",
+      windSpeedAvg: "Gemiddelde windsnelheid (bijv. 10-minutengemiddelde)",
       windGust: "Windstootsnelheid",
       maxDailyGust: "Maximale windstoot vandaag",
       windDirection: "Windrichting (graden)",
@@ -1276,6 +1357,8 @@ const STRINGS = {
       rainRateWindow: "Piekvenster regenintensiteit (minuten, 0 = ogenblikkelijk)",
       separateRainRateLabel: "Toon label voor regenintensiteit in plaats van nat/droog-status",
       rainToday: "Neerslag vandaag (mm)",
+      rainEvent: "Neerslag huidige bui (mm)",
+      rainMonth: "Neerslag deze maand (mm)",
       rainCumulative: "Regensensor is een cumulatieve teller (wordt nooit gereset)",
       rainWindowHours: "Regenvenster (uren)",
       moisture: "Regen-/vochtsensor (optioneel)",
@@ -1284,10 +1367,12 @@ const STRINGS = {
       showTrend: "Toon temperatuurtrendgrafiek",
       trendHours: "Aantal uren geschiedenis om weer te geven",
       resetDaily: "Reset hoogste/laagste waarde en trendgrafiek om middernacht (lokale tijd) in plaats van een voortschrijdend venster",
-      showHumidityTrend: "Toon luchtvochtigheidstrend als overlay (vereist Relatieve luchtvochtigheid hierboven)",
+      trendOverlay: "Tweede lijn in de trendgrafiek (vereist de bijbehorende sensor hierboven)",
+      trendOverlayNone: "Geen",
       trendChartHeight: "Grafiekhoogte (px)",
       trendTempColor: "Kleur temperatuurlijn (standaard: groen)",
       trendHumidityColor: "Kleur luchtvochtigheidslijn (standaard: blauw)",
+      trendPressureColor: "Kleur luchtdruklijn (standaard: paars)",
       showSunBar: "Toon zonnestandbalk",
       showDuskTime: "Toon schemertijd in zonnebalk",
       lightning: "Bliksem",
@@ -1327,6 +1412,8 @@ const STRINGS = {
       pressure: "Luchtdruk",
       illuminance: "Verlichtingssterkte",
       rainToday: "Totaal vandaag",
+      rainEvent: "Bui",
+      rainMonth: "Deze maand",
       rainRateUnit: "mm/u",
       rainRateLabel: "Regenintensiteit",
       rainSensor: "Regensensor",
@@ -1336,6 +1423,7 @@ const STRINGS = {
       feelsLike: "Voelt als",
       windFrom: "Wind uit",
       gust: "Windstoot",
+      windAvg: "Gem.",
       maxDailyGust: "Max vandaag",
       nightfallIn: "Donker over",
       duskAt: "Schemering",
@@ -1380,6 +1468,25 @@ function tempOutlierMaxJump(unit) {
 // Humidity is always 0-100 regardless of unit system, so this one can be
 // a flat percentage-point threshold.
 const HUMIDITY_OUTLIER_MAX_JUMP = 40;
+// Pressure never moves ~20 hPa between two readings; express that in the sensor's unit.
+function pressureOutlierMaxJump(unit) {
+  const u = String(unit || "").toLowerCase();
+  if (u.includes("inhg")) return 0.6;
+  if (u.includes("mmhg")) return 15;
+  if (u === "kpa") return 2;
+  if (u === "pa") return 2000;
+  if (u === "psi") return 0.3;
+  return 20;
+}
+// Which series the trend chart draws on its right axis. trend_overlay
+// supersedes the older show_humidity_trend toggle, which still works.
+function trendOverlayKind(c) {
+  if (c.trend_overlay === "humidity" || c.trend_overlay === "pressure" || c.trend_overlay === "none") return c.trend_overlay;
+  return c.show_humidity_trend ? "humidity" : "none";
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]);
+}
 // A cumulative rain counter should only ever go up. Some Zigbee-connected
 // stations occasionally report a spurious 0 for one reading (e.g. a
 // zigbee2mqtt device re-announce) and then resume from the real,
@@ -1723,6 +1830,7 @@ function getFieldGroups(lang) {
       title: E.wind,
       schema: [
         { name: "wind_speed", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windSpeed },
+        { name: "wind_speed_avg", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windSpeedAvg },
         { name: "wind_gust", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.windGust },
         { name: "max_daily_gust", selector: { entity: { domain: "sensor", device_class: "wind_speed" } }, label: E.maxDailyGust || STRINGS.en.editor.maxDailyGust },
         { name: "wind_direction", selector: { entity: { domain: "sensor" } }, label: E.windDirection },
@@ -1735,6 +1843,8 @@ function getFieldGroups(lang) {
         { name: "rain_rate_window_minutes", selector: { number: { min: 0, max: 60, mode: "box" } }, label: E.rainRateWindow },
         { name: "separate_rain_rate_label", selector: { boolean: {} }, label: E.separateRainRateLabel || STRINGS.en.editor.separateRainRateLabel },
         { name: "rain_today", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainToday },
+        { name: "rain_event", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainEvent },
+        { name: "rain_month", selector: { entity: { domain: "sensor", device_class: "precipitation" } }, label: E.rainMonth },
         { name: "rain_cumulative", selector: { boolean: {} }, label: E.rainCumulative },
         { name: "rain_window_hours", selector: { number: { min: 1, max: 168, mode: "box" } }, label: E.rainWindowHours },
         { name: "moisture", selector: { entity: {} }, label: E.moisture },
@@ -1748,10 +1858,24 @@ function getFieldGroups(lang) {
         { name: "show_trend", selector: { boolean: {} }, label: E.showTrend },
         { name: "trend_hours", selector: { number: { min: 1, max: 24, mode: "box" } }, label: E.trendHours },
         { name: "reset_daily", selector: { boolean: {} }, label: E.resetDaily },
-        { name: "show_humidity_trend", selector: { boolean: {} }, label: E.showHumidityTrend },
+        {
+          name: "trend_overlay",
+          selector: {
+            select: {
+              mode: "dropdown",
+              options: [
+                { value: "none", label: E.trendOverlayNone },
+                { value: "humidity", label: E.humidity },
+                { value: "pressure", label: E.pressure },
+              ],
+            },
+          },
+          label: E.trendOverlay,
+        },
         { name: "trend_chart_height", selector: { number: { min: 24, max: 120, mode: "box" } }, label: E.trendChartHeight },
         { name: "trend_temp_color", selector: { text: {} }, label: E.trendTempColor },
         { name: "trend_humidity_color", selector: { text: {} }, label: E.trendHumidityColor },
+        { name: "trend_pressure_color", selector: { text: {} }, label: E.trendPressureColor },
       ],
     },
     {
@@ -1772,7 +1896,11 @@ class EcowittHudCardEditor extends HTMLElement {
   // Backfilling the default here keeps what the editor displays in sync
   // with what the card actually does.
   _withDefaults(config) {
-    return { show_sun_bar: true, ...(config || {}) };
+    // The trend_overlay select replaced the show_humidity_trend toggle in
+    // the editor; show the legacy toggle as its select equivalent.
+    const { show_humidity_trend, ...rest } = config || {};
+    const overlay = rest.trend_overlay ? {} : { trend_overlay: show_humidity_trend ? "humidity" : "none" };
+    return { show_sun_bar: true, ...overlay, ...rest };
   }
   setConfig(config) {
     this._config = this._withDefaults(config);
@@ -1869,8 +1997,9 @@ class EcowittHudCard extends HTMLElement {
       prev.temperature !== newConfig.temperature ||
       prev.trend_hours !== newConfig.trend_hours ||
       prev.show_trend !== newConfig.show_trend ||
-      prev.show_humidity_trend !== newConfig.show_humidity_trend ||
+      trendOverlayKind(prev) !== trendOverlayKind(newConfig) ||
       prev.humidity !== newConfig.humidity ||
+      prev.pressure !== newConfig.pressure ||
       prev.reset_daily !== newConfig.reset_daily;
     if (trendRelevant) {
       this._fetchTrend();
@@ -1879,7 +2008,9 @@ class EcowittHudCard extends HTMLElement {
       prev &&
       (prev.trend_chart_height !== newConfig.trend_chart_height ||
         prev.trend_temp_color !== newConfig.trend_temp_color ||
-        prev.trend_humidity_color !== newConfig.trend_humidity_color)
+        prev.trend_humidity_color !== newConfig.trend_humidity_color ||
+        prev.trend_pressure_color !== newConfig.trend_pressure_color ||
+        prev.pressure_decimals !== newConfig.pressure_decimals)
     ) {
       // purely cosmetic — re-render with the already-fetched data instead
       // of hitting the history API again just to change the chart height
@@ -2029,7 +2160,7 @@ class EcowittHudCard extends HTMLElement {
         .stat-val { font-size: 16px; font-weight: 600; }
         .stat-unit { font-size: 12px; color: var(--secondary-text-color, #70788a); }
         .stat-label { font-size: 9.5px; color: var(--secondary-text-color, #70788a); margin-top: 2px; }
-        .rain { gap: 28px; padding-top: 16px; }
+        .rain { gap: 14px 28px; padding-top: 16px; flex-wrap: wrap; }
         .rain-val { font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
         .rain-sub { font-size: 9.5px; color: var(--secondary-text-color, #8a92a3); margin-top: 2px; }
         .lightning-row { padding-bottom: 16px; }
@@ -2114,6 +2245,14 @@ class EcowittHudCard extends HTMLElement {
           <div class="stat clickable" data-k="rain_today">
             <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
             <div class="rain-sub rain-today-sub">${S.labels.rainToday}</div>
+          </div>
+          <div class="stat clickable" data-k="rain_event">
+            <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
+            <div class="rain-sub">${S.labels.rainEvent}</div>
+          </div>
+          <div class="stat clickable" data-k="rain_month">
+            <div class="rain-val"><span class="v"></span> <span class="stat-unit u"></span></div>
+            <div class="rain-sub">${S.labels.rainMonth}</div>
           </div>
           <div class="stat clickable" data-k="moisture">
             <div class="rain-val"><span class="v"></span></div>
@@ -2364,15 +2503,20 @@ class EcowittHudCard extends HTMLElement {
     this._trendData = points;
     this._trendWindowStart = startMs;
 
-    this._humidityTrendData = null;
-    if (c.show_humidity_trend && c.humidity) {
+    this._overlayTrendData = null;
+    const overlay = trendOverlayKind(c);
+    const overlayEntity = overlay === "pressure" ? c.pressure : overlay === "humidity" ? c.humidity : null;
+    if (overlayEntity) {
       try {
-        const humResult = await this._hass.callApi("GET", historyUrl(c.humidity, startMs));
+        const overlayResult = await this._hass.callApi("GET", historyUrl(overlayEntity, startMs));
         if (token !== this._trendFetchToken) return;
-        const humPoints = filterOutliers(historyPoints(humResult), HUMIDITY_OUTLIER_MAX_JUMP);
-        if (humPoints.length > 1) this._humidityTrendData = humPoints;
+        const maxJump = overlay === "pressure"
+          ? pressureOutlierMaxJump(fmt(this._hass, c.pressure, 0).unit)
+          : HUMIDITY_OUTLIER_MAX_JUMP;
+        const overlayPoints = filterOutliers(historyPoints(overlayResult), maxJump);
+        if (overlayPoints.length > 1) this._overlayTrendData = overlayPoints;
       } catch (e) {
-        // humidity history unavailable; temperature trend still renders alone
+        // overlay history unavailable; temperature trend still renders alone
       }
     }
 
@@ -2521,22 +2665,31 @@ class EcowittHudCard extends HTMLElement {
     const coords = pts.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, min, range).toFixed(1)}`);
     const c = this._config || {};
     const color = sanitizeColor(c.trend_temp_color, COLORS.low);
-    const humColor = sanitizeColor(c.trend_humidity_color, COLORS.info);
-    this._trendHumColor = humColor;
+    const overlay = trendOverlayKind(c);
+    const overlayColor = overlay === "pressure"
+      ? sanitizeColor(c.trend_pressure_color, COLORS.extreme)
+      : sanitizeColor(c.trend_humidity_color, COLORS.info);
+    this._trendOverlayColor = overlayColor;
     const line = coords.join(" ");
     const area = `${pad},${h - pad} ${line} ${w - pad},${h - pad}`;
 
-    let humidityLine = "";
-    const hum = this._humidityTrendData;
-    if (hum && hum.length > 1) {
-      const hValues = hum.map((p) => p.v);
-      const hMin = Math.min(...hValues);
-      const hMax = Math.max(...hValues);
-      const hRange = hMax - hMin || 1;
-      const hCoords = hum.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, hMin, hRange).toFixed(1)}`);
-      humidityLine = `<polyline points="${hCoords.join(" ")}" fill="none" stroke="${humColor}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
-      els.trendMinH.textContent = `${hMin.toFixed(0)}%`;
-      els.trendMaxH.textContent = `💧 ${hMax.toFixed(0)}%`;
+    let overlayLine = "";
+    const ov = this._overlayTrendData;
+    if (ov && ov.length > 1) {
+      const oValues = ov.map((p) => p.v);
+      const oMin = Math.min(...oValues);
+      const oMax = Math.max(...oValues);
+      const oRange = oMax - oMin || 1;
+      const oCoords = ov.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, oMin, oRange).toFixed(1)}`);
+      overlayLine = `<polyline points="${oCoords.join(" ")}" fill="none" stroke="${overlayColor}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
+      if (overlay === "pressure") {
+        const { decimals, unit } = this._pressureFormat();
+        els.trendMinH.textContent = oMin.toFixed(decimals);
+        els.trendMaxH.textContent = `${oMax.toFixed(decimals)} ${unit}`;
+      } else {
+        els.trendMinH.textContent = `${oMin.toFixed(0)}%`;
+        els.trendMaxH.textContent = `💧 ${oMax.toFixed(0)}%`;
+      }
       els.trendAxisRight.style.display = "";
     } else {
       els.trendAxisRight.style.display = "none";
@@ -2545,7 +2698,7 @@ class EcowittHudCard extends HTMLElement {
     els.trendSvg.innerHTML = `
       <polygon points="${area}" fill="${color}22"></polygon>
       <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></polyline>
-      ${humidityLine}
+      ${overlayLine}
     `;
     els.trendMin.textContent = `${min.toFixed(1)}°`;
     // A small marker on the top value of each axis column identifies
@@ -2554,7 +2707,17 @@ class EcowittHudCard extends HTMLElement {
     // each other.
     els.trendMax.textContent = `🌡️ ${max.toFixed(1)}°`;
     if (els.trendAxisLeft) els.trendAxisLeft.style.color = color;
-    if (els.trendAxisRight) els.trendAxisRight.style.color = humColor;
+    if (els.trendAxisRight) els.trendAxisRight.style.color = overlayColor;
+  }
+  _pressureFormat() {
+    const c = this._config || {};
+    const unit = (this._hass && fmt(this._hass, c.pressure, 0).unit) || "hPa";
+    // hPa is conventionally shown as a whole number, but inHg needs two
+    // decimal places to be meaningful at all (its whole range of typical
+    // readings spans only ~28-31) — default to whichever fits the unit,
+    // but let pressure_decimals override it either way.
+    const decimalsDefault = unit.toLowerCase().includes("inhg") ? 2 : 0;
+    return { decimals: clampNumber(c.pressure_decimals, 0, 2, decimalsDefault), unit };
   }
   _nearestPoint(series, targetT) {
     if (!series || series.length === 0) return null;
@@ -2581,11 +2744,20 @@ class EcowittHudCard extends HTMLElement {
 
     const tempPoint = this._nearestPoint(this._trendData, targetT);
     if (!tempPoint) return;
-    const humPoint = this._nearestPoint(this._humidityTrendData, targetT);
+    const overlayPoint = this._nearestPoint(this._overlayTrendData, targetT);
 
     const time = this._timeStr(new Date(tempPoint.t));
     let html = `<span class="tt-time">${time}</span><span class="tt-temp">${tempPoint.v.toFixed(1)}°</span>`;
-    if (humPoint) html += `<span class="tt-hum" style="color:${this._trendHumColor || COLORS.info}">${humPoint.v.toFixed(0)}%</span>`;
+    if (overlayPoint) {
+      let overlayText;
+      if (trendOverlayKind(this._config || {}) === "pressure") {
+        const { decimals, unit } = this._pressureFormat();
+        overlayText = `${overlayPoint.v.toFixed(decimals)} ${unit}`;
+      } else {
+        overlayText = `${overlayPoint.v.toFixed(0)}%`;
+      }
+      html += `<span class="tt-hum" style="color:${this._trendOverlayColor || COLORS.info}">${escapeHtml(overlayText)}</span>`;
+    }
     els.trendTooltip.innerHTML = html;
     els.trendTooltip.style.display = "";
     els.trendCrosshair.style.display = "";
@@ -2649,12 +2821,14 @@ class EcowittHudCard extends HTMLElement {
     const windSpeed = fmtWind(hass, c.wind_speed);
     const windGust = fmtWind(hass, c.wind_gust);
     const maxDailyGust = fmtWind(hass, c.max_daily_gust);
+    const windAvg = fmtWind(hass, c.wind_speed_avg);
     const windDirVal = fmt(hass, c.wind_direction, 0);
     els.windBlock.style.display = c.wind_speed ? "" : "none";
     els.windSpeedVal.textContent = windSpeed.text;
     els.windSpeedUnit.textContent = windSpeed.unit || "km/h";
     els.windDir.textContent = windDirVal.value !== null ? `${S.labels.windFrom} ${compassLabel(windDirVal.value, lang)} (${windDirVal.text}°)` : S.labels.dash;
     const gustParts = [];
+    if (windAvg.value !== null) gustParts.push(`${S.labels.windAvg} ${windAvg.text} ${windAvg.unit || windSpeed.unit || "km/h"}`);
     if (windGust.value !== null) gustParts.push(`${S.labels.gust} ${windGust.text} ${windGust.unit || "km/h"}`);
     if (maxDailyGust.value !== null) {
       const maxGustLabel = S.labels.maxDailyGust || STRINGS.en.labels.maxDailyGust;
@@ -2699,13 +2873,7 @@ class EcowittHudCard extends HTMLElement {
     setStat("black_globe_temperature", blackGlobe.text, "°");
 
     const pressure = fmt(hass, c.pressure, 0);
-    // hPa is conventionally shown as a whole number, but inHg needs two
-    // decimal places to be meaningful at all (its whole range of typical
-    // readings spans only ~28-31) — default to whichever fits the unit,
-    // but let pressure_decimals override it either way.
-    const pressureDecimalsDefault = (pressure.unit || "").toLowerCase().includes("inhg") ? 2 : 0;
-    const pressureDecimals = clampNumber(c.pressure_decimals, 0, 2, pressureDecimalsDefault);
-    const pressureText = pressure.value !== null ? pressure.value.toFixed(pressureDecimals) : pressure.text;
+    const pressureText = pressure.value !== null ? pressure.value.toFixed(this._pressureFormat().decimals) : pressure.text;
     setStat("pressure", pressureText, pressure.unit || "hPa");
     const trend = trendInfo(c.pressure_trend, hass);
     if (trend) {
@@ -2757,6 +2925,10 @@ class EcowittHudCard extends HTMLElement {
       setStat("rain_today", rainToday.text, rainTodayUnit);
       els.rainTodaySub.textContent = S.labels.rainToday;
     }
+    const rainEvent = fmt(hass, c.rain_event, 1);
+    setStat("rain_event", rainEvent.text, rainEvent.unit || "mm");
+    const rainMonth = fmt(hass, c.rain_month, 1);
+    setStat("rain_month", rainMonth.text, rainMonth.unit || "mm");
 
     // Moisture state, with optional "since HH:MM" sub-label sourced from a
     // last-wet/last-dry timestamp helper entity (e.g. an input_datetime
@@ -2845,7 +3017,7 @@ class EcowittHudCard extends HTMLElement {
     const gridKeys = ["humidity", "dew_point", "wind_chill", "humidex", "uv_index", "heat_index", "wbgt", "black_globe_temperature", "pressure", "illuminance", "solar_radiation"];
     els.gridBlock.style.display = gridKeys.some((k) => !!c[k]) ? "" : "none";
 
-    const rainKeys = ["rain_rate", "rain_today", "moisture"];
+    const rainKeys = ["rain_rate", "rain_today", "rain_event", "rain_month", "moisture"];
     els.rainBlock.style.display = rainKeys.some((k) => !!c[k]) ? "" : "none";
 
     const lightningKeys = ["lightning_strikes", "lightning_distance", "last_lightning"];

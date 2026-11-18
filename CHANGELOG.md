@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented here.
 
+## [1.15.0] - 2026-11-18
+
+### Added
+- `trend_overlay`: choose the second line on the trend chart — `humidity`,
+  `pressure`, or `none`. Pressure gets its own right-hand axis, uses the
+  pressure reading's decimals, and has its own color option
+  (`trend_pressure_color`, purple by default). It replaces the
+  `show_humidity_trend` toggle in the visual editor; existing configs
+  with `show_humidity_trend: true` keep working.
+- `wind_speed_avg`: optional average wind speed (e.g. Ecowitt's 10-minute
+  average), shown next to the gust.
+- `rain_event` and `rain_month`: optional rain of the current event and
+  of the month (e.g. Ecowitt's Event Rain and Monthly Rain) in the rain
+  row, which now wraps onto a second line on narrow cards.
+
+Requested by [@uetz0815](https://github.com/uetz0815) (#19).
+
+### Changed
+- README: install instructions now point to the Marketplace (Home
+  Assistant 2026.11+) / HACS default catalog instead of a custom
+  repository.
+
 ## [1.14.0] - 2026-10-26
 
 ### Added
