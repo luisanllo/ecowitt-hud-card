@@ -1451,6 +1451,40 @@ const STRINGS = {
 const CHART_WIDTH = 300;
 const CHART_PADDING = 3;
 const DEFAULT_CHART_HEIGHT = 48;
+const CHART_SAMPLES = 120;
+const CHART_SMOOTH_MIN_MS = 15 * 60 * 1000;
+
+// The recorder only logs changes, so a sensor that flips between two
+// neighbouring values (humidity in 1 % steps) draws as a sawtooth on a
+// narrow axis. Resample the series evenly and take a moving average for the
+// drawn line only; axis labels and the tooltip keep the recorded values.
+// The last value is held until now, like Home Assistant's own history graph.
+function smoothSeries(points, tEnd, windowMs) {
+  if (!points || points.length < 2) return points || [];
+  const tStart = points[0].t;
+  if (tEnd <= tStart) return points;
+  const FINE = 600;
+  const step = (tEnd - tStart) / FINE;
+  const fine = new Array(FINE + 1);
+  let j = 0;
+  for (let i = 0; i <= FINE; i++) {
+    const t = tStart + i * step;
+    while (j < points.length - 2 && points[j + 1].t <= t) j++;
+    const a = points[j], b = points[j + 1];
+    if (t >= b.t) fine[i] = b.v;
+    else fine[i] = a.v + ((b.v - a.v) * (t - a.t)) / (b.t - a.t || 1);
+  }
+  const prefix = [0];
+  for (let i = 0; i <= FINE; i++) prefix.push(prefix[i] + fine[i]);
+  const half = Math.max(0, Math.round(windowMs / step / 2));
+  const out = [];
+  for (let k = 0; k < CHART_SAMPLES; k++) {
+    const i = Math.round((k * FINE) / (CHART_SAMPLES - 1));
+    const lo = Math.max(0, i - half), hi = Math.min(FINE, i + half);
+    out.push({ t: tStart + i * step, v: (prefix[hi + 1] - prefix[lo]) / (hi - lo + 1) });
+  }
+  return out;
+}
 const DEFAULT_TREND_HOURS = 6;
 const DEFAULT_MINMAX_HOURS = 24;
 const DEFAULT_RAIN_WINDOW_HOURS = 24;
@@ -2662,7 +2696,9 @@ class EcowittHudCard extends HTMLElement {
     const xFor = (t) => Math.max(pad, Math.min(w - pad, pad + ((t - t0) / tRange) * (w - pad * 2)));
     const yFor = (v, vmin, vrange) => h - pad - ((v - vmin) / vrange) * (h - pad * 2);
 
-    const coords = pts.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, min, range).toFixed(1)}`);
+    const smoothMs = Math.max(CHART_SMOOTH_MIN_MS, tRange / 40);
+    const drawPts = smoothSeries(pts, t1, smoothMs);
+    const coords = drawPts.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, min, range).toFixed(1)}`);
     const c = this._config || {};
     const color = sanitizeColor(c.trend_temp_color, COLORS.low);
     const overlay = trendOverlayKind(c);
@@ -2671,7 +2707,9 @@ class EcowittHudCard extends HTMLElement {
       : sanitizeColor(c.trend_humidity_color, COLORS.info);
     this._trendOverlayColor = overlayColor;
     const line = coords.join(" ");
-    const area = `${pad},${h - pad} ${line} ${w - pad},${h - pad}`;
+    const xStart = xFor(drawPts[0].t).toFixed(1);
+    const xEnd = xFor(drawPts[drawPts.length - 1].t).toFixed(1);
+    const area = `${xStart},${h - pad} ${line} ${xEnd},${h - pad}`;
 
     let overlayLine = "";
     const ov = this._overlayTrendData;
@@ -2680,7 +2718,7 @@ class EcowittHudCard extends HTMLElement {
       const oMin = Math.min(...oValues);
       const oMax = Math.max(...oValues);
       const oRange = oMax - oMin || 1;
-      const oCoords = ov.map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, oMin, oRange).toFixed(1)}`);
+      const oCoords = smoothSeries(ov, t1, smoothMs).map((p) => `${xFor(p.t).toFixed(1)},${yFor(p.v, oMin, oRange).toFixed(1)}`);
       overlayLine = `<polyline points="${oCoords.join(" ")}" fill="none" stroke="${overlayColor}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>`;
       if (overlay === "pressure") {
         const { decimals, unit } = this._pressureFormat();

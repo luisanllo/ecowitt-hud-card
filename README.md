@@ -229,6 +229,12 @@ moisture: binary_sensor.my_station_rain_status
   different numeric ranges. Pressure uses the same decimals as the
   pressure reading (`pressure_decimals`), and a single implausible jump
   (e.g. a glitch reading of 0) is dropped like for temperature.
+- The trend lines are drawn with a short moving average (15 minutes, or
+  1/40 of the window if longer), so a sensor that flips between two
+  neighbouring values, like humidity in 1 % steps, doesn't draw as a
+  sawtooth. The axis labels and the hover tooltip still show the recorded
+  values, and the last value is held until now, as in Home Assistant's
+  own history graph.
 - The card's language follows Home Assistant's configured UI language
   (`hass.locale.language`, with `hass.language` and the browser locale as
   fallbacks), normalized to its base subtag (e.g. `pl-PL` → `pl`).

@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [1.15.1] - 2026-11-22
+
+### Fixed
+- The humidity line on the trend chart looked jagged: the sensor flips
+  between neighbouring values in 1 % steps, and on its narrow axis each
+  flip was a big jump. The lines are now drawn with a short moving
+  average; the axis labels and the tooltip still show the recorded values.
+- The shaded area under the temperature line ended in a diagonal down to
+  the bottom-right corner when the last recorded reading wasn't recent.
+  The last value is now held until now, and the area follows the line.
+
 ## [1.15.0] - 2026-11-18
 
 ### Added
